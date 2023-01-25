@@ -233,7 +233,10 @@ const HomeView = props => {
         onPress: onRemove,
       },
     ]
-    const isOwner = item.owner.userId === user.userId
+
+    // Fix exception error if item.owner is underfined
+    const isOwner = item.owner?item.owner.userId === user.userId : 0
+    // const isOwner = item.owner.userId === user.userId
     return ({ options: isOwner ? ownerOptions : options })
     // showActionSheet({ options: isOwner ? ownerOptions : options });
   }
