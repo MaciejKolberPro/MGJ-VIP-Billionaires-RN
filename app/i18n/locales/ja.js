@@ -287,7 +287,7 @@ export default {
   follow_you: 'あなたをフォローしました',
   please_complete_these_steps_to_confirm: 'これらの手順を完了して確認してください',
   Phone_number: 'Phone_number',
-  
+
   agree_with: '同意する',
   terms_and_conditions: '規約・条件',
   privacy_policy: 'プライバシーポリシー',
@@ -312,5 +312,16 @@ export default {
   text: '文章',
   placeholder_reply: '返信を送信します',
   media: 'メディア',
-  update: 'UPDATE'
+  update: 'UPDATE',
+
+  Post: 'Post',
+  AppTitle: 'VIP BILLIONAIRES',
+  enter_name: 'Enter Your Name',
+  enter_headline_experience: 'Enter your headline/ Experience',
+  select_city: 'Select City',
+  type_phone_number: 'Type Phone Number',
+  select_birthday: 'Select Date of Birth',
+  enter_url: 'Enter your public url',
+  followers_lower: 'followers',
+  followings_lower: 'followings',
 };

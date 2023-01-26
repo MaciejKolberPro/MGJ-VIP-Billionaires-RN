@@ -63,6 +63,8 @@ const ProfileView = props => {
   const { account, posts, isLoading } = state
   let unSubscribePost = ''
 
+  console.log(account)
+
   useEffect(() => {
     if (!isEmpty(user)) init()
   }, [user])
@@ -270,16 +272,49 @@ const ProfileView = props => {
     return { options: ownerOptions }
   }
 
+  const toggleAction = () => {
+    Alert.alert('', I18n.t('Upload_profile_photo'), [
+      {
+        text: I18n.t('Cancel'),
+        onPress: () => {},
+      },
+      {
+        text: I18n.t('Take_a_photo'),
+        onPress: () => {
+          takePhoto()
+        },
+      },
+      {
+        text: I18n.t('Choose_a_photo'),
+        onPress: () => {
+          chooseFromLibrary()
+        },
+      },
+    ])
+  }
+
   return (
     <View style={{ flex: 1 }}>
       <StatusBar />
       <SafeAreaView style={styles.topRightButtons}>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={navigation.toggleDrawer}
           style={styles.sideButton}>
           <Feather name="menu" size={22} color={'white'} />
+        </TouchableOpacity> */}
+        <TouchableOpacity
+          onPress={navigation.toggleDrawer}
+          style={styles.prevButton}>
+
         </TouchableOpacity>
-        <View style={{ flexDirection: 'row' }}>
+        <Text
+          style={[
+            styles.apptitle,
+            { color: themes[theme].deactiveTintColor },
+          ]}>
+          {I18n.t('AppTitle')}
+        </Text>
+        {/* <View style={{ flexDirection: 'row' }}>
           <TouchableOpacity onPress={() => navigation.navigate('FindFriend')}>
             <Image
               source={images.profile_search}
@@ -296,22 +331,24 @@ const ProfileView = props => {
             ]}
             renderTrigger={() => (<Image source={images.profile_more} style={styles.toolButton} />)}
           />
-        </View>
+        </View> */}
       </SafeAreaView>
       <ScrollView
         {...scrollPersistTaps}
-        contentContainerStyle={{ paddingBottom: 80 }}>
+        contentContainerStyle={{ paddingBottom: 80 }}
+      >
         <View style={styles.logoContainer}>
-          <Image style={styles.backImage} source={{ uri: account.back_image }} />
+          {/* <Image style={styles.backImage} source={{ uri: account.back_image }} /> */}
           <TouchableOpacity
             onPress={() => onEditBackImage()}
-            style={styles.backAction}>
-            <VectorIcon
+            style={styles.backAction}
+          >
+            {/* <VectorIcon
               name={'camera-alt'}
               size={24}
               color={'white'}
               type={'MaterialIcons'}
-            />
+            /> */}
           </TouchableOpacity>
         </View>
         <View
@@ -330,8 +367,93 @@ const ProfileView = props => {
               }
               style={styles.avatar}
             />
+            <TouchableOpacity
+                style={styles.iconContainer}
+                onPress={toggleAction}>
+                <VectorIcon
+                  type={'MaterialIcons'}
+                  name={'add'}
+                  size={16}
+                  color={'white'}
+                />
+              </TouchableOpacity>
           </View>
-          <View style={styles.followWrap}>
+          <View style={styles.mainInfo}>
+            <View style={styles.profileInfo}>
+              <Text
+                style={[
+                  styles.profileName,
+                  { color: themes[theme].activeTintColor },
+                ]}>
+                {getUserRepresentString(account)}
+              </Text>
+              {account.city && account.city.length > 0 ? (
+                <Text
+                  style={[
+                    styles.city, {
+                    color: themes[theme].normalTextColor }
+                  ]}>
+                  {account.job}
+                </Text>
+              ) : null}
+              <View style={styles.location}>
+                {account.website && account.website.length > 0 ? (
+                  <TouchableOpacity
+                    style={styles.website}
+                    onPress={() => openLink(account.website)}>
+                    <Text
+                      style={[
+                        styles.website,
+                        { color: themes[theme].websiteLink }
+                      ]}>
+                      {account.website}
+                    </Text>
+                  </TouchableOpacity>
+                ) : null}
+              </View>
+              {/* {
+                account.purpose && account.purpose.length > 0
+                  ? (<Text style={styles.bio}>{account.purpose}</Text>)
+                  : null
+              } */}
+              <TouchableOpacity
+                onPress={() => navigation.navigate('ProfileEdit')}
+                style={[
+                  styles.editProfileTxtBtn,
+                  { backgroundColor: themes[theme].buttonBackground },
+                ]}>
+                <Text
+                  style={[
+                    styles.editProfileTxt,
+                    { color: themes[theme].normalTextColor },
+                  ]}>
+                  {I18n.t('Edit_profile')}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View style={[
+            styles.followWrap,
+            { borderColor: themes[theme].deactiveTintColor },
+          ]}>
+            <TouchableOpacity
+              onPress={() => goToFollowings()}
+              style={styles.optionContainer}>
+              <Text
+                style={[
+                  styles.optionValue,
+                  { color: themes[theme].activeTintColor },
+                ]}>
+                {account.followings?.length ?? 0}
+              </Text>
+              <Text
+                style={[
+                  styles.optionTitle,
+                  { color: themes[theme].deactiveTintColor },
+                ]}>
+                {I18n.t('Post')}
+              </Text>
+            </TouchableOpacity>
             <TouchableOpacity
               onPress={() => goToFollowers()}
               style={[styles.optionContainer]}>
@@ -345,7 +467,7 @@ const ProfileView = props => {
               <Text
                 style={[
                   styles.optionTitle,
-                  { color: themes[theme].activeTintColor },
+                  { color: themes[theme].deactiveTintColor },
                 ]}>
                 {I18n.t('Followers')}
               </Text>
@@ -363,71 +485,48 @@ const ProfileView = props => {
               <Text
                 style={[
                   styles.optionTitle,
-                  { color: themes[theme].activeTintColor },
+                  { color: themes[theme].deactiveTintColor },
                 ]}>
                 {I18n.t('Followings')}
               </Text>
             </TouchableOpacity>
           </View>
-          <View style={styles.mainInfo}>
-            <View style={styles.profileInfo}>
-              <Text
+          <View style={styles.tabContainer}>
+            <View
+              style={[
+                styles.tab,
+                { backgroundColor: themes[theme].disableButtonBackground }
+              ]}
+            >
+              <TouchableOpacity
+                onPress={() => setIsPostTab(true)}
                 style={[
-                  styles.profileName,
-                  { color: themes[theme].activeTintColor },
+                  styles.tabItem,
+                  { backgroundColor: isPostTab ? themes[theme].buttonBackground : themes[theme].disableButtonBackground },
                 ]}>
-                {getUserRepresentString(account)}
-              </Text>
-              {account.city && account.city.length > 0 ? (
-                <Text style={[styles.city, { color: themes[theme].jobText }]}>
-                  {account.job}
+                <Text
+                  style={[
+                    styles.tabItemText,
+                    { color: themes[theme].activeTintColor },
+                  ]}>
+                  {I18n.t('Posts')}
                 </Text>
-              ) : null}
-              <View style={styles.location}>
-                {account.website && account.website.length > 0 ? (
-                  <TouchableOpacity
-                    style={styles.website}
-                    onPress={() => openLink(account.website)}>
-                    <Text style={{ fontSize: 12 }}>{account.website}</Text>
-                  </TouchableOpacity>
-                ) : null}
-              </View>
-              {
-                account.purpose && account.purpose.length > 0
-                  ? (<Text style={styles.bio}>{account.purpose}</Text>)
-                  : null
-              }
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => setIsPostTab(false)}
+                style={[
+                  styles.tabItem,
+                  { backgroundColor: !isPostTab ? themes[theme].buttonBackground : themes[theme].disableButtonBackground },
+                ]}>
+                <Text
+                  style={[
+                    styles.tabItemText,
+                    { color: themes[theme].activeTintColor },
+                  ]}>
+                  {I18n.t('media')}
+                </Text>
+              </TouchableOpacity>
             </View>
-          </View>
-          <View style={styles.tab}>
-            <TouchableOpacity
-              onPress={() => setIsPostTab(true)}
-              style={[
-                styles.tabItem,
-                { borderBottomColor: isPostTab ? '#A2A8B8' : 'transparent' },
-              ]}>
-              <Text
-                style={[
-                  styles.tabItemText,
-                  { color: themes[theme].activeTintColor },
-                ]}>
-                {I18n.t('Posts')}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => setIsPostTab(false)}
-              style={[
-                styles.tabItem,
-                { borderBottomColor: !isPostTab ? '#A2A8B8' : 'transparent' },
-              ]}>
-              <Text
-                style={[
-                  styles.tabItemText,
-                  { color: themes[theme].activeTintColor },
-                ]}>
-                {I18n.t('media')}
-              </Text>
-            </TouchableOpacity>
           </View>
           {isPostTab ? (
             posts.map(p => {

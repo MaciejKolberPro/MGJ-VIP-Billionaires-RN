@@ -55,4 +55,20 @@ export default StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
+  tab: {
+    display: 'flex',
+    flexDirection: 'row',
+    padding: 5,
+    marginBottom: 20,
+  },
+  tabItem: {
+    width: 115,
+    height: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 10,
+    borderBottomWidth: 1,
+    fontSize: 14,
+    fontWeight: '500',
+  }
 });

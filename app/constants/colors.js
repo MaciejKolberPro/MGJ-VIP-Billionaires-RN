@@ -30,6 +30,12 @@ export const themes = {
     messageOtherBackground: '#C4C4C4',
     onlineStatusColor: '#32D674',
 
+    websiteLink: '#F5BF4D',
+    normalTextColor: '#C4C4C4',
+    buttonBackground: '#1D1C1C',
+    disableButtonBackground: '#555555',
+    deactiveTintColor: '#858585',
+
     // buttonTextColor: '#FFFFFF',
     //
     // chatComponentBackground: '#f3f4f5',
@@ -135,6 +141,12 @@ export const themes = {
     messageOwnBackground: '#3C3E3E',
     messageOtherBackground: '#555555',
     onlineStatusColor: '#32D674',
+
+    websiteLink: '#F5BF4D',
+    normalTextColor: '#C4C4C4',
+    buttonBackground: '#1D1C1C',
+    disableButtonBackground: '#555555',
+    deactiveTintColor: '#858585',
 
     // buttonColor: '#1D1C1C',
     // buttonTextColor: '#FFFFFF',

@@ -199,7 +199,7 @@ export default {
   Male: 'Male',
   Female: 'Female',
   Gender_other: 'No answer',
-  Birthday: 'Birthday',
+  Birthday: 'Date of Birth',
   Website: 'Website',
   Bio: 'Bio',
   Education: 'Education',
@@ -315,5 +315,16 @@ export default {
   text: 'Text',
   placeholder_reply: 'Send your reply',
   media: 'Media',
-  update: 'UPDATE'
+  update: 'UPDATE',
+
+  Post: 'Post',
+  AppTitle: 'VIP BILLIONAIRES',
+  enter_name: 'Enter Your Name',
+  enter_headline_experience: 'Enter your headline/ Experience',
+  select_city: 'Select City',
+  type_phone_number: 'Type Phone Number',
+  select_birthday: 'Select Date of Birth',
+  enter_url: 'Enter your public url',
+  followers_lower: 'followers',
+  followings_lower: 'followings',
 };

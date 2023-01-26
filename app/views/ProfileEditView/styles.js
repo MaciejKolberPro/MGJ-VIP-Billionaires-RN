@@ -55,4 +55,14 @@ export default StyleSheet.create({
     justifyContent: 'center',
     marginTop: 30,
   },
+  updateButton: {
+    height: 45,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 6,
+  },
+  updateText: {
+    fontSize: 14,
+    fontWeight: '600',
+  },
 });

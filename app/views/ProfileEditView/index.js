@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react'
-import { Alert, Image, ScrollView, TouchableOpacity, View } from 'react-native'
+import { Alert, Image, ScrollView, TouchableOpacity, View, Text } from 'react-native'
 import { connect } from 'react-redux'
 import ImagePicker from 'react-native-image-crop-picker'
 
@@ -225,7 +225,7 @@ const ProfileEditView = props => {
           {isLoading && (
             <ActivityIndicator absolute theme={theme} size={'large'} />
           )}
-          <View style={styles.headerContainer}>
+          {/* <View style={styles.headerContainer}>
             <View style={styles.imageContainer}>
               <Image
                 style={styles.avatar}
@@ -248,7 +248,7 @@ const ProfileEditView = props => {
                 />
               </TouchableOpacity>
             </View>
-          </View>
+          </View> */}
           <View style={styles.inputContainer}>
             <FloatingTextInput
               inputRef={nameInput}
@@ -257,6 +257,7 @@ const ProfileEditView = props => {
               keyboardType="default"
               textContentType="oneTimeCode"
               label={I18n.t('Name')}
+              placeholder={I18n.t('enter_name')}
               onChangeText={name => setState({ ...state, displayName: name })}
               theme={theme}
               onSubmitEditing={() => {
@@ -264,44 +265,15 @@ const ProfileEditView = props => {
               }}
             />
             <FloatingTextInput
-              inputRef={websiteInput}
-              value={website}
+              inputRef={bioInput}
               returnKeyType="next"
               keyboardType="default"
               textContentType="oneTimeCode"
-              label={I18n.t('Website')}
-              onChangeText={website => setState({ ...state, website })}
+              label={I18n.t('Bio')}
+              placeholder={I18n.t('enter_headline_experience')}
+              onChangeText={purpose => setState({ ...state, purpose })}
               theme={theme}
-              onSubmitEditing={() => {
-                phoneInput.current.focus()
-              }}
-              placeholder={'https://google.com'}
-            />
-            <FloatingTextInput
-              inputRef={phoneInput}
-              value={phone}
-              returnKeyType="next"
-              keyboardType="phone-pad"
-              textContentType="oneTimeCode"
-              label={I18n.t('Phone')}
-              onChangeText={phone => setState({ ...state, phone })}
-              theme={theme}
-              onSubmitEditing={() => {
-                emailInput.current.focus()
-              }}
-            />
-            <FloatingTextInput
-              inputRef={emailInput}
-              value={phone}
-              returnKeyType="next"
-              keyboardType="email-address"
-              textContentType="oneTimeCode"
-              label={I18n.t('Mail')}
-              onChangeText={email => setState({ ...state, email })}
-              theme={theme}
-              onSubmitEditing={() => {
-                cityInput.current.focus()
-              }}
+              multiline
             />
             <ExGender
               containerStyle={styles.selectStyle}
@@ -319,6 +291,34 @@ const ProfileEditView = props => {
               }}
               theme={theme}
             />
+            <FloatingTextInput
+              inputRef={cityInput}
+              value={city}
+              returnKeyType="next"
+              keyboardType="default"
+              textContentType="oneTimeCode"
+              label={I18n.t('City')}
+              placeholder={I18n.t('select_city')}
+              onChangeText={value => setState({ ...state, city: value })}
+              theme={theme}
+              onSubmitEditing={() => {
+                bioInput.current.focus()
+              }}
+            />
+            <FloatingTextInput
+              inputRef={phoneInput}
+              value={phone}
+              returnKeyType="next"
+              keyboardType="phone-pad"
+              textContentType="oneTimeCode"
+              label={I18n.t('Phone')}
+              placeholder={I18n.t('type_phone_number')}
+              onChangeText={phone => setState({ ...state, phone })}
+              theme={theme}
+              onSubmitEditing={() => {
+                emailInput.current.focus()
+              }}
+            />
             <ExDatePicker
               label={I18n.t('Birthday')}
               containerStyle={styles.selectStyle}
@@ -327,6 +327,7 @@ const ProfileEditView = props => {
                 setState({ ...state, topScrollEnable: !show })
               }}
               value={birthday}
+              placeholder={I18n.t('select_birthday')}
               action={({ value }) => {
                 if (!value) {
                   return
@@ -336,28 +337,46 @@ const ProfileEditView = props => {
               theme={theme}
             />
             <FloatingTextInput
-              inputRef={cityInput}
-              value={city}
+              inputRef={websiteInput}
+              value={website}
               returnKeyType="next"
               keyboardType="default"
               textContentType="oneTimeCode"
-              label={I18n.t('City')}
-              onChangeText={value => setState({ ...state, city: value })}
+              label={I18n.t('Website')}
+              placeholder={I18n.t('enter_url')}
+              onChangeText={website => setState({ ...state, website })}
               theme={theme}
               onSubmitEditing={() => {
-                bioInput.current.focus()
+                phoneInput.current.focus()
               }}
             />
-            <FloatingTextInput
-              inputRef={bioInput}
+            <TouchableOpacity
+              onPress={() => navigation.navigate('ProfileEdit')}
+              style={[
+                styles.updateButton,
+                { backgroundColor: themes[theme].buttonBackground },
+              ]}>
+              <Text
+                style={[
+                  styles.updateText,
+                  { color: themes[theme].normalTextColor },
+                ]}>
+                {I18n.t('update')}
+              </Text>
+            </TouchableOpacity>
+            {/* <FloatingTextInput
+              inputRef={emailInput}
+              value={phone}
               returnKeyType="next"
-              keyboardType="default"
+              keyboardType="email-address"
               textContentType="oneTimeCode"
-              label={I18n.t('Bio')}
-              onChangeText={purpose => setState({ ...state, purpose })}
+              label={I18n.t('Mail')}
+              onChangeText={email => setState({ ...state, email })}
               theme={theme}
-              multiline
-            />
+              onSubmitEditing={() => {
+                cityInput.current.focus()
+              }}
+            /> */}
           </View>
         </SafeAreaView>
       </ScrollView>

@@ -44,6 +44,8 @@ const FollowView = props => {
   const [data, setData] = useState([])
   const [text, setText] = useState('')
 
+  const [isPostTab, setIsPostTab] = useState(true)
+
   const { theme, user, setUser } = props
   const { type, refreshing, updating, account, loading } = state
 
@@ -210,6 +212,36 @@ const FollowView = props => {
         paddingHorizontal: 10
       }]}>
         <StatusBar />
+        <View style={styles.tab}>
+          <TouchableOpacity
+            onPress={() => setIsPostTab(true)}
+            style={[
+              styles.tabItem,
+              { borderBottomColor: !isPostTab ? 'transparent' : themes[theme].activeTintColor },
+            ]}>
+            <Text
+              style={[
+                styles.tabItemText,
+                { color: themes[theme].activeTintColor },
+              ]}>
+              {I18n.t('followers_lower')}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => setIsPostTab(false)}
+            style={[
+              styles.tabItem,
+              { borderBottomColor: isPostTab ? 'transparent' : themes[theme].activeTintColor },
+            ]}>
+            <Text
+              style={[
+                styles.tabItemText,
+                { color: themes[theme].activeTintColor },
+              ]}>
+              {I18n.t('followings_lower')}
+            </Text>
+          </TouchableOpacity>
+        </View>
         {isSelf && (<SearchBox
           onChangeText={onSearchChangeText}
           testID="federation-view-search"

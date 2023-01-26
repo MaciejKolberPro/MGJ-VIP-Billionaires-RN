@@ -80,7 +80,7 @@ const FloatingTextInput = props => {
 
   return (
     <View style={{ marginBottom: 16 }}>
-      <Text style={[styles.labelText, { color: themes[theme].textColor }]}>{label}</Text>
+      <Text style={[styles.labelText, { color: themes[theme].normalTextColor }]}>{label}</Text>
       <View style={[styles.container, {
         borderColor: error ? COLOR_RED : themes[theme].borderColor,
         height: multiline ? 123 : 56,
@@ -91,6 +91,7 @@ const FloatingTextInput = props => {
           style={[styles.textInput,
             {
               backgroundColor: backgroundColor ?? 'transparent',
+              color: themes[theme].activeTintColor,
             },
           ]}
           outlineColor={error ? COLOR_RED : outlineColor || COLOR_BORDER}
