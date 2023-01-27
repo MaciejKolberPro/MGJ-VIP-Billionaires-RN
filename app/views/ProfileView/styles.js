@@ -52,7 +52,7 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   website: {
-    marginTop: 10,
+    marginTop: 5,
     fontSize: 16,
     fontWeight: '500',
   },

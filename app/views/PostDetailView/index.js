@@ -47,6 +47,8 @@ import PopupMenu from '../../containers/PopupMenu'
 import { showErrorAlert, showToast } from '../../lib/info'
 import { getUserRepresentString, onSharePost } from '../../utils/const'
 
+import { dateStringFromNowShort } from '../../utils/datetime'
+
 const PostDetailView = (props) => {
   const navigation = useNavigation()
   const postData = props.route.params?.post
@@ -377,18 +379,20 @@ const PostDetailView = (props) => {
                 <Text
                   style={[styles.profileName, { color: themes[theme].activeTintColor }]}>{post.owner.displayName}</Text>
                 <Text style={{
-                  color: themes[theme].infoText,
-                  fontSize: 14,
-                  marginTop: 5,
-                }}>{getUserRepresentString(post.owner)}</Text>
+                  color: themes[theme].normalTextColor,
+                  fontSize: 12,
+                  marginTop: 3,
+                }}>{post?.date ? dateStringFromNowShort(post?.date) : null}</Text>
               </View>
               <PopupMenu
                 theme={theme}
                 options={onAction(post).options}
                 renderTrigger={() => (
-                  <Image
-                    source={images.more}
-                    style={[styles.more, { tintColor: themes[theme].moreIcon }]}
+                  <VectorIcon
+                    type="Feather"
+                    name="more-horizontal"
+                    size={18}
+                    color={themes[theme].activeTintColor}
                   />
                 )}
               />
@@ -396,7 +400,7 @@ const PostDetailView = (props) => {
             <View style={styles.content}>
               {post.type === POST_TYPE_TEXT && (
                 <Text
-                  style={[styles.titleText, { color: themes[theme].titleText }]}>
+                  style={[styles.titleText, { color: themes[theme].normalTextColor }]}>
                   {post.text}
                 </Text>
               )}
@@ -405,7 +409,7 @@ const PostDetailView = (props) => {
                   <Text
                     style={[
                       styles.titleText,
-                      { color: themes[theme].titleText },
+                      { color: themes[theme].normalTextColor },
                     ]}>
                     {post.text}
                   </Text>
@@ -465,21 +469,60 @@ const PostDetailView = (props) => {
                 </>
               )}
             </View>
-            <Text
+
+            <View style={[styles.separator, { backgroundColor: themes[theme].separatorColor }]} />
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                height: 40,
+                paddingHorizontal: 10,
+              }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <TouchableOpacity
+                  // onPress={() => onLike(isLiking)}
+                  style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <VectorIcon
+                    type="MaterialCommunityIcons"
+                    name="heart"
+                    size={20}
+                    color={isLiking ? themes[theme].titleColor : themes[theme].iconColor}
+                  />
+                  <Text style={[styles.count, { color: themes[theme].titleColor }]}>
+                    {post.likes && post.likes.length > 0 ? post.likes.length : null}
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  // onPress={onPress}
+                  style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <VectorIcon
+                    type="MaterialCommunityIcons"
+                    name="chat"
+                    size={20}
+                    color={themes[theme].iconColor}
+                  />
+                  <Text style={[styles.count, { color: themes[theme].titleColor }]}>
+                    {post.comments && post.comments.length > 0 ? post.comments.length : null}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              <TouchableOpacity
+                // onPress={onPressShare}
+              >
+                <VectorIcon
+                  type="MaterialCommunityIcons"
+                  name="share"
+                  size={24}
+                  color={themes[theme].iconColor}
+                />
+              </TouchableOpacity>
+            </View>
+
+            {/* <Text
               style={[styles.captionText, { color: themes[theme].infoText }]}>
               {dateToString(post.date, 'hh:MM A · DD MMM YY')}
-            </Text>
-            <View style={[styles.separator, { backgroundColor: themes[theme].separatorColor }]} />
-            <View style={styles.likes}>
-              <Text
-                style={[styles.likesContent, { color: themes[theme].activeTintColor }]}>{post.likes?.length ?? 0}</Text>
-              <Text style={{
-                color: themes[theme].infoText,
-                fontSize: 14,
-                marginLeft: 4,
-              }}>{(post.likes?.length ?? 0) <= 1 ? I18n.t('Like') : I18n.t('Likes')}</Text>
-            </View>
-            <View style={[styles.separator, { backgroundColor: themes[theme].separatorColor }]} />
+            </Text> */}
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <TouchableOpacity onPress={() => toggleLikes(isLiking)}>
                 <Image
@@ -587,13 +630,14 @@ const PostDetailView = (props) => {
         </View>)}
         {photoMode && (
           <View style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, backgroundColor: '#000000E0' }}>
-            <Image source={{ uri: post.photo }} style={{ width: '100%', height: '100%', resizeMode: 'contain' }} />
+            <Image source={{ uri: post.photo }} style={{ width: '100%', height: '100%'/*resizeMode: 'contain'*/ }} />
             <View
-              style={{ position: 'absolute', left: 0, right: 0, top: 40, bottom: 0, justifyContent: 'space-between' }}>
+              style={{ position: 'absolute', left: 0, right: 0, top: 40, bottom: 0, justifyContent: 'space-between' }}
+            >
               <View>
                 <View style={{
                   flexDirection: 'row',
-                  justifyContent: 'space-between',
+                  // justifyContent: 'start',
                   paddingHorizontal: 20,
                   marginTop: 10,
                 }}>
@@ -602,7 +646,7 @@ const PostDetailView = (props) => {
                     style={{ height: 40, width: 40, justifyContent: 'center', alignItems: 'center' }}>
                     <Image style={{ width: 18, height: 14, tintColor: 'white' }} source={images.close} />
                   </TouchableOpacity>
-                  <PopupMenu
+                  {/* <PopupMenu
                     theme={theme}
                     options={onAction(post).options}
                     renderTrigger={() => (
@@ -611,7 +655,7 @@ const PostDetailView = (props) => {
                         style={[styles.more, { tintColor: 'white' }]}
                       />
                     )}
-                  />
+                  /> */}
                 </View>
               </View>
               <View>

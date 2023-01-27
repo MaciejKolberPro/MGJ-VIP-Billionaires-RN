@@ -115,9 +115,8 @@ const styles = StyleSheet.create({
   },
   labelText: {
     fontFamily: 'Raleway',
-    marginBottom: 5,
-    marginLeft: 16,
-    color: '#4A4A4A'
+    marginBottom: 8,
+    color: '#C4C4C4'
   },
 })
 
@@ -148,6 +147,7 @@ const ExDatePicker = props => {
   }
 
   const selectedDate = useMemo(() => {
+    // console.log(currentDate)
     if (currentDate) {
       const units = currentDate.split('/')
       return `${units[2]}-${units[0]}-${units[1]}`
@@ -160,12 +160,16 @@ const ExDatePicker = props => {
     <>
     {label && <Text style={styles.labelText}>{label}</Text>}
       <TouchableOpacity
-        style={[styles.container, containerStyle]}
+        style={[
+          styles.container,
+          containerStyle,
+          {borderColor: themes[theme].disableButtonBackground, color: themes[theme].activeTintColor},
+        ]}
         onPress={() => setShow(true)}>
         <Text
           style={[
             styles.date,
-            {color: currentDate ? '#000000' : '#C4C4C4'},
+            {color: currentDate ? themes[theme].activeTintColor : themes[theme].normalTextColor},
           ]}>
           {currentDate
             ? date_str_format(currentDate, DATE_STRING_DISPLAY_FORMAT)
@@ -179,9 +183,9 @@ const ExDatePicker = props => {
                 {borderRadius: 10},
                 theme === 'dark' && {borderWidth: 1, borderColor: 'white'},
               ]}
-              options={
-                theme === 'dark' ? calendarDarkOption : calendarLightOption
-              }
+              // options={
+              //   theme === 'dark' ? calendarDarkOption : calendarLightOption
+              // }
               current={selectedDate}
               selected={selectedDate}
               onSelectedChange={date => {

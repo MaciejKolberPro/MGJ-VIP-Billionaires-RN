@@ -40,7 +40,6 @@ const styles = StyleSheet.create({
   },
   container: {
     width: '100%',
-    alignSelf: 'center',
     borderRadius: 8,
     borderWidth: 1,
   },
@@ -83,7 +82,6 @@ const FloatingTextInput = props => {
       <Text style={[styles.labelText, { color: themes[theme].normalTextColor }]}>{label}</Text>
       <View style={[styles.container, {
         borderColor: error ? COLOR_RED : themes[theme].borderColor,
-        height: multiline ? 123 : 56,
       }]}>
         <TextInput
           ref={inputRef}
@@ -92,6 +90,7 @@ const FloatingTextInput = props => {
             {
               backgroundColor: backgroundColor ?? 'transparent',
               color: themes[theme].activeTintColor,
+              // height: multiline ? 123 : 56,
             },
           ]}
           outlineColor={error ? COLOR_RED : outlineColor || COLOR_BORDER}

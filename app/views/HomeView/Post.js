@@ -7,7 +7,6 @@ import images from '../../assets/images'
 import { POST_TYPE_PHOTO, POST_TYPE_TEXT, POST_TYPE_VIDEO } from '../../constants/app'
 import { VectorIcon } from '../../containers/VectorIcon'
 import PopupMenu from '../../containers/PopupMenu'
-import { getUserRepresentString } from '../../utils/const'
 
 const styles = StyleSheet.create({
   container: {

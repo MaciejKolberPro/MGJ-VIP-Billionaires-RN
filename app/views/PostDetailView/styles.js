@@ -16,21 +16,21 @@ export default StyleSheet.create({
     position: 'relative',
   },
   avatar: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    borderWidth: 1,
-    borderColor: 'grey',
+    width: 49,
+    height: 49,
+    borderRadius: 10,
+    borderWidth: 4,
+    borderColor: '#2F3131',
   },
   profileInfo: {
-    marginLeft: 20,
+    marginLeft: 10,
     flexGrow: 1,
     flexDirection: 'column',
     justifyContent: 'center',
   },
   profileName: {
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: 14,
+    fontWeight: '600',
   },
   captionText: {
     marginTop: 12,
@@ -41,8 +41,8 @@ export default StyleSheet.create({
   },
   titleText: {
     paddingVertical: 12,
-    fontSize: 16,
-    lineHeight: 24,
+    fontSize: 14,
+    lineHeight: 19,
   },
   photoImage: {
     flex: 1,
@@ -203,5 +203,12 @@ export default StyleSheet.create({
     borderRadius: 10,
     height: 40,
     alignItems: 'center',
+  },
+
+  count: {
+    fontSize: 12,
+    fontFamily: 'Hind Vadodara',
+    marginHorizontal: 6,
+    marginRight: 12,
   },
 });

@@ -30,6 +30,8 @@ import ExGender from '../../containers/ExGender'
 import { themes } from '../../constants/colors'
 import { dateToString, DATE_STRING_FORMAT } from '../../utils/datetime'
 
+import { useNavigation } from '@react-navigation/native'
+
 const ProfileEditView = props => {
   const [state, setState] = useState({
     image_path: null,
@@ -50,6 +52,8 @@ const ProfileEditView = props => {
   const bioInput = useRef(null)
   const websiteInput = useRef(null)
   const phoneInput = useRef(null)
+
+  const navigation = useNavigation()
 
   const { user, theme } = props
   const {
@@ -277,7 +281,7 @@ const ProfileEditView = props => {
             />
             <ExGender
               containerStyle={styles.selectStyle}
-              label={I18n.t('Gender')}
+              label={I18n.t('Select_Your_Gender')}
               value={gender}
               topScrollEnable={topScrollEnable}
               toggleShow={show => {

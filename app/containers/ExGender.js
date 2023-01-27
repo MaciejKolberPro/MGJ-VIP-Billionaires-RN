@@ -20,6 +20,8 @@ import sharedStyles from '../views/Styles'
 import { VectorIcon } from './VectorIcon'
 import scrollPersistTaps from '../utils/scrollPersistTaps'
 
+import I18n from '../i18n'
+
 const styles = StyleSheet.create({
   container: {
     marginBottom: 10,
@@ -31,6 +33,9 @@ const styles = StyleSheet.create({
   },
   content: {
     position: 'relative',
+    flex: 1,
+    flexDirection: 'row',
+    width: '100%',
   },
   selectContainer: {
     flex: 1,
@@ -107,6 +112,25 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
+  genderBoxContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    height: 48,
+    paddingHorizontal: 15,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderRadius: 8,
+  },
+  checkbox: {
+    width: 20,
+    height: 20,
+    borderRadius: 20,
+  },
+  labelText: {
+    marginBottom: 8,
+    marginLeft: 0,
+  },
 })
 
 const SELECT_YEARS = ['Male', 'Female', 'No answer']
@@ -121,6 +145,8 @@ const ExGender = props => {
     props
 
   const inputBox = useRef(null)
+
+  const [genderStatus, setGenderStatus] = useState(0)
 
   useEffect(() => {
     if (show) setState({ ...state, show: !props.topScrollEnable })
@@ -160,7 +186,8 @@ const ExGender = props => {
 
   return (
     <View style={[styles.container, containerStyle]}>
-      <TextInput
+      <Text style={[styles.labelText, { color: themes[theme].normalTextColor }]}>{label}</Text>
+      {/* <TextInput
         ref={ref => {
           inputBox.current = ref
         }}
@@ -218,6 +245,53 @@ const ExGender = props => {
             </View>
           </View>
         ) : null}
+      </View> */}
+
+      <View style={styles.content}>
+        <TouchableOpacity
+          style={[styles.genderBoxContainer, {borderColor: themes[theme].disableButtonBackground}]}
+          onPress={() => {
+            setGenderStatus(0)
+            props.action({ value: 0 })
+          }}
+        >
+          <Text style={[
+            { color: !genderStatus ? themes[theme].activeTintColor : themes[theme].subTextColor }
+          ]}>{I18n.t('Male')}</Text>
+          {!genderStatus ?
+              <View style={[styles.checkbox, { color: themes[theme].normalTextColor, backgroundColor: themes[theme].activeTintColor}]}>
+                <VectorIcon
+                  type="Feather"
+                  name="check"
+                  size={18}
+                  color={themes[theme].backgroundColor}
+                />
+              </View>
+            : <></>
+          }
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.genderBoxContainer, {borderColor: themes[theme].disableButtonBackground, marginLeft: 13}]}
+          onPress={() => {
+            setGenderStatus(1)
+            props.action({ value: 1 })
+          }}
+        >
+          <Text style={[
+            { color: genderStatus ? themes[theme].activeTintColor : themes[theme].subTextColor }
+          ]}>{I18n.t('Female')}</Text>
+          {genderStatus ?
+              <View style={[styles.checkbox, { color: themes[theme].normalTextColor, backgroundColor: themes[theme].activeTintColor}]}>
+                <VectorIcon
+                  type="Feather"
+                  name="check"
+                  size={18}
+                  color={themes[theme].backgroundColor}
+                />
+              </View>
+            : <></>
+          }
+        </TouchableOpacity>
       </View>
     </View>
   )
