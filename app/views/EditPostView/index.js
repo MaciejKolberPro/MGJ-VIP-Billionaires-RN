@@ -2,10 +2,11 @@ import React, { useEffect, useRef, useState } from 'react'
 import {
   Alert,
   Image,
-  ImageBackground,
   ScrollView,
   TouchableOpacity,
   View,
+  Text,
+  TextInput,
 } from 'react-native'
 import { connect } from 'react-redux'
 import ImagePicker from 'react-native-image-crop-picker'
@@ -195,6 +196,10 @@ const EditPostView = props => {
     ])
   }
 
+  const onUploadPhoto = () => {
+    navigation.push('PickLibrary', { type: POST_TYPE_PHOTO });
+  }
+
   const isValid = () => {
     // if (!text.length) {
     //   showToast(I18n.t('please_enter_post_text'));
@@ -291,7 +296,7 @@ const EditPostView = props => {
       case POST_TYPE_PHOTO:
         return (
           <View style={styles.inputContainer}>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={onUpdatePhoto}
               style={[styles.editIcon, { position: 'absolute' }]}
               theme={theme}>
@@ -301,12 +306,12 @@ const EditPostView = props => {
                 type={'FontAwesome'}
                 color={themes[theme].activeTintColor}
               />
-            </TouchableOpacity>
-            <Image
+            </TouchableOpacity> */}
+            {/* <Image
               source={{ uri: file_path ? file_path : photo }}
               style={styles.imageStyle}
-            />
-            <CsTextInput
+            /> */}
+            {/* <CsTextInput
               inputRef={textInputRef}
               containerStyle={styles.underlineInput}
               placeholder={I18n.t('Photo_post_placeholder')}
@@ -314,7 +319,112 @@ const EditPostView = props => {
               keyboardType="default"
               onChangeText={text => setState({ ...state, text })}
               theme={theme}
+            /> */}
+
+            <TextInput
+              multiline={true}
+              numberOfLines={5}
+              // onChangeText={(text) => this.setState({text})}
+              value={''}
+              placeholder={I18n.t('write_something_here')}
+              style={[
+                styles.commentBox,
+                {color: themes[theme].textColor, backgroundColor: themes[theme].disableButtonBackground}
+              ]}
             />
+
+            <TouchableOpacity
+              style={[
+                styles.itemBoxContainer,
+                {backgroundColor: themes[theme].disableButtonBackground}
+              ]}
+              onPress={onUploadPhoto}
+            >
+                <View style={styles.itemBoxMark}>
+                  <VectorIcon
+                    type="Entypo"
+                    name="images"
+                    size={20}
+                    color={themes[theme].activeTintColor}
+                  />
+                  <Text style={[
+                    styles.itemBoxText,
+                    {color: themes[theme].activeTintColor}
+                  ]}>
+                    {I18n.t('Upload_photo')}
+                  </Text>
+                </View>
+                <VectorIcon
+                  type="AntDesign"
+                  name="right"
+                  size={18}
+                  color={themes[theme].activeTintColor}
+                />
+            </TouchableOpacity>
+
+            <TouchableOpacity style={[
+              styles.itemBoxContainer,
+              {backgroundColor: themes[theme].disableButtonBackground}
+            ]}>
+                <View style={styles.itemBoxMark}>
+                  <VectorIcon
+                    type="FontAwesome"
+                    name="camera"
+                    size={20}
+                    color={themes[theme].activeTintColor}
+                  />
+                  <Text style={[
+                    styles.itemBoxText,
+                    {color: themes[theme].activeTintColor}
+                  ]}>
+                    {I18n.t('capture')}
+                  </Text>
+                </View>
+                <VectorIcon
+                  type="AntDesign"
+                  name="right"
+                  size={18}
+                  color={themes[theme].activeTintColor}
+                />
+            </TouchableOpacity>
+
+            <TouchableOpacity style={[
+              styles.itemBoxContainer,
+              {backgroundColor: themes[theme].disableButtonBackground}
+            ]}>
+                <View style={styles.itemBoxMark}>
+                  <VectorIcon
+                    type="FontAwesome"
+                    name="video-camera"
+                    size={20}
+                    color={themes[theme].activeTintColor}
+                  />
+                  <Text style={[
+                    styles.itemBoxText,
+                    {color: themes[theme].activeTintColor}
+                  ]}>
+                    {I18n.t('video')}
+                  </Text>
+                </View>
+                <VectorIcon
+                  type="AntDesign"
+                  name="right"
+                  size={18}
+                  color={themes[theme].activeTintColor}
+                />
+            </TouchableOpacity>
+
+            <TouchableOpacity style={[
+                styles.publishBtn,
+                {backgroundColor: themes[theme].buttonBackground}
+              ]}>
+              <Text style={[
+                styles.publishBtnText,
+                {color: themes[theme].activeTintColor}
+              ]}>
+                {I18n.t('Publish')}
+              </Text>
+            </TouchableOpacity>
           </View>
         )
       case POST_TYPE_VIDEO:

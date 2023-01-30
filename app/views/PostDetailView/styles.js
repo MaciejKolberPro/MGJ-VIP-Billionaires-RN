@@ -156,6 +156,11 @@ export default StyleSheet.create({
     borderWidth: 1,
     borderColor: 'grey',
   },
+  commentSmallAvatar: {
+    width: 33,
+    height: 33,
+    borderWidth: 1,
+  },
   replyAction: {
     marginLeft: 12,
     flexDirection: 'row',
@@ -204,11 +209,75 @@ export default StyleSheet.create({
     height: 40,
     alignItems: 'center',
   },
-
   count: {
     fontSize: 12,
     fontFamily: 'Hind Vadodara',
     marginHorizontal: 6,
     marginRight: 12,
+  },
+  shareContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  shareCouText: {
+    fontSize: 10,
+    fontWeight: '600',
+    fontFamily: 'Hind Vadodara',
+  },
+  shareCouBack: {
+    width: 24,
+    height: 24,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 20,
+  },
+  shareCouBack1: {
+    marginRight: -5,
+    zIndex:2,
+  },
+  shareCouBack2: {
+    marginRight: -5,
+    zIndex:3,
+  },
+  shareCouBack3: {
+    zIndex:4,
+  },
+  shareButton: {
+    marginLeft: 8,
+  },
+  sharedUserBox: {
+    flexDirection: 'row',
+  },
+  commentBoxContainer: {
+    paddingHorizontal: 12,
+  },
+  commentContextContainer: {
+    flexDirection: 'row',
+  },
+  commentEditBox: {
+    width: '100%',
+    height: 50,
+    borderRadius: 14,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    padding: 10,
+  },
+  commentEditBtn: {
+    flexDirection: 'row',
+  },
+  commentEditBtnText: {
+    fontSize: 12,
+    lineHeight: 18,
+    fontWeight: '400',
+    marginLeft: 8,
+    marginTop: 1,
+  },
+  commentContentHeader: {
+    padding: 17,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
   },
 });

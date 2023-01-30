@@ -272,22 +272,27 @@ const HomeView = props => {
   const RenderFlatListItem = ({ data, type }) => {
     if (data.length > 0 || loading) {
       return (
-        <FlatList
-          style={{ width }}
-          data={data}
-          renderItem={renderItem}
-          showsVerticalScrollIndicator={false}
-          keyExtractor={item => `${type}_${item.id}`}
-          ListFooterComponent={renderFooter}
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={onRefresh}
-              tintColor={themes[theme].actionTintColor}
-            />
-          }
-          contentContainerStyle={{ paddingBottom: 20 }}
-        />
+        <View>
+          <Text style={[styles.suggestBoxHeader, {color: themes[theme].normalTextColor}]}>
+            {I18n.t('suggested_posts')}
+          </Text>
+          <FlatList
+            style={{ width }}
+            data={data}
+            renderItem={renderItem}
+            showsVerticalScrollIndicator={false}
+            keyExtractor={item => `${type}_${item.id}`}
+            ListFooterComponent={renderFooter}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+                tintColor={themes[theme].actionTintColor}
+              />
+            }
+            contentContainerStyle={{ paddingBottom: 20 }}
+          />
+        </View>
       )
     } else {
       return (<NoFriends onPress={() => {}} />)

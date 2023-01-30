@@ -469,8 +469,8 @@ const PostDetailView = (props) => {
                 </>
               )}
             </View>
-
             <View style={[styles.separator, { backgroundColor: themes[theme].separatorColor }]} />
+            {/* Post Toolkit */}
             <View
               style={{
                 flexDirection: 'row',
@@ -507,16 +507,30 @@ const PostDetailView = (props) => {
                   </Text>
                 </TouchableOpacity>
               </View>
-              <TouchableOpacity
-                // onPress={onPressShare}
-              >
-                <VectorIcon
-                  type="MaterialCommunityIcons"
-                  name="share"
-                  size={24}
-                  color={themes[theme].iconColor}
-                />
-              </TouchableOpacity>
+              <View style={styles.shareContainer}>
+                <View style={styles.sharedUserBox}>
+                  <View style={[styles.shareCouBack, styles.shareCouBack1, {backgroundColor:'linear-gradient(0deg, rgba(140, 140, 140, 0.83), rgba(140, 140, 140, 0.83))'}]}>
+                    <Text style={[styles.shareCouText, {color: themes[theme].buttonBackground}]}>{post.shares}+</Text>
+                  </View>
+                  <View style={[styles.shareCouBack, styles.shareCouBack2, {backgroundColor:'linear-gradient(0deg, rgba(140, 140, 140, 0.83), rgba(140, 140, 140, 0.83))'}]}>
+                    <Text style={[styles.shareCouText, {color: themes[theme].buttonBackground}]}>{post.shares}+</Text>
+                  </View>
+                  <View style={[styles.shareCouBack, styles.shareCouBack3, {backgroundColor:'linear-gradient(0deg, rgba(140, 140, 140, 0.83), rgba(140, 140, 140, 0.83))'}]}>
+                    <Text style={[styles.shareCouText, {color: themes[theme].buttonBackground}]}>{post.shares}+</Text>
+                  </View>
+                </View>
+                <TouchableOpacity
+                  style={styles.shareButton}
+                  // onPress={onSharePost(post)}
+                >
+                  <VectorIcon
+                    type="MaterialCommunityIcons"
+                    name="share"
+                    size={24}
+                    color={themes[theme].iconColor}
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
 
             {/* <Text
@@ -555,48 +569,84 @@ const PostDetailView = (props) => {
               </TouchableOpacity>
             </View>
           </View>
-          <View style={[styles.separator, { backgroundColor: themes[theme].separatorColor }]} />
-          <View style={styles.commentContents}>
-            {post.comment_accounts &&
-              post.comment_accounts.map((c, index) => (
-                <View style={styles.commentContainer} key={index}>
-                  <View style={styles.commentMain}>
-                    <Image
-                      source={
-                        c.avatar ? { uri: c.avatar } : images.default_avatar
-                      }
-                      style={styles.commentAvatar}
+          {/* Comment EditBox */}
+          <View style={styles.commentBoxContainer}>
+            <View style={[styles.commentEditBox, {backgroundColor: themes[theme].buttonBackground}]}>
+                <View style={styles.commentContextContainer}>
+                  <Image
+                      // source={
+                      //   c.avatar ? { uri: c.avatar } : images.default_avatar
+                      // }
+                      style={[styles.commentSmallAvatar, {borderColor: themes[theme].tabBorderColor}]}
                     />
-                    <View
-                      style={[styles.commentContent]}>
-                      <View style={{
-                        flexDirection: 'row',
-                        flexWrap: 'wrap',
-                      }}>
-                        <Text style={[styles.commentAccountName, {
-                          fontWeight: 'bold',
+                  <TextInput
+                    multiline={true}
+                    numberOfLines={1}
+                    onChangeText={(text) => console.log(text)}
+                    placeholder={I18n.t('search_here')}
+                  />
+                </View>
+                <TouchableOpacity style={styles.commentEditBtn}>
+                  <VectorIcon
+                      type="Ionicons"
+                      name="add"
+                      size={20}
+                      color={themes[theme].activeTintColor}
+                    />
+                  <Text style={[styles.commentEditBtnText, {color: themes[theme].activeTintColor}]}>{I18n.t('Send')}</Text>
+                </TouchableOpacity>
+            </View>
+          </View>
+          {/* All Comments List */}
+          <View>
+            <View style={styles.commentContentHeader}>
+                <Text style={{fontSize: 16, color: themes[theme].COLOR_WHITE}}>{I18n.t('all_comments')}</Text>
+                <Text style={{fontSize: 14, color: themes[theme].COLOR_LIGHT_DARK}}>
+                  {I18n.t('view_all') + 5}
+                </Text>
+            </View>
+            <View style={styles.commentContents}>
+              {post.comment_accounts &&
+                post.comment_accounts.map((c, index) => (
+                  <View style={styles.commentContainer} key={index}>
+                    <View style={styles.commentMain}>
+                      <Image
+                        source={
+                          c.avatar ? { uri: c.avatar } : images.default_avatar
+                        }
+                        style={styles.commentAvatar}
+                      />
+                      <View
+                        style={[styles.commentContent]}>
+                        <View style={{
+                          flexDirection: 'row',
+                          flexWrap: 'wrap',
+                        }}>
+                          <Text style={[styles.commentAccountName, {
+                            fontWeight: 'bold',
+                            color: themes[theme].activeTintColor,
+                          }]}>
+                            {c.displayName}
+                          </Text>
+                          <Text style={[styles.commentAccountName, { color: themes[theme].infoText }]}>
+                            {` · ${getUserRepresentString(c)}`}
+                          </Text>
+                          <Text style={[styles.commentAccountName, { color: themes[theme].infoText }]}>
+                            {` · ${dateStringFromNow(c.date)}`}
+                          </Text>
+                        </View>
+                        {/* <Text style={{ color: themes[theme].infoText, fontSize: 12, marginTop: 4 }}>{I18n.t('replying_to', { name: index == 0 ? post.owner.handle : post.comment_accounts[index - 1].handle })}</Text> */}
+                        <Text style={[styles.commentText, {
                           color: themes[theme].activeTintColor,
-                        }]}>
-                          {c.displayName}
-                        </Text>
-                        <Text style={[styles.commentAccountName, { color: themes[theme].infoText }]}>
-                          {` · ${getUserRepresentString(c)}`}
-                        </Text>
-                        <Text style={[styles.commentAccountName, { color: themes[theme].infoText }]}>
-                          {` · ${dateStringFromNow(c.date)}`}
-                        </Text>
+                          marginTop: 4,
+                        }]}>{c.text}</Text>
                       </View>
-                      {/* <Text style={{ color: themes[theme].infoText, fontSize: 12, marginTop: 4 }}>{I18n.t('replying_to', { name: index == 0 ? post.owner.handle : post.comment_accounts[index - 1].handle })}</Text> */}
-                      <Text style={[styles.commentText, {
-                        color: themes[theme].activeTintColor,
-                        marginTop: 4,
-                      }]}>{c.text}</Text>
+                    </View>
+                    <View style={styles.commentFooter}>
                     </View>
                   </View>
-                  <View style={styles.commentFooter}>
-                  </View>
-                </View>
-              ))}
+                ))}
+            </View>
           </View>
         </ScrollView>
         {inputMode && (<View style={styles.comment}>

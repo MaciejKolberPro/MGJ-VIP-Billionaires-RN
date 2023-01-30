@@ -39,7 +39,7 @@ export const themes = {
     // buttonTextColor: '#FFFFFF',
     //
     // chatComponentBackground: '#f3f4f5',
-    // tabBorderColor: '#FBF6E7',
+    tabBorderColor: '#FBF6E7',
     // tabActivatedBorderColor: '#2F3131',
     // auxiliaryBackground: '#efeff4',
     // avatarBackground: '#caced1',
@@ -154,7 +154,7 @@ export const themes = {
     // buttonPressTextColor: '#1D1C1C',
     //
     // chatComponentBackground: '#f3f4f5',
-    // tabBorderColor: '#4B4B4B',
+    tabBorderColor: '#FBF6E7',
     // tabActivatedBorderColor: '#FFFFFF',
     // auxiliaryBackground: '#efeff4',
     // avatarBackground: '#caced1',

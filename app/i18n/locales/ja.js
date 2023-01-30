@@ -324,4 +324,10 @@ export default {
   enter_url: 'Enter your public url',
   followers_lower: 'followers',
   followings_lower: 'followings',
+  capture: 'Capture',
+  write_something_here: 'Write something here',
+  suggested_posts: 'Suggested posts',
+  search_here: 'Search Here',
+  all_comments: 'All comments',
+  view_all: 'View all',
 };

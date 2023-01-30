@@ -188,6 +188,8 @@ const styles = StyleSheet.create({
 const Post = ({ key, item, isLiking, onPressUser, onPress, onPressShare, onActions, onLike, theme, style }) => {
   const [playing, setPlaying] = useState(false)
 
+  console.log(item)
+
   return (
     <View
       key={key}
@@ -358,14 +360,16 @@ const Post = ({ key, item, isLiking, onPressUser, onPress, onPressShare, onActio
               </Text>
             </TouchableOpacity>
           </View>
-          <TouchableOpacity onPress={onPressShare}>
-            <VectorIcon
-              type="MaterialCommunityIcons"
-              name="share"
-              size={24}
-              color={themes[theme].iconColor}
-            />
-          </TouchableOpacity>
+          <View>
+            <TouchableOpacity onPress={onPressShare}>
+              <VectorIcon
+                type="MaterialCommunityIcons"
+                name="share"
+                size={24}
+                color={themes[theme].iconColor}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
       </>
     </View>

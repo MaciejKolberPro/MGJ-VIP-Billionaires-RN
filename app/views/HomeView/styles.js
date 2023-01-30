@@ -73,4 +73,10 @@ export default StyleSheet.create({
     fontWeight: '500',
     fontSize: 14,
   },
+  suggestBoxHeader: {
+    fontSize: 12,
+    fontWeight: '400',
+    marginLeft: 28,
+    marginTop: 20,
+  },
 })

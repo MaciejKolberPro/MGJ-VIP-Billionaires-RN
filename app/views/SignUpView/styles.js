@@ -86,7 +86,9 @@ export default StyleSheet.create({
   loginTitle: {
     fontSize: 24,
     lineHeight: 36,
+    fontWeight: '700',
     fontFamily: 'HindVadodara-Bold',
+    marginBottom: 4,
   },
   loginText: {
     fontFamily: 'Raleway',
