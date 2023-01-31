@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native';
-import { COLOR_YELLOW } from '../../constants/colors';
+import {StyleSheet} from 'react-native';
+import {COLOR_YELLOW} from '../../constants/colors';
 
 export default StyleSheet.create({
   container: {
@@ -115,16 +115,16 @@ export default StyleSheet.create({
   },
   commentContents: {
     marginTop: 12,
-    paddingLeft: 12,
   },
   commentContainer: {
     marginBottom: 20,
-    marginLeft: 10,
+    paddingHorizontal: 12,
   },
   commentMain: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    marginRight: 40,
+    borderRadius: 14,
+    padding: 12,
   },
   commentContent: {
     flexGrow: 1,
@@ -152,14 +152,15 @@ export default StyleSheet.create({
   commentAvatar: {
     width: 45,
     height: 45,
-    borderRadius: 24,
-    borderWidth: 1,
-    borderColor: 'grey',
+    borderRadius: 10,
+    borderWidth: 4,
+    borderColor: '#2B2D2E',
   },
   commentSmallAvatar: {
     width: 33,
     height: 33,
     borderWidth: 1,
+    borderRadius: 50,
   },
   replyAction: {
     marginLeft: 12,
@@ -234,14 +235,14 @@ export default StyleSheet.create({
   },
   shareCouBack1: {
     marginRight: -5,
-    zIndex:2,
+    zIndex: 2,
   },
   shareCouBack2: {
     marginRight: -5,
-    zIndex:3,
+    zIndex: 3,
   },
   shareCouBack3: {
-    zIndex:4,
+    zIndex: 4,
   },
   shareButton: {
     marginLeft: 8,
@@ -254,6 +255,7 @@ export default StyleSheet.create({
   },
   commentContextContainer: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
   commentEditBox: {
     width: '100%',
@@ -266,6 +268,7 @@ export default StyleSheet.create({
   },
   commentEditBtn: {
     flexDirection: 'row',
+    marginRight: 5,
   },
   commentEditBtnText: {
     fontSize: 12,
@@ -275,9 +278,16 @@ export default StyleSheet.create({
     marginTop: 1,
   },
   commentContentHeader: {
-    padding: 17,
     alignItems: 'center',
     justifyContent: 'space-between',
     flexDirection: 'row',
+    paddingHorizontal: 16,
+    marginTop: 30,
+    marginBottom: 17,
+  },
+  replyButton: {
+    fontSize: 12,
+    fontWeight: '400',
+    marginLeft: 8,
   },
 });

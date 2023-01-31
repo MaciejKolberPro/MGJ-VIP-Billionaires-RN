@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
   headerContainer: {
@@ -97,5 +97,6 @@ export default StyleSheet.create({
   commentBox: {
     borderRadius: 8,
     marginBottom: 8,
+    textAlignVertical: 'top',
   },
 });

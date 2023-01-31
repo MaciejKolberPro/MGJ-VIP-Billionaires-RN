@@ -1,12 +1,16 @@
-import React, { useState } from 'react'
-import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native'
-import Video from 'react-native-video'
-import { COLOR_TRANSPARENT, themes } from '../../constants/colors'
-import { dateStringFromNowShort } from '../../utils/datetime'
-import images from '../../assets/images'
-import { POST_TYPE_PHOTO, POST_TYPE_TEXT, POST_TYPE_VIDEO } from '../../constants/app'
-import { VectorIcon } from '../../containers/VectorIcon'
-import PopupMenu from '../../containers/PopupMenu'
+import React, {useState} from 'react';
+import {View, StyleSheet, Text, Image, TouchableOpacity} from 'react-native';
+import Video from 'react-native-video';
+import {COLOR_TRANSPARENT, themes} from '../../constants/colors';
+import {dateStringFromNowShort} from '../../utils/datetime';
+import images from '../../assets/images';
+import {
+  POST_TYPE_PHOTO,
+  POST_TYPE_TEXT,
+  POST_TYPE_VIDEO,
+} from '../../constants/app';
+import {VectorIcon} from '../../containers/VectorIcon';
+import PopupMenu from '../../containers/PopupMenu';
 
 const styles = StyleSheet.create({
   container: {
@@ -183,38 +187,64 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-})
+});
 
-const Post = ({ key, item, isLiking, onPressUser, onPress, onPressShare, onActions, onLike, theme, style }) => {
-  const [playing, setPlaying] = useState(false)
+const Post = ({
+  key,
+  item,
+  isLiking,
+  onPressUser,
+  onPress,
+  onPressShare,
+  onActions,
+  onLike,
+  theme,
+  style,
+}) => {
+  const [playing, setPlaying] = useState(false);
 
-  console.log(item)
+  console.log(item);
 
   return (
     <View
       key={key}
       style={[
         styles.container,
-        { ...style, backgroundColor: COLOR_TRANSPARENT, borderColor: themes[theme].borderColor },
+        {
+          ...style,
+          backgroundColor: COLOR_TRANSPARENT,
+          borderColor: themes[theme].borderColor,
+        },
       ]}
       onPress={onPress}>
       <View style={styles.topView}>
         <TouchableOpacity style={styles.avatarWrap} onPress={onPressUser}>
-          <View style={[styles.avatarContainer, { borderColor: themes[theme].borderColor }]}>
+          <View
+            style={[
+              styles.avatarContainer,
+              {borderColor: themes[theme].borderColor},
+            ]}>
             <Image
-              source={item?.owner?.avatar ? { uri: item?.owner?.avatar } : images.default_avatar}
+              source={
+                item?.owner?.avatar
+                  ? {uri: item?.owner?.avatar}
+                  : images.default_avatar
+              }
               style={styles.avatar}
             />
           </View>
           <View style={styles.profileInfo}>
-            <Text style={[styles.profileName, { color: themes[theme].titleColor }]}>
+            <Text
+              style={[styles.profileName, {color: themes[theme].titleColor}]}>
               {item?.owner?.displayName}
             </Text>
-            <Text style={[styles.captionText, { color: themes[theme].textColor }]}>
+            <Text
+              style={[styles.captionText, {color: themes[theme].textColor}]}>
               {item?.date ? dateStringFromNowShort(item?.date) : null}
             </Text>
           </View>
         </TouchableOpacity>
+        {/* HomeView -> Post Item -> Edit/Delete popup menu */}
         <PopupMenu
           theme={theme}
           options={onActions.options}
@@ -232,15 +262,17 @@ const Post = ({ key, item, isLiking, onPressUser, onPress, onPressShare, onActio
         {item.type === POST_TYPE_TEXT && (
           <TouchableOpacity
             onPress={onPress}
-            style={[styles.content, { paddingHorizontal: 20, marginBottom: 16 }]}>
-            <Text style={[styles.titleText,
-              {
-                fontWeight: 'normal',
-                fontSize: 14,
-                lineHeight: 20,
-                color: themes[theme].textColor,
-              },
-            ]}>
+            style={[styles.content, {paddingHorizontal: 20, marginBottom: 16}]}>
+            <Text
+              style={[
+                styles.titleText,
+                {
+                  fontWeight: 'normal',
+                  fontSize: 14,
+                  lineHeight: 20,
+                  color: themes[theme].textColor,
+                },
+              ]}>
               {item?.text}
             </Text>
           </TouchableOpacity>
@@ -249,28 +281,30 @@ const Post = ({ key, item, isLiking, onPressUser, onPress, onPressShare, onActio
         {item.type === POST_TYPE_PHOTO && (
           <TouchableOpacity
             onPress={onPress}
-            style={[styles.content, { paddingHorizontal: 11 }]}>
+            style={[styles.content, {paddingHorizontal: 11}]}>
             {item.text && (
-              <Text style={[styles.titleText,
-                {
-                  color: themes[theme].textColor,
-                  paddingHorizontal: 10,
-                  fontWeight: 'normal',
-                  fontSize: 14,
-                  lineHeight: 20,
-                },
-              ]}>
+              <Text
+                style={[
+                  styles.titleText,
+                  {
+                    color: themes[theme].textColor,
+                    paddingHorizontal: 10,
+                    fontWeight: 'normal',
+                    fontSize: 14,
+                    lineHeight: 20,
+                  },
+                ]}>
                 {item?.text}
               </Text>
             )}
-            <Image source={{ uri: item?.photo }} style={styles.photoImage} />
+            <Image source={{uri: item?.photo}} style={styles.photoImage} />
           </TouchableOpacity>
         )}
 
         {item.type === POST_TYPE_VIDEO && (
           <TouchableOpacity
             onPress={onPress}
-            style={[styles.content, { paddingHorizontal: 11 }]}>
+            style={[styles.content, {paddingHorizontal: 11}]}>
             {item.text && (
               <Text
                 style={[
@@ -289,7 +323,7 @@ const Post = ({ key, item, isLiking, onPressUser, onPress, onPressShare, onActio
             <View style={styles.imageWrap}>
               {playing ? (
                 <Video
-                  source={{ uri: item.video }}
+                  source={{uri: item.video}}
                   style={styles.video}
                   controls
                   onEnd={() => setPlaying(false)}
@@ -298,19 +332,19 @@ const Post = ({ key, item, isLiking, onPressUser, onPress, onPressShare, onActio
               ) : (
                 <View style={styles.thumbnailContainer}>
                   <Image
-                    source={{ uri: item.thumbnail }}
+                    source={{uri: item.thumbnail}}
                     style={styles.thumbnail}
                     resizeMode={'contain'}
                   />
                   <TouchableOpacity
                     onPress={() => {
                       if (playing) {
-                        onPress()
+                        onPress();
                       } else {
-                        setPlaying(true)
+                        setPlaying(true);
                       }
                     }}
-                    style={[styles.playIcon, { position: 'absolute' }]}>
+                    style={[styles.playIcon, {position: 'absolute'}]}>
                     <VectorIcon
                       name="playcircleo"
                       type={'AntDesign'}
@@ -332,31 +366,35 @@ const Post = ({ key, item, isLiking, onPressUser, onPress, onPressShare, onActio
             height: 40,
             paddingHorizontal: 22,
           }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <TouchableOpacity
               onPress={() => onLike(isLiking)}
-              style={{ flexDirection: 'row', alignItems: 'center' }}>
+              style={{flexDirection: 'row', alignItems: 'center'}}>
               <VectorIcon
                 type="MaterialCommunityIcons"
                 name="heart"
                 size={20}
-                color={isLiking ? themes[theme].titleColor : themes[theme].iconColor}
+                color={
+                  isLiking ? themes[theme].titleColor : themes[theme].iconColor
+                }
               />
-              <Text style={[styles.count, { color: themes[theme].titleColor }]}>
+              <Text style={[styles.count, {color: themes[theme].titleColor}]}>
                 {item.likes && item.likes.length > 0 ? item.likes.length : null}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={onPress}
-              style={{ flexDirection: 'row', alignItems: 'center' }}>
+              style={{flexDirection: 'row', alignItems: 'center'}}>
               <VectorIcon
                 type="MaterialCommunityIcons"
                 name="chat"
                 size={20}
                 color={themes[theme].iconColor}
               />
-              <Text style={[styles.count, { color: themes[theme].titleColor }]}>
-                {item.comments && item.comments.length > 0 ? item.comments.length : null}
+              <Text style={[styles.count, {color: themes[theme].titleColor}]}>
+                {item.comments && item.comments.length > 0
+                  ? item.comments.length
+                  : null}
               </Text>
             </TouchableOpacity>
           </View>
@@ -373,7 +411,7 @@ const Post = ({ key, item, isLiking, onPressUser, onPress, onPressShare, onActio
         </View>
       </>
     </View>
-  )
-}
+  );
+};
 
-export default Post
+export default Post;

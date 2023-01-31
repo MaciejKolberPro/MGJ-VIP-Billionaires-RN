@@ -285,7 +285,8 @@ export default {
   Sent_message_to_you: '{{name}} からあなたにメッセージ「{{message}}」',
   user_not_found: 'ユーザーが見当たりません',
   follow_you: 'あなたをフォローしました',
-  please_complete_these_steps_to_confirm: 'これらの手順を完了して確認してください',
+  please_complete_these_steps_to_confirm:
+    'これらの手順を完了して確認してください',
   Phone_number: 'Phone_number',
 
   agree_with: '同意する',
@@ -305,7 +306,8 @@ export default {
   sign_up: '登録する',
   no_activity: '新しい動きはありません',
   del_account_title: 'アカウント削除',
-  del_account_text: 'アカウント削除してよろしいですか? 確認のためパスワードを入力してください!',
+  del_account_text:
+    'アカウント削除してよろしいですか? 確認のためパスワードを入力してください!',
   replying_to: '{{name}}に返信します',
   photo: '写真',
   video: 'ビデオ',
@@ -330,4 +332,7 @@ export default {
   search_here: 'Search Here',
   all_comments: 'All comments',
   view_all: 'View all',
+  take_action: 'Take a action',
+  edit_post: 'Edit Post',
+  reply_now: 'Reply now',
 };

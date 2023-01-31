@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, {useState, useEffect} from 'react';
 import {
   Alert,
   Image,
@@ -8,47 +8,47 @@ import {
   Text,
   TouchableOpacity,
   View,
-} from 'react-native'
-import { connect } from 'react-redux'
-import firestore from '@react-native-firebase/firestore'
-import ImagePicker from 'react-native-image-crop-picker'
-import Feather from 'react-native-vector-icons/Feather'
-import { chunk, isEmpty } from 'lodash'
+} from 'react-native';
+import {connect} from 'react-redux';
+import firestore from '@react-native-firebase/firestore';
+import ImagePicker from 'react-native-image-crop-picker';
+import Feather from 'react-native-vector-icons/Feather';
+import {chunk, isEmpty} from 'lodash';
 
-import { themes } from '../../constants/colors'
-import StatusBar from '../../containers/StatusBar'
-import { withTheme } from '../../theme'
-import images from '../../assets/images'
-import styles from './styles'
-import { setUser as setUserAction } from '../../actions/login'
-import ActivityIndicator from '../../containers/ActivityIndicator'
+import {themes} from '../../constants/colors';
+import StatusBar from '../../containers/StatusBar';
+import {withTheme} from '../../theme';
+import images from '../../assets/images';
+import styles from './styles';
+import {setUser as setUserAction} from '../../actions/login';
+import ActivityIndicator from '../../containers/ActivityIndicator';
 import firebaseSdk, {
   DB_ACTION_DELETE,
   DB_ACTION_UPDATE,
   NOTIFICATION_TYPE_LIKE,
-} from '../../lib/firebaseSdk'
-import { showErrorAlert, showToast } from '../../lib/info'
-import { VectorIcon } from '../../containers/VectorIcon'
-import scrollPersistTaps from '../../utils/scrollPersistTaps'
-import I18n from '../../i18n'
+} from '../../lib/firebaseSdk';
+import {showErrorAlert, showToast} from '../../lib/info';
+import {VectorIcon} from '../../containers/VectorIcon';
+import scrollPersistTaps from '../../utils/scrollPersistTaps';
+import I18n from '../../i18n';
 import {
   checkCameraPermission,
   checkPhotosPermission,
   backImagePickerConfig,
-} from '../../utils/permissions'
-import { isValidURL } from '../../utils/validators'
-import { withActionSheet } from '../../containers/ActionSheet'
-import PostText from './PostText'
-import PopupMenu from '../../containers/PopupMenu'
+} from '../../utils/permissions';
+import {isValidURL} from '../../utils/validators';
+import {withActionSheet} from '../../containers/ActionSheet';
+import PostText from './PostText';
+import PopupMenu from '../../containers/PopupMenu';
 import {
   POST_TYPE_PHOTO,
   POST_TYPE_TEXT,
   POST_TYPE_VIDEO,
-} from '../../constants/app'
-import { getUserRepresentString, onSharePost } from '../../utils/const'
+} from '../../constants/app';
+import {getUserRepresentString, onSharePost} from '../../utils/const';
 
 const ProfileView = props => {
-  const { navigation, user, theme } = props
+  const {navigation, user, theme} = props;
   const [state, setState] = useState({
     account: {
       userId: user.userId,
@@ -57,78 +57,78 @@ const ProfileView = props => {
     isLoading: true,
     updating: false,
     refreshing: false,
-  })
-  const [isPostTab, setIsPostTab] = useState(true)
+  });
+  const [isPostTab, setIsPostTab] = useState(true);
 
-  const { account, posts, isLoading } = state
-  let unSubscribePost = ''
+  const {account, posts, isLoading} = state;
+  let unSubscribePost = '';
 
-  console.log(account)
+  console.log(account);
 
   useEffect(() => {
-    if (!isEmpty(user)) init()
-  }, [user])
+    if (!isEmpty(user)) init();
+  }, [user]);
 
   const setSafeState = states => {
-    setState({ ...state, ...states })
-  }
+    setState({...state, ...states});
+  };
 
   const init = () => {
-    const { navigation } = props
+    const {navigation} = props;
     firebaseSdk
       .getUser(state.account.userId)
       .then(user => {
         const userPostSubscribe = firestore()
           .collection(firebaseSdk.TBL_POST)
-          .where('userId', '==', state.account.userId)
+          .where('userId', '==', state.account.userId);
         unSubscribePost = userPostSubscribe.onSnapshot(querySnap => {
-          let posts = []
+          let posts = [];
           if (querySnap) {
             querySnap.forEach(doc => {
-              posts.push({ id: doc.id, ...doc.data(), owner: user })
-            })
-            posts.sort((a, b) => b.date - a.date)
-            setSafeState({ account: user, isLoading: false, posts })
+              posts.push({id: doc.id, ...doc.data(), owner: user});
+            });
+            posts.sort((a, b) => b.date - a.date);
+            setSafeState({account: user, isLoading: false, posts});
           }
-        })
+        });
       })
       .catch(err => {
-        setSafeState({ isLoading: false })
+        setSafeState({isLoading: false});
         // showErrorAlert(I18n.t('user_not_found'), '', () => navigation.pop());
-      })
-  }
+      });
+  };
 
   const goToFollowers = async () => {
-    const { navigation } = props
+    const {navigation} = props;
     navigation.push('Follow', {
       type: 'followers',
       account: state.account,
-    })
-  }
+    });
+  };
 
   const goToFollowings = async () => {
-    const { navigation } = props
+    const {navigation} = props;
     navigation.push('Follow', {
       type: 'followings',
       account: state.account,
-    })
-  }
+    });
+  };
 
   const onOpenPost = item => {
-    props.navigation.push('PostDetail', { post: item })
-  }
+    props.navigation.push('PostDetail', {post: item});
+  };
 
   const onToggleLike = (item, isLiking) => {
-    const { user } = props
+    const {user} = props;
 
-    let update = {}
+    let update = {};
     if (isLiking) {
-      update = { id: item.id, likes: item.likes.filter(l => l !== user.userId) }
+      update = {id: item.id, likes: item.likes.filter(l => l !== user.userId)};
     } else {
-      update = { id: item.id, likes: [...item.likes, user.userId] }
+      update = {id: item.id, likes: [...item.likes, user.userId]};
     }
 
-    setState({ ...state, isLoading: true })
+    setState({...state, isLoading: true});
     firebaseSdk
       .setData(firebaseSdk.TBL_POST, DB_ACTION_UPDATE, update)
       .then(() => {
@@ -137,8 +137,8 @@ const ProfileView = props => {
             item.type === 'video'
               ? item?.thumbnail
               : item.type === 'photo'
-                ? item?.photo
-                : ''
+              ? item?.photo
+              : '';
           const activity = {
             type: NOTIFICATION_TYPE_LIKE,
             sender: user.userId,
@@ -151,40 +151,40 @@ const ProfileView = props => {
             title: item.owner.displayName,
             message: `${user.displayName} ${I18n('likes_your_post')}.`,
             date: new Date(),
-          }
-          firebaseSdk.addActivity(activity, item.owner.token).then(r => {})
+          };
+          firebaseSdk.addActivity(activity, item.owner.token).then(r => {});
         }
       })
       .catch(() => {
-        setState({ ...state, isLoading: false })
-      })
-  }
+        setState({...state, isLoading: false});
+      });
+  };
 
   const openLink = url => {
     if (url && url.length > 0 && isValidURL(url)) {
-      Linking.openURL(url)
+      Linking.openURL(url);
     }
-  }
+  };
 
   const takePhoto = async () => {
     if (await checkCameraPermission()) {
       ImagePicker.openCamera(backImagePickerConfig).then(image => {
-        onUpdateUser(image.path)
-      })
+        onUpdateUser(image.path);
+      });
     }
-  }
+  };
 
   const chooseFromLibrary = async () => {
     if (await checkPhotosPermission()) {
       ImagePicker.openPicker(backImagePickerConfig).then(image => {
-        onUpdateUser(image.path)
-      })
+        onUpdateUser(image.path);
+      });
     }
-  }
+  };
 
   const onUpdateUser = image_path => {
-    const { user, setUser } = props
-    setState({ ...state, isLoading: true })
+    const {user, setUser} = props;
+    setState({...state, isLoading: true});
     if (image_path) {
       firebaseSdk
         .uploadMedia(firebaseSdk.STORAGE_TYPE_AVATAR, image_path)
@@ -192,27 +192,27 @@ const ProfileView = props => {
           let userInfo = {
             id: user.id,
             back_image: image_url,
-          }
+          };
 
           firebaseSdk
             .setData(firebaseSdk.TBL_USER, DB_ACTION_UPDATE, userInfo)
             .then(() => {
-              setState({ ...state, isLoading: false })
-              const updateUser = { ...user, ...userInfo }
-              setUser(updateUser)
-              init()
+              setState({...state, isLoading: false});
+              const updateUser = {...user, ...userInfo};
+              setUser(updateUser);
+              init();
             })
             .catch(err => {
-              showToast(I18n.t(err.message))
-              setState({ ...state, isLoading: false })
-            })
+              showToast(I18n.t(err.message));
+              setState({...state, isLoading: false});
+            });
         })
         .catch(err => {
-          showErrorAlert(err, I18n.t('Oops'))
-          setState({ ...state, isLoading: false })
-        })
+          showErrorAlert(err, I18n.t('Oops'));
+          setState({...state, isLoading: false});
+        });
     }
-  }
+  };
 
   const onEditBackImage = () => {
     Alert.alert('', I18n.t('Upload_photo'), [
@@ -223,44 +223,44 @@ const ProfileView = props => {
       {
         text: I18n.t('Take_a_photo'),
         onPress: () => {
-          takePhoto()
+          takePhoto();
         },
       },
       {
         text: I18n.t('Choose_a_photo'),
         onPress: () => {
-          chooseFromLibrary()
+          chooseFromLibrary();
         },
       },
-    ])
-  }
+    ]);
+  };
 
   if (!user) {
-    return null
+    return null;
   }
 
   const onActionPost = item => {
     const onEdit = () => {
-      navigation.push('EditPost', { postId: item.id })
-    }
+      navigation.push('EditPost', {postId: item.id});
+    };
 
     const onRemove = () => {
-      setState({ ...state, isUpdating: true })
+      setState({...state, isUpdating: true});
       firebaseSdk
-        .setData(firebaseSdk.TBL_POST, DB_ACTION_DELETE, { id: item.id })
+        .setData(firebaseSdk.TBL_POST, DB_ACTION_DELETE, {id: item.id})
         .then(() => {
-          showToast(I18n.t('Remove_post_complete'))
-          setState({ ...state, isUpdating: false })
+          showToast(I18n.t('Remove_post_complete'));
+          setState({...state, isUpdating: false});
         })
         .catch(err => {
-          showErrorAlert(I18n.t('Remove_post_failed'), I18n.t('Oops'))
-          setState({ ...state, isUpdating: false })
-        })
-    }
+          showErrorAlert(I18n.t('Remove_post_failed'), I18n.t('Oops'));
+          setState({...state, isUpdating: false});
+        });
+    };
 
     const ownerOptions = [
       {
-        title: I18n.t('Edit'),
+        title: I18n.t('edit_post'),
         onPress: onEdit,
       },
       {
@@ -268,9 +268,9 @@ const ProfileView = props => {
         // danger: true,
         onPress: onRemove,
       },
-    ]
-    return { options: ownerOptions }
-  }
+    ];
+    return {options: ownerOptions};
+  };
 
   const toggleAction = () => {
     Alert.alert('', I18n.t('Upload_profile_photo'), [
@@ -281,20 +281,20 @@ const ProfileView = props => {
       {
         text: I18n.t('Take_a_photo'),
         onPress: () => {
-          takePhoto()
+          takePhoto();
         },
       },
       {
         text: I18n.t('Choose_a_photo'),
         onPress: () => {
-          chooseFromLibrary()
+          chooseFromLibrary();
         },
       },
-    ])
-  }
+    ]);
+  };
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{flex: 1}}>
       <StatusBar />
       <SafeAreaView style={styles.topRightButtons}>
         {/* <TouchableOpacity
@@ -304,14 +304,9 @@ const ProfileView = props => {
         </TouchableOpacity> */}
         <TouchableOpacity
           onPress={navigation.toggleDrawer}
-          style={styles.prevButton}>
-
-        </TouchableOpacity>
+          style={styles.prevButton}></TouchableOpacity>
         <Text
-          style={[
-            styles.apptitle,
-            { color: themes[theme].deactiveTintColor },
-          ]}>
+          style={[styles.apptitle, {color: themes[theme].deactiveTintColor}]}>
           {I18n.t('AppTitle')}
         </Text>
         {/* <View style={{ flexDirection: 'row' }}>
@@ -335,14 +330,12 @@ const ProfileView = props => {
       </SafeAreaView>
       <ScrollView
         {...scrollPersistTaps}
-        contentContainerStyle={{ paddingBottom: 80 }}
-      >
+        contentContainerStyle={{paddingBottom: 80}}>
         <View style={styles.logoContainer}>
           {/* <Image style={styles.backImage} source={{ uri: account.back_image }} /> */}
           <TouchableOpacity
             onPress={() => onEditBackImage()}
-            style={styles.backAction}
-          >
+            style={styles.backAction}>
             {/* <VectorIcon
               name={'camera-alt'}
               size={24}
@@ -354,44 +347,46 @@ const ProfileView = props => {
         <View
           style={[
             styles.mainContent,
-            { backgroundColor: themes[theme].backgroundColor },
+            {backgroundColor: themes[theme].backgroundColor},
           ]}>
           <View
             style={[
               styles.avatarContainer,
-              { backgroundColor: themes[theme].backgroundColor },
+              {backgroundColor: themes[theme].backgroundColor},
             ]}>
             <Image
               source={
-                account.avatar ? { uri: account.avatar } : images.default_avatar
+                account.avatar ? {uri: account.avatar} : images.default_avatar
               }
               style={styles.avatar}
             />
             <TouchableOpacity
-                style={styles.iconContainer}
-                onPress={toggleAction}>
-                <VectorIcon
-                  type={'MaterialIcons'}
-                  name={'add'}
-                  size={16}
-                  color={'white'}
-                />
-              </TouchableOpacity>
+              style={styles.iconContainer}
+              onPress={toggleAction}>
+              <VectorIcon
+                type={'MaterialIcons'}
+                name={'add'}
+                size={16}
+                color={'white'}
+              />
+            </TouchableOpacity>
           </View>
           <View style={styles.mainInfo}>
             <View style={styles.profileInfo}>
               <Text
                 style={[
                   styles.profileName,
-                  { color: themes[theme].activeTintColor },
+                  {color: themes[theme].activeTintColor},
                 ]}>
                 {getUserRepresentString(account)}
               </Text>
               {account.city && account.city.length > 0 ? (
                 <Text
                   style={[
-                    styles.city, {
-                    color: themes[theme].normalTextColor }
+                    styles.city,
+                    {
+                      color: themes[theme].normalTextColor,
+                    },
                   ]}>
                   {account.job}
                 </Text>
@@ -404,7 +399,7 @@ const ProfileView = props => {
                     <Text
                       style={[
                         styles.website,
-                        { color: themes[theme].websiteLink }
+                        {color: themes[theme].websiteLink},
                       ]}>
                       {account.website}
                     </Text>
@@ -420,36 +415,37 @@ const ProfileView = props => {
                 onPress={() => navigation.navigate('ProfileEdit')}
                 style={[
                   styles.editProfileTxtBtn,
-                  { backgroundColor: themes[theme].buttonBackground },
+                  {backgroundColor: themes[theme].buttonBackground},
                 ]}>
                 <Text
                   style={[
                     styles.editProfileTxt,
-                    { color: themes[theme].normalTextColor },
+                    {color: themes[theme].normalTextColor},
                   ]}>
                   {I18n.t('Edit_profile')}
                 </Text>
               </TouchableOpacity>
             </View>
           </View>
-          <View style={[
-            styles.followWrap,
-            { borderColor: themes[theme].deactiveTintColor },
-          ]}>
+          <View
+            style={[
+              styles.followWrap,
+              {borderColor: themes[theme].deactiveTintColor},
+            ]}>
             <TouchableOpacity
               onPress={() => goToFollowings()}
               style={styles.optionContainer}>
               <Text
                 style={[
                   styles.optionValue,
-                  { color: themes[theme].activeTintColor },
+                  {color: themes[theme].activeTintColor},
                 ]}>
                 {account.followings?.length ?? 0}
               </Text>
               <Text
                 style={[
                   styles.optionTitle,
-                  { color: themes[theme].deactiveTintColor },
+                  {color: themes[theme].deactiveTintColor},
                 ]}>
                 {I18n.t('Post')}
               </Text>
@@ -460,14 +456,14 @@ const ProfileView = props => {
               <Text
                 style={[
                   styles.optionValue,
-                  { color: themes[theme].activeTintColor },
+                  {color: themes[theme].activeTintColor},
                 ]}>
                 {account.followers?.length ?? 0}
               </Text>
               <Text
                 style={[
                   styles.optionTitle,
-                  { color: themes[theme].deactiveTintColor },
+                  {color: themes[theme].deactiveTintColor},
                 ]}>
                 {I18n.t('Followers')}
               </Text>
@@ -478,14 +474,14 @@ const ProfileView = props => {
               <Text
                 style={[
                   styles.optionValue,
-                  { color: themes[theme].activeTintColor },
+                  {color: themes[theme].activeTintColor},
                 ]}>
                 {account.followings?.length ?? 0}
               </Text>
               <Text
                 style={[
                   styles.optionTitle,
-                  { color: themes[theme].deactiveTintColor },
+                  {color: themes[theme].deactiveTintColor},
                 ]}>
                 {I18n.t('Followings')}
               </Text>
@@ -495,19 +491,22 @@ const ProfileView = props => {
             <View
               style={[
                 styles.tab,
-                { backgroundColor: themes[theme].disableButtonBackground }
-              ]}
-            >
+                {backgroundColor: themes[theme].disableButtonBackground},
+              ]}>
               <TouchableOpacity
                 onPress={() => setIsPostTab(true)}
                 style={[
                   styles.tabItem,
-                  { backgroundColor: isPostTab ? themes[theme].buttonBackground : themes[theme].disableButtonBackground },
+                  {
+                    backgroundColor: isPostTab
+                      ? themes[theme].buttonBackground
+                      : themes[theme].disableButtonBackground,
+                  },
                 ]}>
                 <Text
                   style={[
                     styles.tabItemText,
-                    { color: themes[theme].activeTintColor },
+                    {color: themes[theme].activeTintColor},
                   ]}>
                   {I18n.t('Posts')}
                 </Text>
@@ -516,12 +515,16 @@ const ProfileView = props => {
                 onPress={() => setIsPostTab(false)}
                 style={[
                   styles.tabItem,
-                  { backgroundColor: !isPostTab ? themes[theme].buttonBackground : themes[theme].disableButtonBackground },
+                  {
+                    backgroundColor: !isPostTab
+                      ? themes[theme].buttonBackground
+                      : themes[theme].disableButtonBackground,
+                  },
                 ]}>
                 <Text
                   style={[
                     styles.tabItemText,
-                    { color: themes[theme].activeTintColor },
+                    {color: themes[theme].activeTintColor},
                   ]}>
                   {I18n.t('media')}
                 </Text>
@@ -543,7 +546,7 @@ const ProfileView = props => {
                     onActions={onActionPost(p)}
                     theme={theme}
                   />
-                )
+                );
               }
             })
           ) : (
@@ -554,115 +557,119 @@ const ProfileView = props => {
                 backgroundColor: themes[theme].postBackground,
                 shadowColor: 'black',
                 shadowOpacity: 0.2,
-                shadowOffset: { x: 2, y: 2 },
+                shadowOffset: {x: 2, y: 2},
                 elevation: 2,
                 padding: 5,
               }}>
-              {
-                chunk(posts.filter(p => p.type === POST_TYPE_PHOTO || p.type === POST_TYPE_VIDEO), 3)
-                  .map((p, index) => {
-                    if (index % 4 === 0) {
-                      return (
-                        <View style={{ flexDirection: 'row' }} key={index}>
-                          <TouchableOpacity onPress={() => onOpenPost(p[0])}>
-                            <Image
-                              source={{ uri: p[0]?.photo || p[0]?.thumbnail }}
-                              style={[
-                                styles.tile1,
-                                index === 0 && { borderTopLeftRadius: 50 },
-                              ]}
-                            />
-                          </TouchableOpacity>
-                          <View>
-                            <TouchableOpacity onPress={() => onOpenPost(p[1])}>
-                              <Image
-                                source={{ uri: p[1]?.photo || p[1]?.thumbnail }}
-                                style={[
-                                  styles.tile2,
-                                  index === 0 && { borderTopRightRadius: 50 },
-                                ]}
-                              />
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => onOpenPost(p[2])}>
-                              <Image
-                                source={{ uri: p[2]?.photo || p[2]?.thumbnail }}
-                                style={styles.tile2}
-                              />
-                            </TouchableOpacity>
-                          </View>
-                        </View>
-                      )
-                    }
-                    if (index % 4 === 1 || index % 4 === 3) {
-                      return (
-                        <View style={{ flexDirection: 'row' }} key={index}>
-                          <TouchableOpacity onPress={() => onOpenPost(p[0])}>
-                            <Image
-                              source={{ uri: p[0]?.photo || p[0]?.thumbnail }}
-                              style={styles.tile3}
-                            />
-                          </TouchableOpacity>
-                          <TouchableOpacity onPress={() => onOpenPost(p[1])}>
-                            <Image
-                              source={{ uri: p[1]?.photo || p[1]?.thumbnail }}
-                              style={styles.tile3}
-                            />
-                          </TouchableOpacity>
-                          <TouchableOpacity onPress={() => onOpenPost(p[2])}>
-                            <Image
-                              source={{ uri: p[2]?.photo || p[2]?.thumbnail }}
-                              style={styles.tile3}
-                            />
-                          </TouchableOpacity>
-                        </View>
-                      )
-                    }
-                    if (index % 4 === 2) {
-                      return (
-                        <View style={{ flexDirection: 'row' }} key={index}>
-                          <View>
-                            <TouchableOpacity onPress={() => onOpenPost(p[0])}>
-                              <Image
-                                source={{ uri: p[0]?.photo || p[0]?.thumbnail }}
-                                style={styles.tile2}
-                              />
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => onOpenPost(p[1])}>
-                              <Image
-                                source={{ uri: p[1]?.photo || p[1]?.thumbnail }}
-                                style={styles.tile2}
-                              />
-                            </TouchableOpacity>
-                          </View>
-                          <TouchableOpacity onPress={() => onOpenPost(p[2])}>
-                            <Image
-                              source={{ uri: p[2]?.photo || p[2]?.thumbnail }}
-                              style={styles.tile1}
-                            />
-                          </TouchableOpacity>
-                        </View>
-                      )
-                    }
-                  })
-              }
+              {chunk(
+                posts.filter(
+                  p => p.type === POST_TYPE_PHOTO || p.type === POST_TYPE_VIDEO,
+                ),
+                3,
+              ).map((p, index) => {
+                if (index % 4 === 0) {
+                  return (
+                    <View style={{flexDirection: 'row'}} key={index}>
+                      <TouchableOpacity onPress={() => onOpenPost(p[0])}>
+                        <Image
+                          source={{uri: p[0]?.photo || p[0]?.thumbnail}}
+                          style={[
+                            styles.tile1,
+                            index === 0 && {borderTopLeftRadius: 50},
+                          ]}
+                        />
+                      </TouchableOpacity>
+                      <View>
+                        <TouchableOpacity onPress={() => onOpenPost(p[1])}>
+                          <Image
+                            source={{uri: p[1]?.photo || p[1]?.thumbnail}}
+                            style={[
+                              styles.tile2,
+                              index === 0 && {borderTopRightRadius: 50},
+                            ]}
+                          />
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => onOpenPost(p[2])}>
+                          <Image
+                            source={{uri: p[2]?.photo || p[2]?.thumbnail}}
+                            style={styles.tile2}
+                          />
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  );
+                }
+                if (index % 4 === 1 || index % 4 === 3) {
+                  return (
+                    <View style={{flexDirection: 'row'}} key={index}>
+                      <TouchableOpacity onPress={() => onOpenPost(p[0])}>
+                        <Image
+                          source={{uri: p[0]?.photo || p[0]?.thumbnail}}
+                          style={styles.tile3}
+                        />
+                      </TouchableOpacity>
+                      <TouchableOpacity onPress={() => onOpenPost(p[1])}>
+                        <Image
+                          source={{uri: p[1]?.photo || p[1]?.thumbnail}}
+                          style={styles.tile3}
+                        />
+                      </TouchableOpacity>
+                      <TouchableOpacity onPress={() => onOpenPost(p[2])}>
+                        <Image
+                          source={{uri: p[2]?.photo || p[2]?.thumbnail}}
+                          style={styles.tile3}
+                        />
+                      </TouchableOpacity>
+                    </View>
+                  );
+                }
+                if (index % 4 === 2) {
+                  return (
+                    <View style={{flexDirection: 'row'}} key={index}>
+                      <View>
+                        <TouchableOpacity onPress={() => onOpenPost(p[0])}>
+                          <Image
+                            source={{uri: p[0]?.photo || p[0]?.thumbnail}}
+                            style={styles.tile2}
+                          />
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => onOpenPost(p[1])}>
+                          <Image
+                            source={{uri: p[1]?.photo || p[1]?.thumbnail}}
+                            style={styles.tile2}
+                          />
+                        </TouchableOpacity>
+                      </View>
+                      <TouchableOpacity onPress={() => onOpenPost(p[2])}>
+                        <Image
+                          source={{uri: p[2]?.photo || p[2]?.thumbnail}}
+                          style={styles.tile1}
+                        />
+                      </TouchableOpacity>
+                    </View>
+                  );
+                }
+              })}
             </View>
           )}
         </View>
       </ScrollView>
-      {isLoading ? <ActivityIndicator absolute size="large" theme={theme} /> : null}
+      {isLoading ? (
+        <ActivityIndicator absolute size="large" theme={theme} />
+      ) : null}
     </View>
-  )
-}
+  );
+};
 
 const mapStateToProps = state => ({
   user: state.login.user,
-})
+});
 
 const mapDispatchToProps = dispatch => ({
   setUser: params => dispatch(setUserAction(params)),
-})
+});
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(withActionSheet(withTheme(ProfileView)))
+)(withActionSheet(withTheme(ProfileView)));

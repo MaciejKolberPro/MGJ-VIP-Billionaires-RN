@@ -1,19 +1,23 @@
-import React from 'react'
-import { Text, Image } from 'react-native'
+import React from 'react';
+import {Text, Image, View} from 'react-native';
 import {
   Menu,
   MenuOptions,
   MenuOption,
   MenuTrigger,
-} from 'react-native-popup-menu'
+} from 'react-native-popup-menu';
 
-import { themes } from '../constants/colors'
-import images from '../assets/images'
+import {themes} from '../constants/colors';
+import images from '../assets/images';
 
-const PopupMenu = React.memo(
-  ({ theme, options, renderTrigger }) => (
-    <Menu>
-      <MenuTrigger customStyles={{
+import I18n from '../i18n';
+
+import {VectorIcon} from './VectorIcon';
+
+const PopupMenu = React.memo(({theme, options, renderTrigger}) => (
+  <Menu>
+    <MenuTrigger
+      customStyles={{
         triggerOuterWrapper: {
           paddingVertical: 0,
           width: 40,
@@ -31,13 +35,15 @@ const PopupMenu = React.memo(
           flex: 1,
         },
       }}>
-        {renderTrigger()}
-      </MenuTrigger>
-      <MenuOptions customStyles={{
+      {renderTrigger()}
+    </MenuTrigger>
+    <MenuOptions
+      customStyles={{
         optionsContainer: {
           backgroundColor: themes[theme].popupBackground,
-          width: 100,
-          padding: 5,
+          width: 200,
+          padding: 10,
+          marginTop: 40,
         },
         optionTouchable: {
           underlayColor: themes[theme].itemPressedColor,
@@ -47,14 +53,48 @@ const PopupMenu = React.memo(
           color: 'brown',
         },
       }}>
-        {options.map((item, key) => (
-          <MenuOption key={key} onSelect={() => item.onPress()}>
-            <Text style={{ color: item.danger ? 'red' : themes[theme].activeTintColor }}>{item.title}</Text>
-          </MenuOption>
-        ))}
-      </MenuOptions>
-    </Menu>
-  ),
-)
+      <Text
+        style={{
+          fontSize: 16,
+          fontFamily: 'Raleway',
+          fontWeight: '600',
+          color: themes[theme].titleColor,
+          marginBottom: 10,
+        }}>
+        {I18n.t('take_action')}
+      </Text>
+      {options.map((item, key) => (
+        <MenuOption key={key} onSelect={() => item.onPress()}>
+          <View style={{flexDirection: 'row'}}>
+            {item.title === I18n.t('edit_post') ? (
+              <VectorIcon
+                type="MaterialIcons"
+                name="edit"
+                size={18}
+                color={themes[theme].activeTintColor}
+              />
+            ) : item.title === I18n.t('Remove') ? (
+              <VectorIcon
+                type="AntDesign"
+                name="delete"
+                size={18}
+                color={themes[theme].activeTintColor}
+              />
+            ) : (
+              <></>
+            )}
+            <Text
+              style={{
+                marginLeft: 5,
+                color: item.danger ? 'red' : themes[theme].textColor,
+              }}>
+              {item.title}
+            </Text>
+          </View>
+        </MenuOption>
+      ))}
+    </MenuOptions>
+  </Menu>
+));
 
-export default PopupMenu
+export default PopupMenu;

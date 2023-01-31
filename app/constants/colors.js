@@ -1,15 +1,14 @@
-export const COLOR_WHITE = '#ffffff'
-export const COLOR_BLACK = '#2F3131'
-export const COLOR_GRAY_DARK = '#858585'
-export const COLOR_LIGHT_DARK = '#C4C4C4'
-export const COLOR_YELLOW = '#F5BF4D'
-export const COLOR_RED = '#E2665E'
-export const COLOR_TRANSPARENT = 'transparent'
+export const COLOR_WHITE = '#ffffff';
+export const COLOR_BLACK = '#2F3131';
+export const COLOR_GRAY_DARK = '#858585';
+export const COLOR_LIGHT_DARK = '#C4C4C4';
+export const COLOR_YELLOW = '#F5BF4D';
+export const COLOR_RED = '#E2665E';
+export const COLOR_TRANSPARENT = 'transparent';
 
-export const COLOR_BTN_BACKGROUND = '#1D1C1C'
-export const COLOR_BTN_TITLE = '#FFFFFF'
-export const COLOR_BTN_BORDER = '#555555'
-
+export const COLOR_BTN_BACKGROUND = '#1D1C1C';
+export const COLOR_BTN_TITLE = '#FFFFFF';
+export const COLOR_BTN_BORDER = '#555555';
 
 export const themes = {
   light: {
@@ -17,7 +16,7 @@ export const themes = {
     backgroundColor: '#FFFFFF',
     focusedBackground: '#F6F5F2',
     borderColor: '#C4C4C4',
-    popupBackground: '#CCC9C9',
+    popupBackground: '#FFFFFF',
     postBackground: '#F6F5F2',
     titleColor: '#2F3131',
     textColor: '#585858',
@@ -36,8 +35,9 @@ export const themes = {
     disableButtonBackground: '#555555',
     deactiveTintColor: '#858585',
 
+    commentCardBox: '#F6F6F6',
+
     // buttonTextColor: '#FFFFFF',
-    //
     // chatComponentBackground: '#f3f4f5',
     tabBorderColor: '#FBF6E7',
     // tabActivatedBorderColor: '#2F3131',
@@ -129,7 +129,7 @@ export const themes = {
     backgroundColor: '#2F3131',
     focusedBackground: '#2B2A2A',
     borderColor: '#555555',
-    popupBackground: '#CCC9C9',
+    popupBackground: '#2F3131',
     postBackground: '#1D1C1C',
     titleColor: '#FFFFFF',
     textColor: '#C4C4C4',
@@ -144,9 +144,10 @@ export const themes = {
 
     websiteLink: '#F5BF4D',
     normalTextColor: '#C4C4C4',
-    buttonBackground: '#1D1C1C',
     disableButtonBackground: '#555555',
     deactiveTintColor: '#858585',
+
+    commentCardBox: '#3C3E3E',
 
     // buttonColor: '#1D1C1C',
     // buttonTextColor: '#FFFFFF',
@@ -237,4 +238,4 @@ export const themes = {
     // inActivatedIcon: '#858585',
     // profileBorderColor: '#2B2D2E',
   },
-}
+};

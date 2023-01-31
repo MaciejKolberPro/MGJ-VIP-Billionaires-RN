@@ -285,9 +285,9 @@ export default {
   Recent: 'RECENT',
   No_files_in_device: 'There are no files on your phone',
   Sent_message_to_you: '{{name}} sent you "{{message}}"',
-  please_complete_these_steps_to_confirm: 'Please complete these steps to confirm',
+  please_complete_these_steps_to_confirm:
+    'Please complete these steps to confirm',
   Phone_number: 'Phone number',
-
 
   user_not_found: 'User not found',
   follow_you: 'follows you',
@@ -308,7 +308,8 @@ export default {
   sign_up: 'Sign Up',
   no_activity: 'No Activity',
   del_account_title: 'Delete Account',
-  del_account_text: 'Are you sure to delete your account? Please enter your password to confirm!',
+  del_account_text:
+    'Are you sure to delete your account? Please enter your password to confirm!',
   replying_to: 'Replying to {{name}}',
   photo: 'Photo',
   video: 'Video',
@@ -333,4 +334,7 @@ export default {
   search_here: 'Search Here',
   all_comments: 'All comments',
   view_all: 'View all',
+  take_action: 'Take a action',
+  edit_post: 'Edit Post',
+  reply_now: 'Reply now',
 };
