@@ -117,7 +117,7 @@ export default StyleSheet.create({
     marginTop: 12,
   },
   commentContainer: {
-    marginBottom: 20,
+    marginBottom: 10,
     paddingHorizontal: 12,
   },
   commentMain: {

@@ -32,7 +32,7 @@ export default StyleSheet.create({
   },
   inputContainer: {
     flexGrow: 1,
-    paddingVertical: 8,
+    paddingBottom: 8,
     paddingHorizontal: 18,
     position: 'relative',
   },
@@ -91,6 +91,11 @@ export default StyleSheet.create({
     marginTop: 18,
   },
   publishBtnText: {
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  commentHeader: {
+    marginBottom: 20,
     fontSize: 16,
     fontWeight: '600',
   },

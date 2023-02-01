@@ -15,7 +15,8 @@ import firestore from '@react-native-firebase/firestore';
 import Video from 'react-native-video';
 import {useNavigation} from '@react-navigation/native';
 
-import RNImagePicker from 'react-native-image-picker';
+// const RNImagePicker = require('react-native-image-picker');
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 import {withTheme} from '../../theme';
 import KeyboardView from '../../containers/KeyboardView';
@@ -90,6 +91,9 @@ const EditPostView = props => {
   const [fileData, setFileData] = useState('');
   const [fileUri, setFileUri] = useState('');
 
+  // CommentHeader Data
+  const [commentHeader, setCommentHeader] = useState('');
+
   useEffect(() => {
     init();
   }, [text, file_path]);
@@ -108,6 +112,7 @@ const EditPostView = props => {
           thumbnail: post.thumbnail,
           photo: post.photo,
           video: post.video,
+          userId: post.userId,
           isLoading: false,
         });
         if (textInputRef.current) {
@@ -120,17 +125,34 @@ const EditPostView = props => {
           navigation.pop(),
         );
       });
+
+    // getCommentHeaderData();
   }, []);
 
   const init = async () => {
     navigation.setOptions({
-      title: I18n.t('Edit_post'),
-      headerRight: () => (
-        <HeaderButton.Save
-          navigation={navigation}
-          onPress={onSubmit}
-          testID="rooms-list-view-create-channel"
-        />
+      headerTitleStyle: {
+        fontSize: 14,
+        fontWeight: '500',
+        fontFamily: 'Hind Vadodara',
+        color: themes[theme].activeTintColor,
+        marginTop: 10,
+      },
+      title: I18n.t('back_to_page'),
+      headerLeft: () => (
+        <TouchableOpacity
+          style={{
+            marginTop: 10,
+          }}
+          onPress={() => navigation.goBack()}>
+          <VectorIcon
+            size={20}
+            name={'arrowleft'}
+            type={'AntDesign'}
+            color={themes[theme].activeTintColor}
+            style={{marginLeft: 18}}
+          />
+        </TouchableOpacity>
       ),
     });
   };
@@ -219,7 +241,7 @@ const EditPostView = props => {
     ]);
   };
 
-  const onUploadPhoto = () => {
+  const onUploadPhoto = async () => {
     // navigation.push('PickLibrary', {type: POST_TYPE_PHOTO});
     let options = {
       title: 'Select Image',
@@ -231,34 +253,38 @@ const EditPostView = props => {
         path: 'images',
       },
     };
-    console.log(RNImagePicker);
-    RNImagePicker?.showImagePicker(options, response => {
-      console.log('Response = ', response);
+    console.log('launchCamera', launchCamera);
+    console.log('launchImageLibrary', launchImageLibrary);
+    launchCamera(options);
+    // if (RNImagePicker) {
+    //   RNImagePicker.showImagePicker(options, response => {
+    //     console.log('Response = ', response);
 
-      //   if (response.didCancel) {
-      //     console.log('User cancelled image picker');
-      //   } else if (response.error) {
-      //     console.log('ImagePicker Error: ', response.error);
-      //   } else if (response.customButton) {
-      //     console.log('User tapped custom button: ', response.customButton);
-      //     alert(response.customButton);
-      //   } else {
-      //     const source = {uri: response.uri};
+    //     //   if (response.didCancel) {
+    //     //     console.log('User cancelled image picker');
+    //     //   } else if (response.error) {
+    //     //     console.log('ImagePicker Error: ', response.error);
+    //     //   } else if (response.customButton) {
+    //     //     console.log('User tapped custom button: ', response.customButton);
+    //     //     alert(response.customButton);
+    //     //   } else {
+    //     //     const source = {uri: response.uri};
 
-      //     // You can also display the image using data:
-      //     // const source = { uri: 'data:image/jpeg;base64,' + response.data };
-      //     // alert(JSON.stringify(response));s
-      //     console.log('response', JSON.stringify(response));
-      //     // this.setState({
-      //     //   filePath: response,
-      //     //   fileData: response.data,
-      //     //   fileUri: response.uri,
-      //     // });
-      //     setFilePath(response);
-      //     setFileData(response.data);
-      //     setFileUri(response.uri);
-      //   }
-    });
+    //     //     // You can also display the image using data:
+    //     //     // const source = { uri: 'data:image/jpeg;base64,' + response.data };
+    //     //     // alert(JSON.stringify(response));s
+    //     //     console.log('response', JSON.stringify(response));
+    //     //     // this.setState({
+    //     //     //   filePath: response,
+    //     //     //   fileData: response.data,
+    //     //     //   fileUri: response.uri,
+    //     //     // });
+    //     //     setFilePath(response);
+    //     //     setFileData(response.data);
+    //     //     setFileUri(response.uri);
+    //     //   }
+    //   });
+    // }
   };
 
   const isValid = () => {
@@ -336,6 +362,43 @@ const EditPostView = props => {
       });
   };
 
+  // Get User Data based on the Post ID
+  const getCommentHeaderData = () => {
+    console.log('getCommentHeaderData started!!!');
+    firestore()
+      .collection(firebaseSdk.TBL_POST)
+      .doc(state.postId)
+      .get()
+      .then(docSnapshot => {
+        const post = docSnapshot.data();
+        const userId = post.userId;
+        console.log('userId', userId);
+        firestore()
+          .collection(firebaseSdk.TBL_USER)
+          .doc(userId)
+          .get()
+          .then(docSnapshot => {
+            const post = docSnapshot.data();
+            console.log('TBL_USER', post, userId);
+            const displayName = post.displayName;
+            setCommentHeader(displayName);
+          })
+          .catch(err => {
+            console.log('ewefw');
+            setState({...state, isLoading: false});
+            showErrorAlert(I18n.t('error_post_not_found'), '', () =>
+              navigation.pop(),
+            );
+          });
+      })
+      .catch(err => {
+        setState({...state, isLoading: false});
+        showErrorAlert(I18n.t('error_post_not_found'), '', () =>
+          navigation.pop(),
+        );
+      });
+  };
+
   const renderForm = () => {
     switch (type) {
       case POST_TYPE_TEXT:
@@ -381,6 +444,23 @@ const EditPostView = props => {
               onChangeText={text => setState({ ...state, text })}
               theme={theme}
             /> */}
+
+            <View style={{flexDirection: 'row'}}>
+              <Text
+                style={[
+                  styles.commentHeader,
+                  {color: themes[theme].textColor},
+                ]}>
+                ✍️ Whats on your mind
+              </Text>
+              <Text
+                style={[
+                  styles.commentHeader,
+                  {color: themes[theme].websiteLink},
+                ]}>
+                {' ' + commentHeader}
+              </Text>
+            </View>
 
             <TextInput
               multiline={true}

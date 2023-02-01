@@ -1,6 +1,6 @@
-import { Dimensions, StyleSheet } from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
 
-const { width } = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 export default StyleSheet.create({
   logoContainer: {
@@ -183,7 +183,6 @@ export default StyleSheet.create({
     left: 20,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
   },
   toolButton: {
     width: 44,
@@ -250,7 +249,8 @@ export default StyleSheet.create({
     bottom: -5,
     right: -5,
     backgroundColor: '#F5BF4D',
-    border: '2px solid #FEFBFF;',
+    borderWidth: 2,
+    borderColor: '#FEFBFF',
     borderRadius: 13,
     width: 23,
     height: 23,
@@ -260,7 +260,8 @@ export default StyleSheet.create({
   prevButton: {
     width: 36,
     height: 36,
-    border: '1px solid rgba(133, 133, 133, 0.25);',
+    borderWidth: 1,
+    borderColor: 'rgba(133, 133, 133, 0.25)',
     borderRadius: 8,
   },
 });

@@ -80,6 +80,20 @@ const PopupMenu = React.memo(({theme, options, renderTrigger}) => (
                 size={18}
                 color={themes[theme].activeTintColor}
               />
+            ) : item.title === I18n.t('Report_post') ? (
+              <VectorIcon
+                type="MaterialIcons"
+                name="report"
+                size={18}
+                color={themes[theme].activeTintColor}
+              />
+            ) : item.title === I18n.t('Block_user') ? (
+              <VectorIcon
+                type="MaterialIcons"
+                name="block"
+                size={18}
+                color={themes[theme].activeTintColor}
+              />
             ) : (
               <></>
             )}

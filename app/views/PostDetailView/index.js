@@ -341,6 +341,7 @@ const PostDetailView = props => {
           },
         ]}
         keyboardVerticalOffset={128}>
+        {/* Header Navigate Bar */}
         <View
           style={{
             height: 40,
@@ -372,11 +373,12 @@ const PostDetailView = props => {
               styles.profileName,
               {
                 color: themes[theme].activeTintColor,
-                fontSize: 18,
+                fontSize: 14,
                 marginLeft: 10,
               },
             ]}>
-            {I18n.t(post.type)}
+            {/* {I18n.t(post.type)} */}
+            {I18n.t('back_to_home')}
           </Text>
         </View>
         {isLoading && (

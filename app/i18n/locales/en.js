@@ -334,7 +334,10 @@ export default {
   search_here: 'Search Here',
   all_comments: 'All comments',
   view_all: 'View all',
-  take_action: 'Take a action',
+  take_action: 'Take an action',
   edit_post: 'Edit Post',
   reply_now: 'Reply now',
+  back_to_home: 'Back to Home',
+  back_to_page: 'Back to "Page"',
+  update_basic_information: 'Update basic Information',
 };

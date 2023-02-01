@@ -15,7 +15,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import Feather from 'react-native-vector-icons/Feather';
 import {chunk, isEmpty} from 'lodash';
 
-import {themes} from '../../constants/colors';
+import {COLOR_BTN_BACKGROUND, themes} from '../../constants/colors';
 import StatusBar from '../../containers/StatusBar';
 import {withTheme} from '../../theme';
 import images from '../../assets/images';
@@ -303,8 +303,16 @@ const ProfileView = props => {
           <Feather name="menu" size={22} color={'white'} />
         </TouchableOpacity> */}
         <TouchableOpacity
-          onPress={navigation.toggleDrawer}
-          style={styles.prevButton}></TouchableOpacity>
+          onPress={() => navigation.goBack()}
+          style={styles.prevButton}>
+          <VectorIcon
+            name={'left'}
+            size={24}
+            color={'white'}
+            type={'AntDesign'}
+            style={{marginTop: 3, marginLeft: 3}}
+          />
+        </TouchableOpacity>
         <Text
           style={[styles.apptitle, {color: themes[theme].deactiveTintColor}]}>
           {I18n.t('AppTitle')}
@@ -415,7 +423,7 @@ const ProfileView = props => {
                 onPress={() => navigation.navigate('ProfileEdit')}
                 style={[
                   styles.editProfileTxtBtn,
-                  {backgroundColor: themes[theme].buttonBackground},
+                  {backgroundColor: COLOR_BTN_BACKGROUND},
                 ]}>
                 <Text
                   style={[
@@ -499,7 +507,7 @@ const ProfileView = props => {
                   styles.tabItem,
                   {
                     backgroundColor: isPostTab
-                      ? themes[theme].buttonBackground
+                      ? COLOR_BTN_BACKGROUND
                       : themes[theme].disableButtonBackground,
                   },
                 ]}>
@@ -517,7 +525,7 @@ const ProfileView = props => {
                   styles.tabItem,
                   {
                     backgroundColor: !isPostTab
-                      ? themes[theme].buttonBackground
+                      ? COLOR_BTN_BACKGROUND
                       : themes[theme].disableButtonBackground,
                   },
                 ]}>

@@ -5,7 +5,15 @@ Remaining Work:
 - Display Shared User 2 people
 
 * check if the backend support shared user data
-* update in PostDetailView, Post pages... ( only show the user icons )h
+* update in PostDetailView, Post pages... ( only show the user icons )
+
+- Edit Post page
+* display CommentHeader User ID
+
+- Update Header Bar Styles
+
+- ImageGallary
+launchImageLibrary, launchCamera doesn't work
 
 ---
 

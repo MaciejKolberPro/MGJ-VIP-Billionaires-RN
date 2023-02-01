@@ -1,36 +1,43 @@
-import React, { useRef, useState, useEffect } from 'react'
-import { Alert, Image, ScrollView, TouchableOpacity, View, Text } from 'react-native'
-import { connect } from 'react-redux'
-import ImagePicker from 'react-native-image-crop-picker'
+import React, {useRef, useState, useEffect} from 'react';
+import {
+  Alert,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  View,
+  Text,
+} from 'react-native';
+import {connect} from 'react-redux';
+import ImagePicker from 'react-native-image-crop-picker';
 
-import { withTheme } from '../../theme'
-import KeyboardView from '../../containers/KeyboardView'
-import sharedStyles from '../Styles'
-import StatusBar from '../../containers/StatusBar'
-import styles from './styles'
-import images from '../../assets/images'
-import scrollPersistTaps from '../../utils/scrollPersistTaps'
-import SafeAreaView from '../../containers/SafeAreaView'
-import { showErrorAlert, showToast } from '../../lib/info'
-import firebaseSdk, { DB_ACTION_UPDATE } from '../../lib/firebaseSdk'
-import { setUser as setUserAction } from '../../actions/login'
+import {withTheme} from '../../theme';
+import KeyboardView from '../../containers/KeyboardView';
+import sharedStyles from '../Styles';
+import StatusBar from '../../containers/StatusBar';
+import styles from './styles';
+import images from '../../assets/images';
+import scrollPersistTaps from '../../utils/scrollPersistTaps';
+import SafeAreaView from '../../containers/SafeAreaView';
+import {showErrorAlert, showToast} from '../../lib/info';
+import firebaseSdk, {DB_ACTION_UPDATE} from '../../lib/firebaseSdk';
+import {setUser as setUserAction} from '../../actions/login';
 import {
   checkCameraPermission,
   checkPhotosPermission,
   imagePickerConfig,
-} from '../../utils/permissions'
-import * as HeaderButton from '../../containers/HeaderButton'
-import ActivityIndicator from '../../containers/ActivityIndicator'
-import { isValidURL } from '../../utils/validators'
-import I18n from '../../i18n'
-import { VectorIcon } from '../../containers/VectorIcon'
-import ExDatePicker from '../../containers/ExDatePicker'
-import FloatingTextInput from '../../containers/FloatingTextInput'
-import ExGender from '../../containers/ExGender'
-import { themes } from '../../constants/colors'
-import { dateToString, DATE_STRING_FORMAT } from '../../utils/datetime'
+} from '../../utils/permissions';
+import * as HeaderButton from '../../containers/HeaderButton';
+import ActivityIndicator from '../../containers/ActivityIndicator';
+import {isValidURL} from '../../utils/validators';
+import I18n from '../../i18n';
+import {VectorIcon} from '../../containers/VectorIcon';
+import ExDatePicker from '../../containers/ExDatePicker';
+import FloatingTextInput from '../../containers/FloatingTextInput';
+import ExGender from '../../containers/ExGender';
+import {COLOR_BTN_BACKGROUND, themes} from '../../constants/colors';
+import {dateToString, DATE_STRING_FORMAT} from '../../utils/datetime';
 
-import { useNavigation } from '@react-navigation/native'
+import {useNavigation} from '@react-navigation/native';
 
 const ProfileEditView = props => {
   const [state, setState] = useState({
@@ -39,23 +46,29 @@ const ProfileEditView = props => {
     email: props.user.email,
     phone: props.user.phone ?? '',
     gender: props.user.gender ?? '',
-    birthday: props.user.birthday ? typeof (props.user.birthday) === 'string' ? props.user.birthday : (typeof (props.user.birthday) === 'object' && props.user.birthday.seconds) ? dateToString(props.user.birthday, DATE_STRING_FORMAT) : null : null,
+    birthday: props.user.birthday
+      ? typeof props.user.birthday === 'string'
+        ? props.user.birthday
+        : typeof props.user.birthday === 'object' && props.user.birthday.seconds
+        ? dateToString(props.user.birthday, DATE_STRING_FORMAT)
+        : null
+      : null,
     purpose: props.user.purpose ?? '',
     city: props.user.city ?? '',
     website: props.user.website ?? '',
     isLoading: false,
     topScrollEnable: true,
-  })
-  const nameInput = useRef(null)
-  const emailInput = useRef(null)
-  const cityInput = useRef(null)
-  const bioInput = useRef(null)
-  const websiteInput = useRef(null)
-  const phoneInput = useRef(null)
+  });
+  const nameInput = useRef(null);
+  const emailInput = useRef(null);
+  const cityInput = useRef(null);
+  const bioInput = useRef(null);
+  const websiteInput = useRef(null);
+  const phoneInput = useRef(null);
 
-  const navigation = useNavigation()
+  const navigation = useNavigation();
 
-  const { user, theme } = props
+  const {user, theme} = props;
   const {
     image_path,
     displayName,
@@ -66,41 +79,63 @@ const ProfileEditView = props => {
     website,
     isLoading,
     topScrollEnable,
-  } = state
+  } = state;
 
   useEffect(() => {
-    init()
-  }, [state])
+    init();
+  }, [state]);
 
   const init = () => {
-    const { navigation } = props
+    const {navigation} = props;
     navigation.setOptions({
-      title: I18n.t('Edit_profile'),
-      headerRight: () => (
-        <HeaderButton.Save
-          navigation={navigation}
-          onPress={onSubmit}
-          testID="rooms-list-view-create-channel"
-        />
+      headerTitleStyle: {
+        fontSize: 20,
+        fontWeight: '600',
+        fontFamily: 'Hind Vadodara',
+        color: themes[theme].activeTintColor,
+        marginTop: 10,
+      },
+      title: I18n.t('update_basic_information'),
+      headerLeft: () => (
+        <TouchableOpacity
+          style={{
+            marginTop: 12,
+            marginLeft: 15,
+          }}
+          onPress={() => navigation.goBack()}>
+          <VectorIcon
+            type={'AntDesign'}
+            name={'arrowleft'}
+            size={20}
+            color={'white'}
+          />
+        </TouchableOpacity>
       ),
-    })
-  }
+      // headerRight: () => (
+      //   <HeaderButton.Save
+      //     navigation={navigation}
+      //     onPress={onSubmit}
+      //     testID="rooms-list-view-create-channel"
+      //   />
+      // ),
+    });
+  };
 
   const takePhoto = async () => {
     if (await checkCameraPermission()) {
       ImagePicker.openCamera(imagePickerConfig).then(image => {
-        setState({ ...state, image_path: image.path })
-      })
+        setState({...state, image_path: image.path});
+      });
     }
-  }
+  };
 
   const chooseFromLibrary = async () => {
     if (await checkPhotosPermission()) {
       ImagePicker.openPicker(imagePickerConfig).then(image => {
-        setState({ ...state, image_path: image.path })
-      })
+        setState({...state, image_path: image.path});
+      });
     }
-  }
+  };
 
   const toggleAction = () => {
     Alert.alert('', I18n.t('Upload_profile_photo'), [
@@ -111,60 +146,60 @@ const ProfileEditView = props => {
       {
         text: I18n.t('Take_a_photo'),
         onPress: () => {
-          takePhoto()
+          takePhoto();
         },
       },
       {
         text: I18n.t('Choose_a_photo'),
         onPress: () => {
-          chooseFromLibrary()
+          chooseFromLibrary();
         },
       },
-    ])
-  }
+    ]);
+  };
 
   const isValid = () => {
-    const { displayName, email, website } = state
+    const {displayName, email, website} = state;
     if (!displayName.length) {
-      showToast(I18n.t('please_enter_name'))
-      nameInput.current.focus()
-      return false
+      showToast(I18n.t('please_enter_name'));
+      nameInput.current.focus();
+      return false;
     }
     if (!email.length) {
-      showToast(I18n.t('please_enter_email'))
-      emailInput.current.focus()
-      return false
+      showToast(I18n.t('please_enter_email'));
+      emailInput.current.focus();
+      return false;
     }
     if (website.length && !isValidURL(website)) {
-      showToast(I18n.t('please_enter_valid_website'))
-      websiteInput.current.focus()
-      return false
+      showToast(I18n.t('please_enter_valid_website'));
+      websiteInput.current.focus();
+      return false;
     }
-    return true
-  }
+    return true;
+  };
 
   const onSubmit = () => {
     if (isValid()) {
-      const { image_path } = state
-      setState({ ...state, isLoading: true })
+      const {image_path} = state;
+      setState({...state, isLoading: true});
       if (image_path) {
         firebaseSdk
           .uploadMedia(firebaseSdk.STORAGE_TYPE_AVATAR, image_path)
           .then(image_url => {
-            saveUser(image_url)
+            saveUser(image_url);
           })
           .catch(err => {
-            showErrorAlert(err, I18n.t('Oops'))
-            setState({ ...state, isLoading: false })
-          })
+            showErrorAlert(err, I18n.t('Oops'));
+            setState({...state, isLoading: false});
+          });
       } else {
-        saveUser()
+        saveUser();
       }
     }
-  }
+  };
 
   const saveUser = (image_url = null) => {
-    const { user, navigation, setUser } = props
+    const {user, navigation, setUser} = props;
     const {
       displayName,
       phone,
@@ -174,7 +209,7 @@ const ProfileEditView = props => {
       purpose,
       city,
       website,
-    } = state
+    } = state;
 
     let userInfo = {
       id: user.id,
@@ -186,26 +221,26 @@ const ProfileEditView = props => {
       purpose: purpose,
       city: city,
       website: website,
-    }
+    };
 
     if (image_url) {
-      userInfo = { ...userInfo, avatar: image_url }
+      userInfo = {...userInfo, avatar: image_url};
     }
 
     firebaseSdk
       .setData(firebaseSdk.TBL_USER, DB_ACTION_UPDATE, userInfo)
       .then(() => {
-        showToast(I18n.t('Update_profile_complete'))
-        setState({ ...state, isLoading: false })
-        const updateUser = { ...user, ...userInfo }
-        setUser(updateUser)
-        navigation.pop()
+        showToast(I18n.t('Update_profile_complete'));
+        setState({...state, isLoading: false});
+        const updateUser = {...user, ...userInfo};
+        setUser(updateUser);
+        navigation.pop();
       })
       .catch(err => {
-        showToast(I18n.t(err.message))
-        setState({ ...state, isLoading: false })
-      })
-  }
+        showToast(I18n.t(err.message));
+        setState({...state, isLoading: false});
+      });
+  };
   return (
     <KeyboardView
       contentContainerStyle={[
@@ -262,10 +297,10 @@ const ProfileEditView = props => {
               textContentType="oneTimeCode"
               label={I18n.t('Name')}
               placeholder={I18n.t('enter_name')}
-              onChangeText={name => setState({ ...state, displayName: name })}
+              onChangeText={name => setState({...state, displayName: name})}
               theme={theme}
               onSubmitEditing={() => {
-                websiteInput.current.focus()
+                websiteInput.current.focus();
               }}
             />
             <FloatingTextInput
@@ -275,7 +310,7 @@ const ProfileEditView = props => {
               textContentType="oneTimeCode"
               label={I18n.t('Bio')}
               placeholder={I18n.t('enter_headline_experience')}
-              onChangeText={purpose => setState({ ...state, purpose })}
+              onChangeText={purpose => setState({...state, purpose})}
               theme={theme}
               multiline
             />
@@ -285,13 +320,13 @@ const ProfileEditView = props => {
               value={gender}
               topScrollEnable={topScrollEnable}
               toggleShow={show => {
-                setState({ ...state, topScrollEnable: !show })
+                setState({...state, topScrollEnable: !show});
               }}
-              action={({ value }) => {
+              action={({value}) => {
                 if (!value) {
-                  return
+                  return;
                 }
-                setState({ ...state, gender: value })
+                setState({...state, gender: value});
               }}
               theme={theme}
             />
@@ -303,10 +338,10 @@ const ProfileEditView = props => {
               textContentType="oneTimeCode"
               label={I18n.t('City')}
               placeholder={I18n.t('select_city')}
-              onChangeText={value => setState({ ...state, city: value })}
+              onChangeText={value => setState({...state, city: value})}
               theme={theme}
               onSubmitEditing={() => {
-                bioInput.current.focus()
+                bioInput.current.focus();
               }}
             />
             <FloatingTextInput
@@ -317,10 +352,10 @@ const ProfileEditView = props => {
               textContentType="oneTimeCode"
               label={I18n.t('Phone')}
               placeholder={I18n.t('type_phone_number')}
-              onChangeText={phone => setState({ ...state, phone })}
+              onChangeText={phone => setState({...state, phone})}
               theme={theme}
               onSubmitEditing={() => {
-                emailInput.current.focus()
+                emailInput.current.focus();
               }}
             />
             <ExDatePicker
@@ -328,15 +363,15 @@ const ProfileEditView = props => {
               containerStyle={styles.selectStyle}
               topScrollEnable={topScrollEnable}
               toggleShow={show => {
-                setState({ ...state, topScrollEnable: !show })
+                setState({...state, topScrollEnable: !show});
               }}
               value={birthday}
               placeholder={I18n.t('select_birthday')}
-              action={({ value }) => {
+              action={({value}) => {
                 if (!value) {
-                  return
+                  return;
                 }
-                setState({ ...state, birthday: value })
+                setState({...state, birthday: value});
               }}
               theme={theme}
             />
@@ -348,22 +383,22 @@ const ProfileEditView = props => {
               textContentType="oneTimeCode"
               label={I18n.t('Website')}
               placeholder={I18n.t('enter_url')}
-              onChangeText={website => setState({ ...state, website })}
+              onChangeText={website => setState({...state, website})}
               theme={theme}
               onSubmitEditing={() => {
-                phoneInput.current.focus()
+                phoneInput.current.focus();
               }}
             />
             <TouchableOpacity
               onPress={() => navigation.navigate('ProfileEdit')}
               style={[
                 styles.updateButton,
-                { backgroundColor: themes[theme].buttonBackground },
+                {backgroundColor: COLOR_BTN_BACKGROUND},
               ]}>
               <Text
                 style={[
                   styles.updateText,
-                  { color: themes[theme].normalTextColor },
+                  {color: themes[theme].normalTextColor},
                 ]}>
                 {I18n.t('update')}
               </Text>
@@ -385,18 +420,18 @@ const ProfileEditView = props => {
         </SafeAreaView>
       </ScrollView>
     </KeyboardView>
-  )
-}
+  );
+};
 
 const mapStateToProps = state => ({
   user: state.login.user,
-})
+});
 
 const mapDispatchToProps = dispatch => ({
   setUser: params => dispatch(setUserAction(params)),
-})
+});
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(withTheme(ProfileEditView))
+)(withTheme(ProfileEditView));
