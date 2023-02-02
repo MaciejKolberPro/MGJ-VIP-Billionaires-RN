@@ -1,6 +1,6 @@
-import { Dimensions, StyleSheet } from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
 
-const { width } = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 export default StyleSheet.create({
   logoContainer: {
@@ -13,7 +13,7 @@ export default StyleSheet.create({
     flex: 1,
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
-    marginTop: -50,
+    marginTop: 50,
     backgroundColor: 'white',
   },
   backAction: {
@@ -58,18 +58,24 @@ export default StyleSheet.create({
     fontSize: 12,
   },
   avatarContainer: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    alignSelf: 'center',
-    marginTop: -50,
+    borderRadius: 25,
+    marginTop: 75,
+    marginLeft: 25,
     alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: 'row',
   },
   avatar: {
-    borderRadius: 45,
+    borderRadius: 25,
     width: 90,
     height: 90,
+  },
+  avatarName: {
+    fontSize: 18,
+    fontWeight: '400',
+  },
+  avatarjob: {
+    fontSize: 12,
+    fontWeight: '500',
   },
   profileInfo: {
     flexGrow: 1,
@@ -143,12 +149,12 @@ export default StyleSheet.create({
     borderRightColor: 'grey',
   },
   optionValue: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginBottom: 4,
+    fontSize: 24,
+    fontWeight: '600',
+    marginBottom: 8,
   },
   optionTitle: {
-    fontSize: 12,
+    fontSize: 16,
   },
   followWrap: {
     flexDirection: 'row',
@@ -159,13 +165,10 @@ export default StyleSheet.create({
   },
   topRightButtons: {
     position: 'absolute',
-    top: 5,
-    right: 20,
+    top: 15,
     zIndex: 2,
-    left: 20,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
   },
   toolButton: {
     width: 44,
@@ -180,16 +183,25 @@ export default StyleSheet.create({
     backgroundColor: '#2A2A2AB2',
     justifyContent: 'center',
   },
+  tabContainer: {
+    paddingHorizontal: 20,
+    height: 50,
+    alignItems: 'center',
+    marginBottom: 15,
+  },
   tab: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginBottom: 15,
+    height: 50,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 14,
   },
   tabItem: {
-    paddingBottom: 4,
-    borderBottomColor: '#A2A8B8',
-    borderBottomWidth: 3,
-    marginHorizontal: 15,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 12,
   },
   tabItemText: {
     fontWeight: '400',
@@ -214,18 +226,22 @@ export default StyleSheet.create({
   buttonWrap: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginBottom: 30,
+    marginTop: 25,
+    marginBottom: 17,
+    borderBottomWidth: 1,
+    paddingBottom: 21,
+    paddingHorizontal: 26,
   },
   followButton: {
-    paddingHorizontal: 30,
-    backgroundColor: '#5790DF',
-    borderRadius: 20,
-    marginHorizontal: 10,
+    borderRadius: 14,
+    borderWidth: 1,
     shadowColor: 'black',
     shadowOpacity: 0.2,
-    shadowOffset: { with: 2, height: 2 },
+    shadowOffset: {with: 2, height: 2},
     shadowRadius: 2,
     elevation: 2,
+    flex: 1,
+    height: 46,
   },
   followingButton: {
     paddingHorizontal: 30,
@@ -234,20 +250,16 @@ export default StyleSheet.create({
     borderWidth: 1,
   },
   followText: {
-    fontSize: 13,
+    fontSize: 16,
     fontWeight: '500',
-    color: '#eeeeee',
-    paddingVertical: 10,
+    textAlign: 'center',
+    marginTop: 12,
   },
   messageButton: {
-    paddingHorizontal: 30,
     borderRadius: 20,
     marginHorizontal: 10,
-    shadowColor: 'black',
-    shadowOpacity: 0.2,
-    shadowOffset: { with: 2, height: 2 },
-    shadowRadius: 2,
-    elevation: 2,
+    alignItems: 'center',
+    marginTop: 6,
   },
   messageText: {
     fontSize: 13,

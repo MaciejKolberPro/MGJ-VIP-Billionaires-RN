@@ -1,4 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
+
 import {
   Alert,
   Image,
@@ -17,6 +18,8 @@ import {useNavigation} from '@react-navigation/native';
 
 // const RNImagePicker = require('react-native-image-picker');
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+// import RNImagePicker from 'react-native-image-picker';
+// import * as RNImagePicker from 'react-native-image-picker';
 
 import {withTheme} from '../../theme';
 import KeyboardView from '../../containers/KeyboardView';
@@ -243,23 +246,33 @@ const EditPostView = props => {
 
   const onUploadPhoto = async () => {
     // navigation.push('PickLibrary', {type: POST_TYPE_PHOTO});
-    let options = {
-      title: 'Select Image',
-      customButtons: [
-        {name: 'customOptionKey', title: 'Choose Photo from Custom Option'},
-      ],
-      storageOptions: {
-        skipBackup: true,
-        path: 'images',
-      },
-    };
-    console.log('launchCamera', launchCamera);
-    console.log('launchImageLibrary', launchImageLibrary);
-    launchCamera(options);
+    // let options = {
+    //   title: 'Select Image',
+    //   customButtons: [
+    //     {name: 'customOptionKey', title: 'Choose Photo from Custom Option'},
+    //   ],
+    //   storageOptions: {
+    //     skipBackup: true,
+    //     path: 'images',
+    //   },
+    // };
+    // console.log(RNImagePicker);
+    // RNImagePicker.showImagePicker(options, response => {
+    //   console.log('response', response);
+    // });
+    // RNImagePicker.showImagePicker(options, response => {
+    //   console.log('response', response);
+    // });
+    // console.log(RNImagePicker);
+    // RNImagePicker.launchImageLibrary(options, response => {
+    //   console.log('response = ', response);
+    // });
+    // console.log('launchCamera', launchCamera);
+    // console.log('launchImageLibrary', launchImageLibrary);
+    // launchCamera(options);
     // if (RNImagePicker) {
     //   RNImagePicker.showImagePicker(options, response => {
     //     console.log('Response = ', response);
-
     //     //   if (response.didCancel) {
     //     //     console.log('User cancelled image picker');
     //     //   } else if (response.error) {
@@ -269,7 +282,6 @@ const EditPostView = props => {
     //     //     alert(response.customButton);
     //     //   } else {
     //     //     const source = {uri: response.uri};
-
     //     //     // You can also display the image using data:
     //     //     // const source = { uri: 'data:image/jpeg;base64,' + response.data };
     //     //     // alert(JSON.stringify(response));s

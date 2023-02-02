@@ -36,6 +36,7 @@ import styles from './styles';
 import {navigateToProfile, onSharePost} from '../../utils/const';
 import {fetchUnread as fetchUnreadAction} from '../../actions/chat';
 import {TabView, SceneMap} from 'react-native-tab-view';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 const {width} = Dimensions.get('screen');
 
@@ -359,10 +360,20 @@ const HomeView = props => {
     );
   };
 
+  async function onTest() {
+    let options = {
+      title: 'Select Image',
+    };
+    console.log('jewr');
+    launchImageLibrary(options, function (res) {
+      console.log('res');
+    });
+  }
+
   return (
     <MainScreen navigation={navigation}>
       <StatusBar />
-      <MainHeader avatarImage="" onChangeText={() => {}} />
+      <MainHeader avatarImage="" onChangeText={() => onTest()} />
       {isUpdating && (
         <ActivityIndicator absolute theme={theme} size={'large'} />
       )}

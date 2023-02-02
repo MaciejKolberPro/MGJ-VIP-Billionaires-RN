@@ -203,8 +203,6 @@ const Post = ({
 }) => {
   const [playing, setPlaying] = useState(false);
 
-  console.log(item);
-
   return (
     <View
       key={key}
