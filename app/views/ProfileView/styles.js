@@ -228,16 +228,19 @@ export default StyleSheet.create({
     width: 200,
     height: 200,
     margin: 5,
+    borderRadius: 6,
   },
   tile2: {
     width: width - 230,
     height: 95,
     margin: 5,
+    borderRadius: 6,
   },
   tile3: {
     width: (width - 40) / 3,
     height: 167,
     margin: 5,
+    borderRadius: 6,
   },
 
   apptitle: {

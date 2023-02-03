@@ -90,11 +90,12 @@ const ProfileView = props => {
             posts.sort((a, b) => b.date - a.date);
             setSafeState({account: user, isLoading: false, posts});
           }
+          console.log('profileview-posts', posts);
         });
       })
       .catch(err => {
         setSafeState({isLoading: false});
-        // showErrorAlert(I18n.t('user_not_found'), '', () => navigation.pop());
+        showErrorAlert(I18n.t('user_not_found'), '', () => navigation.pop());
       });
   };
 
@@ -558,17 +559,7 @@ const ProfileView = props => {
               }
             })
           ) : (
-            <View
-              style={{
-                borderTopLeftRadius: 50,
-                borderTopRightRadius: 50,
-                backgroundColor: themes[theme].postBackground,
-                shadowColor: 'black',
-                shadowOpacity: 0.2,
-                shadowOffset: {x: 2, y: 2},
-                elevation: 2,
-                padding: 5,
-              }}>
+            <View>
               {chunk(
                 posts.filter(
                   p => p.type === POST_TYPE_PHOTO || p.type === POST_TYPE_VIDEO,
@@ -581,20 +572,14 @@ const ProfileView = props => {
                       <TouchableOpacity onPress={() => onOpenPost(p[0])}>
                         <Image
                           source={{uri: p[0]?.photo || p[0]?.thumbnail}}
-                          style={[
-                            styles.tile1,
-                            index === 0 && {borderTopLeftRadius: 50},
-                          ]}
+                          style={[styles.tile1]}
                         />
                       </TouchableOpacity>
                       <View>
                         <TouchableOpacity onPress={() => onOpenPost(p[1])}>
                           <Image
                             source={{uri: p[1]?.photo || p[1]?.thumbnail}}
-                            style={[
-                              styles.tile2,
-                              index === 0 && {borderTopRightRadius: 50},
-                            ]}
+                            style={[styles.tile2]}
                           />
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => onOpenPost(p[2])}>

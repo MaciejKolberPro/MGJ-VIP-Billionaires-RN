@@ -10,7 +10,6 @@ export default StyleSheet.create({
     height: 250,
   },
   mainContent: {
-    flex: 1,
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
     marginTop: 50,
@@ -60,7 +59,7 @@ export default StyleSheet.create({
   avatarContainer: {
     borderRadius: 25,
     marginTop: 75,
-    marginLeft: 25,
+    paddingHorizontal: 20,
     alignItems: 'center',
     flexDirection: 'row',
   },
@@ -76,6 +75,9 @@ export default StyleSheet.create({
   avatarjob: {
     fontSize: 12,
     fontWeight: '500',
+  },
+  avatarwebsite: {
+    fontSize: 13,
   },
   profileInfo: {
     flexGrow: 1,
@@ -193,8 +195,8 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     height: 50,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
+    paddingHorizontal: 6,
+    paddingVertical: 4,
     borderRadius: 14,
   },
   tabItem: {
@@ -251,9 +253,10 @@ export default StyleSheet.create({
   },
   followText: {
     fontSize: 16,
+    lineHeight: 18,
     fontWeight: '500',
     textAlign: 'center',
-    marginTop: 12,
+    marginTop: 14,
   },
   messageButton: {
     borderRadius: 20,

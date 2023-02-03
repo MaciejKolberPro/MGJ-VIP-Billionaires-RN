@@ -15,6 +15,8 @@ Remaining Work:
 - ImageGallary
 launchImageLibrary, launchCamera doesn't work
 
+- How to Save and Load images from firestore
+
 ---
 
 email "xiaolin10419@hotmail.com"

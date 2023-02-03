@@ -99,6 +99,8 @@ const OtherProfileView = props => {
         setSafeState({isLoading: false});
         showErrorAlert(I18n.t('user_not_found'), '', () => navigation.pop());
       });
+
+    console.log(state.posts);
   };
 
   const openLink = url => {
@@ -353,19 +355,23 @@ const OtherProfileView = props => {
               {account.displayName}
             </Text>
             <Text style={[styles.avatarjob, {color: themes[theme].textColor}]}>
-              {account.job}
+              {account.company}
+            </Text>
+            <Text style={[styles.avatarjob, {color: themes[theme].textColor}]}>
+              {account.role}
             </Text>
             <Text style={[styles.avatarwebsite, {color: COLOR_YELLOW}]}>
               {account.website}
             </Text>
           </View>
         </View>
-        {/* Display Posts / Followings / Followers items */}
+        {/* Display Posts/Followings/Followers items, Following/Chat, Posts/Media */}
         <View
           style={[
             styles.mainContent,
             {backgroundColor: themes[theme].backgroundColor},
           ]}>
+          {/* Posts/Followings/Followers */}
           <View style={styles.followWrap}>
             <TouchableOpacity
               onPress={() => goToPosts()}
@@ -410,38 +416,7 @@ const OtherProfileView = props => {
               </Text>
             </TouchableOpacity>
           </View>
-          {/* <View style={styles.mainInfo}>
-            <View style={styles.profileInfo}>
-              <Text
-                style={[
-                  styles.profileName,
-                  {color: themes[theme].activeTintColor},
-                ]}>
-                {getUserRepresentString(account)}
-              </Text>
-              {account.city && account.city.length > 0 ? (
-                <Text style={[styles.city, {color: themes[theme].jobText}]}>
-                  {account.job}
-                </Text>
-              ) : null}
-              <View style={styles.location}>
-                {account.website && account.website.length > 0 ? (
-                  <TouchableOpacity
-                    style={styles.website}
-                    onPress={() => openLink(account.website)}>
-                    <Text style={{fontSize: 12, color: themes[theme].infoText}}>
-                      {account.website}
-                    </Text>
-                  </TouchableOpacity>
-                ) : null}
-              </View>
-              {account.purpose && account.purpose.length > 0 ? (
-                <Text style={[styles.bio, {color: themes[theme].infoText}]}>
-                  {account.purpose}
-                </Text>
-              ) : null}
-            </View>
-          </View> */}
+          {/* Following/Chat */}
           <View
             style={[
               styles.buttonWrap,
@@ -463,10 +438,10 @@ const OtherProfileView = props => {
               <TouchableOpacity
                 onPress={() => onToggleFollow(following)}
                 style={[
-                  styles.followingButton,
+                  styles.followButton,
                   {
                     backgroundColor: themes[theme].backgroundColor,
-                    borderColor: themes[theme].activeTintColor,
+                    borderColor: themes[theme].borderColor,
                   },
                 ]}>
                 <Text
@@ -488,7 +463,7 @@ const OtherProfileView = props => {
                 name={'chatbubble-ellipses-outline'}
                 type={'Ionicons'}
                 color={COLOR_LIGHT_DARK}
-                style={{marginLeft: 16, marginTop: 3}}
+                style={{marginLeft: 16}}
               />
             </TouchableOpacity>
           </View>

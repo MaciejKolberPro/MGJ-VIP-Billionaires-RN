@@ -117,7 +117,7 @@ export default {
   Help_and_support: 'Help and support',
   My_connections: 'My connections',
   Eula: 'EULA',
-  Posts: 'Posts',
+  Posts: 'Post',
   Followers: 'Followers',
   Followings: 'Followings',
   Like: 'like',
