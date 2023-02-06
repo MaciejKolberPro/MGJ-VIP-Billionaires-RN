@@ -524,17 +524,11 @@ const PostDetailView = props => {
               }}>
               <View style={{flexDirection: 'row', alignItems: 'center'}}>
                 <TouchableOpacity
-                  // onPress={() => onLike(isLiking)}
+                  onPress={() => toggleLikes(isLiking)}
                   style={{flexDirection: 'row', alignItems: 'center'}}>
-                  <VectorIcon
-                    type="MaterialCommunityIcons"
-                    name="heart"
-                    size={20}
-                    color={
-                      isLiking
-                        ? themes[theme].titleColor
-                        : themes[theme].iconColor
-                    }
+                  <Image
+                    source={images.heart}
+                    style={[styles.miniIcon, {opacity: isLiking ? 0.5 : 1}]}
                   />
                   <Text
                     style={[styles.count, {color: themes[theme].titleColor}]}>
@@ -546,11 +540,9 @@ const PostDetailView = props => {
                 <TouchableOpacity
                   // onPress={onPress}
                   style={{flexDirection: 'row', alignItems: 'center'}}>
-                  <VectorIcon
-                    type="MaterialCommunityIcons"
-                    name="chat"
-                    size={20}
-                    color={themes[theme].iconColor}
+                  <Image
+                    source={images.chat}
+                    style={[styles.miniIcon, {opacity: 0.5}]}
                   />
                   <Text
                     style={[styles.count, {color: themes[theme].titleColor}]}>
@@ -560,6 +552,7 @@ const PostDetailView = props => {
                   </Text>
                 </TouchableOpacity>
               </View>
+
               <View style={styles.shareContainer}>
                 <View style={styles.sharedUserBox}>
                   <View
@@ -632,7 +625,7 @@ const PostDetailView = props => {
               style={[styles.captionText, { color: themes[theme].infoText }]}>
               {dateToString(post.date, 'hh:MM A · DD MMM YY')}
             </Text> */}
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            {/* <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <TouchableOpacity onPress={() => toggleLikes(isLiking)}>
                 <Image
                   source={images.heart}
@@ -682,7 +675,7 @@ const PostDetailView = props => {
                   ]}
                 />
               </TouchableOpacity>
-            </View>
+            </View> */}
           </View>
           {/* Comment EditBox */}
           <View style={styles.commentBoxContainer}>

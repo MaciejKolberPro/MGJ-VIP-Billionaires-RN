@@ -117,7 +117,7 @@ export default {
   Help_and_support: 'Help and support',
   My_connections: 'My connections',
   Eula: 'EULA',
-  Posts: 'Post',
+  Posts: 'Posts',
   Followers: 'Followers',
   Followings: 'Followings',
   Like: 'like',
@@ -340,4 +340,5 @@ export default {
   back_to_home: 'Back to Home',
   back_to_page: 'Back to "Page"',
   update_basic_information: 'Update basic Information',
+  url: 'Url',
 };

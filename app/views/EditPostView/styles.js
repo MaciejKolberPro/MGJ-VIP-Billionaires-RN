@@ -103,5 +103,12 @@ export default StyleSheet.create({
     borderRadius: 8,
     marginBottom: 8,
     textAlignVertical: 'top',
+    padding: 12,
+  },
+  previewImage: {
+    padding: 12,
+    width: 100,
+    height: 100,
+    marginVertical: 8,
   },
 });

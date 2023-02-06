@@ -15,7 +15,11 @@ import ImagePicker from 'react-native-image-crop-picker';
 import Feather from 'react-native-vector-icons/Feather';
 import {chunk, isEmpty} from 'lodash';
 
-import {COLOR_BTN_BACKGROUND, themes} from '../../constants/colors';
+import {
+  COLOR_BTN_BACKGROUND,
+  COLOR_GRAY_DARK,
+  themes,
+} from '../../constants/colors';
 import StatusBar from '../../containers/StatusBar';
 import {withTheme} from '../../theme';
 import images from '../../assets/images';
@@ -62,8 +66,6 @@ const ProfileView = props => {
 
   const {account, posts, isLoading} = state;
   let unSubscribePost = '';
-
-  console.log(account);
 
   useEffect(() => {
     if (!isEmpty(user)) init();
@@ -190,10 +192,16 @@ const ProfileView = props => {
       firebaseSdk
         .uploadMedia(firebaseSdk.STORAGE_TYPE_AVATAR, image_path)
         .then(image_url => {
+          console.log('image_url started');
+          console.log(image_url);
+
           let userInfo = {
             id: user.id,
-            back_image: image_url,
+            // back_image: image_url,
+            avatar: image_url,
           };
+
+          console.log('userInfo', userInfo);
 
           firebaseSdk
             .setData(firebaseSdk.TBL_USER, DB_ACTION_UPDATE, userInfo)
@@ -201,6 +209,9 @@ const ProfileView = props => {
               setState({...state, isLoading: false});
               const updateUser = {...user, ...userInfo};
               setUser(updateUser);
+
+              console.log('setUser', updateUser);
+
               init();
             })
             .catch(err => {
@@ -308,21 +319,33 @@ const ProfileView = props => {
           style={styles.prevButton}>
           <VectorIcon
             name={'left'}
-            size={24}
-            color={'white'}
+            size={18}
+            color={COLOR_GRAY_DARK}
             type={'AntDesign'}
-            style={{marginTop: 3, marginLeft: 3}}
+            style={{marginTop: 8, marginLeft: 8}}
           />
         </TouchableOpacity>
         <Text
           style={[styles.apptitle, {color: themes[theme].deactiveTintColor}]}>
           {I18n.t('AppTitle')}
         </Text>
-        {/* <View style={{ flexDirection: 'row' }}>
+        <View
+          style={[
+            styles.searchToolBox,
+            {backgroundColor: 'rgba(133, 133, 133, 0.25)'},
+          ]}>
+          <VectorIcon
+            name={'search'}
+            size={18}
+            color={COLOR_GRAY_DARK}
+            type={'MaterialIcons'}
+          />
+        </View>
+        {/* <View style={{flexDirection: 'row'}}>
           <TouchableOpacity onPress={() => navigation.navigate('FindFriend')}>
             <Image
               source={images.profile_search}
-              style={[styles.toolButton, { marginRight: 10 }]}
+              style={[styles.toolButton, {marginRight: 10}]}
             />
           </TouchableOpacity>
           <PopupMenu
@@ -333,13 +356,13 @@ const ProfileView = props => {
                 onPress: () => navigation.navigate('ProfileEdit'),
               },
             ]}
-            renderTrigger={() => (<Image source={images.profile_more} style={styles.toolButton} />)}
+            renderTrigger={() => (
+              <Image source={images.profile_more} style={styles.toolButton} />
+            )}
           />
         </View> */}
       </SafeAreaView>
-      <ScrollView
-        {...scrollPersistTaps}
-        contentContainerStyle={{paddingBottom: 80}}>
+      <ScrollView contentContainerStyle={{paddingBottom: 80}}>
         <View style={styles.logoContainer}>
           {/* <Image style={styles.backImage} source={{ uri: account.back_image }} /> */}
           <TouchableOpacity
@@ -387,17 +410,19 @@ const ProfileView = props => {
                   styles.profileName,
                   {color: themes[theme].activeTintColor},
                 ]}>
-                {getUserRepresentString(account)}
+                {/* {getUserRepresentString(account)} */}
+                {account.displayName}
               </Text>
-              {account.city && account.city.length > 0 ? (
+              {(account.company && account.company.length > 0) ||
+              (account.role && account.role.length > 0) ? (
                 <Text
                   style={[
-                    styles.city,
+                    styles.job,
                     {
-                      color: themes[theme].normalTextColor,
+                      color: themes[theme].textColor,
                     },
                   ]}>
-                  {account.job}
+                  {account.company + ' ' + account.role}
                 </Text>
               ) : null}
               <View style={styles.location}>
@@ -443,7 +468,13 @@ const ProfileView = props => {
             ]}>
             <TouchableOpacity
               onPress={() => goToFollowings()}
-              style={styles.optionContainer}>
+              style={[
+                styles.optionContainer,
+                {
+                  borderRightWidth: 1,
+                  borderRightColor: themes[theme].borderColor,
+                },
+              ]}>
               <Text
                 style={[
                   styles.optionValue,
@@ -456,30 +487,18 @@ const ProfileView = props => {
                   styles.optionTitle,
                   {color: themes[theme].deactiveTintColor},
                 ]}>
-                {I18n.t('Post')}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => goToFollowers()}
-              style={[styles.optionContainer]}>
-              <Text
-                style={[
-                  styles.optionValue,
-                  {color: themes[theme].activeTintColor},
-                ]}>
-                {account.followers?.length ?? 0}
-              </Text>
-              <Text
-                style={[
-                  styles.optionTitle,
-                  {color: themes[theme].deactiveTintColor},
-                ]}>
-                {I18n.t('Followers')}
+                {I18n.t('Posts')}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => goToFollowings()}
-              style={styles.optionContainer}>
+              style={[
+                styles.optionContainer,
+                {
+                  borderRightWidth: 1,
+                  borderRightColor: themes[theme].borderColor,
+                },
+              ]}>
               <Text
                 style={[
                   styles.optionValue,
@@ -493,6 +512,24 @@ const ProfileView = props => {
                   {color: themes[theme].deactiveTintColor},
                 ]}>
                 {I18n.t('Followings')}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => goToFollowers()}
+              style={styles.optionContainer}>
+              <Text
+                style={[
+                  styles.optionValue,
+                  {color: themes[theme].activeTintColor},
+                ]}>
+                {account.followers?.length ?? 0}
+              </Text>
+              <Text
+                style={[
+                  styles.optionTitle,
+                  {color: themes[theme].deactiveTintColor},
+                ]}>
+                {I18n.t('Followers')}
               </Text>
             </TouchableOpacity>
           </View>

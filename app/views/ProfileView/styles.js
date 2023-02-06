@@ -35,6 +35,13 @@ export default StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 12,
   },
+  searchToolBox: {
+    width: 36,
+    height: 36,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 8,
+  },
   mainInfo: {
     flexDirection: 'row',
   },
@@ -57,8 +64,8 @@ export default StyleSheet.create({
     fontWeight: '500',
   },
   job: {
-    marginTop: 2,
-    fontSize: 12,
+    marginTop: 10,
+    fontSize: 16,
   },
   avatarContainer: {
     width: 100,
@@ -176,13 +183,13 @@ export default StyleSheet.create({
     borderBottomWidth: 1,
   },
   topRightButtons: {
-    position: 'absolute',
-    top: 5,
-    right: 20,
+    position: 'relative',
+    top: 20,
     zIndex: 2,
-    left: 20,
+    paddingHorizontal: 10,
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
   },
   toolButton: {
     width: 44,

@@ -12,6 +12,12 @@ import {
 import {VectorIcon} from '../../containers/VectorIcon';
 import PopupMenu from '../../containers/PopupMenu';
 
+import firebaseSdk, {
+  DB_ACTION_DELETE,
+  DB_ACTION_UPDATE,
+  NOTIFICATION_TYPE_LIKE,
+} from '../../lib/firebaseSdk';
+
 const styles = StyleSheet.create({
   container: {
     marginHorizontal: 16,
@@ -203,6 +209,27 @@ const Post = ({
 }) => {
   const [playing, setPlaying] = useState(false);
 
+  const getAvatarFromId = id => {
+    const avatar_url = '';
+
+    console.log(firebaseSdk);
+
+    firebaseSdk
+      .getUser(id)
+      .then(user => {
+        avatar_url = user.avatar;
+        console.log('avatar_url');
+        console.log(user);
+      })
+      .catch(err => {
+        avatar_url = '';
+      });
+
+    console.log(avatar_url);
+
+    return avatar_url;
+  };
+
   return (
     <View
       key={key}
@@ -368,13 +395,9 @@ const Post = ({
             <TouchableOpacity
               onPress={() => onLike(isLiking)}
               style={{flexDirection: 'row', alignItems: 'center'}}>
-              <VectorIcon
-                type="MaterialCommunityIcons"
-                name="heart"
-                size={20}
-                color={
-                  isLiking ? themes[theme].titleColor : themes[theme].iconColor
-                }
+              <Image
+                source={images.heart}
+                style={[styles.miniIcon, {opacity: isLiking ? 0.5 : 1}]}
               />
               <Text style={[styles.count, {color: themes[theme].titleColor}]}>
                 {item.likes && item.likes.length > 0 ? item.likes.length : null}
@@ -383,11 +406,9 @@ const Post = ({
             <TouchableOpacity
               onPress={onPress}
               style={{flexDirection: 'row', alignItems: 'center'}}>
-              <VectorIcon
-                type="MaterialCommunityIcons"
-                name="chat"
-                size={20}
-                color={themes[theme].iconColor}
+              <Image
+                source={images.chat}
+                style={[styles.miniIcon, {opacity: 0.5}]}
               />
               <Text style={[styles.count, {color: themes[theme].titleColor}]}>
                 {item.comments && item.comments.length > 0
@@ -396,7 +417,50 @@ const Post = ({
               </Text>
             </TouchableOpacity>
           </View>
-          <View>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            {item.shares == undefined || !item.shares ? (
+              <View
+                style={[
+                  item.miniIcon,
+                  {
+                    background:
+                      'linear-gradient(0deg, rgba(140, 140, 140, 0.83), rgba(140, 140, 140, 0.83))',
+                  },
+                  <Text style={item.sharesMoreText}>0+</Text>,
+                ]}></View>
+            ) : item.shares.length === 1 ? (
+              <View>
+                <Image
+                  source={{uri: getAvatarFromId(item.shares[0])}}
+                  style={styles.miniIcon}
+                />
+                <View
+                  style={[
+                    item.miniIcon,
+                    {
+                      background:
+                        'linear-gradient(0deg, rgba(140, 140, 140, 0.83), rgba(140, 140, 140, 0.83))',
+                    },
+                    <Text style={item.sharesMoreText}>0+</Text>,
+                  ]}></View>
+              </View>
+            ) : (
+              <View>
+                <Image
+                  source={{uri: getAvatarFromId(item.shares[0])}}
+                  style={styles.miniIcon}
+                />
+                <View
+                  style={[
+                    item.miniIcon,
+                    {
+                      background:
+                        'linear-gradient(0deg, rgba(140, 140, 140, 0.83), rgba(140, 140, 140, 0.83))',
+                    },
+                    <Text style={item.sharesMoreText}>0+</Text>,
+                  ]}></View>
+              </View>
+            )}
             <TouchableOpacity onPress={onPressShare}>
               <VectorIcon
                 type="MaterialCommunityIcons"

@@ -108,7 +108,7 @@ const PostView = props => {
       });
       list.sort((a, b) => b.date - a.date);
       setState({...state, data: list, refreshing: false, postUsers: postUsers});
-      console.log('list', list, users);
+      // console.log('list', list, users);
     });
   };
 

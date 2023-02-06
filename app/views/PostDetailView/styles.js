@@ -290,4 +290,8 @@ export default StyleSheet.create({
     fontWeight: '400',
     marginLeft: 8,
   },
+  miniIcon: {
+    width: 17,
+    height: 15,
+  },
 });

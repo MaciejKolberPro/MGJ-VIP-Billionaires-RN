@@ -95,7 +95,7 @@ const EditPostView = props => {
   const [fileUri, setFileUri] = useState('');
 
   // CommentHeader Data
-  const [commentHeader, setCommentHeader] = useState('');
+  const [curUserName, setCurUserName] = useState('');
 
   useEffect(() => {
     init();
@@ -129,7 +129,7 @@ const EditPostView = props => {
         );
       });
 
-    // getCommentHeaderData();
+    getCurUserName();
   }, []);
 
   const init = async () => {
@@ -158,6 +158,8 @@ const EditPostView = props => {
         </TouchableOpacity>
       ),
     });
+
+    console.log('photo', state.photo);
   };
 
   const takePhoto = async () => {
@@ -244,67 +246,12 @@ const EditPostView = props => {
     ]);
   };
 
-  const onUploadPhoto = async () => {
-    // navigation.push('PickLibrary', {type: POST_TYPE_PHOTO});
-    // let options = {
-    //   title: 'Select Image',
-    //   customButtons: [
-    //     {name: 'customOptionKey', title: 'Choose Photo from Custom Option'},
-    //   ],
-    //   storageOptions: {
-    //     skipBackup: true,
-    //     path: 'images',
-    //   },
-    // };
-    // console.log(RNImagePicker);
-    // RNImagePicker.showImagePicker(options, response => {
-    //   console.log('response', response);
-    // });
-    // RNImagePicker.showImagePicker(options, response => {
-    //   console.log('response', response);
-    // });
-    // console.log(RNImagePicker);
-    // RNImagePicker.launchImageLibrary(options, response => {
-    //   console.log('response = ', response);
-    // });
-    // console.log('launchCamera', launchCamera);
-    // console.log('launchImageLibrary', launchImageLibrary);
-    // launchCamera(options);
-    // if (RNImagePicker) {
-    //   RNImagePicker.showImagePicker(options, response => {
-    //     console.log('Response = ', response);
-    //     //   if (response.didCancel) {
-    //     //     console.log('User cancelled image picker');
-    //     //   } else if (response.error) {
-    //     //     console.log('ImagePicker Error: ', response.error);
-    //     //   } else if (response.customButton) {
-    //     //     console.log('User tapped custom button: ', response.customButton);
-    //     //     alert(response.customButton);
-    //     //   } else {
-    //     //     const source = {uri: response.uri};
-    //     //     // You can also display the image using data:
-    //     //     // const source = { uri: 'data:image/jpeg;base64,' + response.data };
-    //     //     // alert(JSON.stringify(response));s
-    //     //     console.log('response', JSON.stringify(response));
-    //     //     // this.setState({
-    //     //     //   filePath: response,
-    //     //     //   fileData: response.data,
-    //     //     //   fileUri: response.uri,
-    //     //     // });
-    //     //     setFilePath(response);
-    //     //     setFileData(response.data);
-    //     //     setFileUri(response.uri);
-    //     //   }
-    //   });
-    // }
-  };
-
   const isValid = () => {
-    // if (!text.length) {
-    //   showToast(I18n.t('please_enter_post_text'));
-    //   textInputRef.current.focus();
-    //   return false;
-    // }
+    if (!text.length) {
+      showToast(I18n.t('please_enter_post_text'));
+      textInputRef.current.focus();
+      return false;
+    }
     return true;
   };
 
@@ -330,6 +277,8 @@ const EditPostView = props => {
             .uploadMedia(firebaseSdk.STORAGE_TYPE_PHOTO, file_path)
             .then(image_url => {
               post.photo = image_url;
+              console.log('type_photo upload started!!!!');
+              console.log(image_url);
               savePost(post);
             })
             .catch(err => {
@@ -375,8 +324,7 @@ const EditPostView = props => {
   };
 
   // Get User Data based on the Post ID
-  const getCommentHeaderData = () => {
-    console.log('getCommentHeaderData started!!!');
+  const getCurUserName = () => {
     firestore()
       .collection(firebaseSdk.TBL_POST)
       .doc(state.postId)
@@ -384,30 +332,19 @@ const EditPostView = props => {
       .then(docSnapshot => {
         const post = docSnapshot.data();
         const userId = post.userId;
-        console.log('userId', userId);
-        firestore()
-          .collection(firebaseSdk.TBL_USER)
-          .doc(userId)
-          .get()
-          .then(docSnapshot => {
-            const post = docSnapshot.data();
-            console.log('TBL_USER', post, userId);
-            const displayName = post.displayName;
-            setCommentHeader(displayName);
+
+        firebaseSdk
+          .getUser(userId)
+          .then(user => {
+            setCurUserName(user.displayName);
           })
           .catch(err => {
-            console.log('ewefw');
-            setState({...state, isLoading: false});
-            showErrorAlert(I18n.t('error_post_not_found'), '', () =>
-              navigation.pop(),
-            );
+            setCurUserName('');
           });
       })
       .catch(err => {
         setState({...state, isLoading: false});
-        showErrorAlert(I18n.t('error_post_not_found'), '', () =>
-          navigation.pop(),
-        );
+        showErrorAlert(I18n.t('error_post_not_found'), '');
       });
   };
 
@@ -470,15 +407,15 @@ const EditPostView = props => {
                   styles.commentHeader,
                   {color: themes[theme].websiteLink},
                 ]}>
-                {' ' + commentHeader}
+                {' ' + curUserName}
               </Text>
             </View>
 
             <TextInput
               multiline={true}
-              numberOfLines={5}
-              // onChangeText={(text) => this.setState({text})}
-              value={''}
+              numberOfLines={8}
+              onChangeText={txt => setState({...state, text: txt})}
+              value={text}
               placeholder={I18n.t('write_something_here')}
               placeholderColor={COLOR_GRAY_DARK}
               style={[
@@ -490,12 +427,19 @@ const EditPostView = props => {
               ]}
             />
 
+            <View>
+              <Image
+                source={{uri: !file_path ? state.photo : file_path}}
+                style={styles.previewImage}
+              />
+            </View>
+
             <TouchableOpacity
               style={[
                 styles.itemBoxContainer,
                 {backgroundColor: themes[theme].disableButtonBackground},
               ]}
-              onPress={onUploadPhoto}>
+              onPress={onUpdatePhoto}>
               <View style={styles.itemBoxMark}>
                 <VectorIcon
                   type="Entypo"
@@ -523,7 +467,8 @@ const EditPostView = props => {
               style={[
                 styles.itemBoxContainer,
                 {backgroundColor: themes[theme].disableButtonBackground},
-              ]}>
+              ]}
+              onPress={takePhoto}>
               <View style={styles.itemBoxMark}>
                 <VectorIcon
                   type="FontAwesome"
@@ -551,7 +496,8 @@ const EditPostView = props => {
               style={[
                 styles.itemBoxContainer,
                 {backgroundColor: themes[theme].disableButtonBackground},
-              ]}>
+              ]}
+              onPress={takeVideo}>
               <View style={styles.itemBoxMark}>
                 <VectorIcon
                   type="FontAwesome"
@@ -579,7 +525,8 @@ const EditPostView = props => {
               style={[
                 styles.publishBtn,
                 {backgroundColor: COLOR_BTN_BACKGROUND},
-              ]}>
+              ]}
+              onPress={onSubmit}>
               <Text
                 style={[
                   styles.publishBtnText,

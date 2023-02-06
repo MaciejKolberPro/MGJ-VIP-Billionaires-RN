@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'
+import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
   tabBar: {
@@ -79,4 +79,8 @@ export default StyleSheet.create({
     marginLeft: 28,
     marginTop: 20,
   },
-})
+  miniIcon: {
+    width: 17,
+    height: 15,
+  },
+});

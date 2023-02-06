@@ -42,8 +42,9 @@ export default StyleSheet.create({
   },
   inputContainer: {
     flexGrow: 1,
-    paddingVertical: 8,
     paddingHorizontal: 18,
+    paddingTop: 8,
+    paddingBottom: 20,
   },
   submitBtn: {
     marginTop: 8,

@@ -160,7 +160,6 @@ const ExDatePicker = props => {
   };
 
   const selectedDate = useMemo(() => {
-    console.log(currentDate);
     if (currentDate) {
       const units = currentDate.split('/');
       return `${units[2]}-${units[0]}-${units[1]}`;
@@ -210,7 +209,7 @@ const ExDatePicker = props => {
               current={selectedDate}
               selected={selectedDate}
               onSelectedChange={date => {
-                console.log('MMM - ' + date);
+                // console.log('MMM - ' + date);
                 let units = date.split('/');
                 const newDate = `${units[1]}/${units[2]}/${units[0]}`;
                 units = selectedDate.split(/-|\//);

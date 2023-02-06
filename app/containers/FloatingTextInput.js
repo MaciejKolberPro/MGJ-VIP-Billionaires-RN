@@ -103,7 +103,8 @@ const FloatingTextInput = props => {
             {
               backgroundColor: backgroundColor ?? 'transparent',
               color: themes[theme].activeTintColor,
-              // height: multiline ? 123 : 56,
+              textAlignVertical: multiline ? 'top' : 'center',
+              padding: multiline ? 12 : 6,
             },
           ]}
           outlineColor={error ? COLOR_RED : outlineColor || COLOR_BORDER}

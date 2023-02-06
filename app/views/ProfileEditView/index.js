@@ -33,7 +33,7 @@ import I18n from '../../i18n';
 import {VectorIcon} from '../../containers/VectorIcon';
 import ExDatePicker from '../../containers/ExDatePicker';
 import FloatingTextInput from '../../containers/FloatingTextInput';
-import ExGender from '../../containers/ExGender';
+import ExGender from '../../containers/ExGender/';
 import {COLOR_BTN_BACKGROUND, themes} from '../../constants/colors';
 import {dateToString, DATE_STRING_FORMAT} from '../../utils/datetime';
 
@@ -54,6 +54,7 @@ const ProfileEditView = props => {
         : null
       : null,
     purpose: props.user.purpose ?? '',
+    bio: props.user.bio ?? '',
     city: props.user.city ?? '',
     website: props.user.website ?? '',
     isLoading: false,
@@ -76,6 +77,7 @@ const ProfileEditView = props => {
     gender,
     birthday,
     city,
+    bio,
     website,
     isLoading,
     topScrollEnable,
@@ -178,54 +180,87 @@ const ProfileEditView = props => {
     return true;
   };
 
-  const onSubmit = () => {
-    if (isValid()) {
-      const {image_path} = state;
-      setState({...state, isLoading: true});
-      if (image_path) {
-        firebaseSdk
-          .uploadMedia(firebaseSdk.STORAGE_TYPE_AVATAR, image_path)
-          .then(image_url => {
-            saveUser(image_url);
-          })
-          .catch(err => {
-            showErrorAlert(err, I18n.t('Oops'));
-            setState({...state, isLoading: false});
-          });
-      } else {
-        saveUser();
-      }
-    }
-  };
+  // const onSubmit = () => {
+  //   if (isValid()) {
+  //     const {image_path} = state;
+  //     setState({...state, isLoading: true});
+  //     if (image_path) {
+  //       firebaseSdk
+  //         .uploadMedia(firebaseSdk.STORAGE_TYPE_AVATAR, image_path)
+  //         .then(image_url => {
+  //           saveUser(image_url);
+  //         })
+  //         .catch(err => {
+  //           showErrorAlert(err, I18n.t('Oops'));
+  //           setState({...state, isLoading: false});
+  //         });
+  //     } else {
+  //       saveUser();
+  //     }
+  //   }
+  // };
 
-  const saveUser = (image_url = null) => {
+  // const saveUser = (image_url = null) => {
+  //   const {user, navigation, setUser} = props;
+  //   const {
+  //     displayName,
+  //     phone,
+  //     email,
+  //     gender,
+  //     birthday,
+  //     purpose,
+  //     city,
+  //     website,
+  //   } = state;
+
+  //   let userInfo = {
+  //     id: user.id,
+  //     displayName: displayName,
+  //     phone: phone,
+  //     email: email,
+  //     gender: gender,
+  //     birthday: birthday,
+  //     purpose: purpose,
+  //     city: city,
+  //     website: website,
+  //   };
+
+  //   if (image_url) {
+  //     userInfo = {...userInfo, avatar: image_url};
+  //   }
+
+  //   firebaseSdk
+  //     .setData(firebaseSdk.TBL_USER, DB_ACTION_UPDATE, userInfo)
+  //     .then(() => {
+  //       showToast(I18n.t('Update_profile_complete'));
+  //       setState({...state, isLoading: false});
+  //       const updateUser = {...user, ...userInfo};
+  //       setUser(updateUser);
+  //       navigation.pop();
+  //     })
+  //     .catch(err => {
+  //       showToast(I18n.t(err.message));
+  //       setState({...state, isLoading: false});
+  //     });
+  // };
+
+  const updateInformation = () => {
+    console.log('update informaiton');
+    console.log(state);
+
     const {user, navigation, setUser} = props;
-    const {
-      displayName,
-      phone,
-      email,
-      gender,
-      birthday,
-      purpose,
-      city,
-      website,
-    } = state;
+    const {displayName, bio, gender, city, phone, birthday, website} = state;
 
     let userInfo = {
       id: user.id,
       displayName: displayName,
-      phone: phone,
-      email: email,
+      bio: bio,
       gender: gender,
-      birthday: birthday,
-      purpose: purpose,
       city: city,
+      phone: phone,
+      birthday: birthday,
       website: website,
     };
-
-    if (image_url) {
-      userInfo = {...userInfo, avatar: image_url};
-    }
 
     firebaseSdk
       .setData(firebaseSdk.TBL_USER, DB_ACTION_UPDATE, userInfo)
@@ -241,6 +276,7 @@ const ProfileEditView = props => {
         setState({...state, isLoading: false});
       });
   };
+
   return (
     <KeyboardView
       contentContainerStyle={[
@@ -305,14 +341,16 @@ const ProfileEditView = props => {
             />
             <FloatingTextInput
               inputRef={bioInput}
+              value={bio}
               returnKeyType="next"
               keyboardType="default"
               textContentType="oneTimeCode"
               label={I18n.t('Bio')}
               placeholder={I18n.t('enter_headline_experience')}
-              onChangeText={purpose => setState({...state, purpose})}
+              onChangeText={_bio => setState({...state, bio: _bio})}
               theme={theme}
-              multiline
+              multiline={true}
+              numberOfLines={5}
             />
             <ExGender
               containerStyle={styles.selectStyle}
@@ -381,7 +419,7 @@ const ProfileEditView = props => {
               returnKeyType="next"
               keyboardType="default"
               textContentType="oneTimeCode"
-              label={I18n.t('Website')}
+              label={I18n.t('url')}
               placeholder={I18n.t('enter_url')}
               onChangeText={website => setState({...state, website})}
               theme={theme}
@@ -390,7 +428,7 @@ const ProfileEditView = props => {
               }}
             />
             <TouchableOpacity
-              onPress={() => navigation.navigate('ProfileEdit')}
+              onPress={updateInformation}
               style={[
                 styles.updateButton,
                 {backgroundColor: COLOR_BTN_BACKGROUND},
@@ -403,19 +441,6 @@ const ProfileEditView = props => {
                 {I18n.t('update')}
               </Text>
             </TouchableOpacity>
-            {/* <FloatingTextInput
-              inputRef={emailInput}
-              value={phone}
-              returnKeyType="next"
-              keyboardType="email-address"
-              textContentType="oneTimeCode"
-              label={I18n.t('Mail')}
-              onChangeText={email => setState({ ...state, email })}
-              theme={theme}
-              onSubmitEditing={() => {
-                cityInput.current.focus()
-              }}
-            /> */}
           </View>
         </SafeAreaView>
       </ScrollView>
