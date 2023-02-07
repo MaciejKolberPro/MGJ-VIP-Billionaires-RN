@@ -341,4 +341,5 @@ export default {
   back_to_page: 'Back to "Page"',
   update_basic_information: 'Update basic Information',
   url: 'Url',
+  chat: 'Chat',
 };

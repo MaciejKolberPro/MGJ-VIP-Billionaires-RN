@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'
+import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
   mainContainer: {
@@ -27,9 +27,9 @@ export default StyleSheet.create({
   actionButtonContainer: {
     marginHorizontal: 4,
     backgroundColor: 'rgba(229, 229, 229, 0.81)',
-    width: 33,
-    height: 33,
-    borderRadius: 16,
+    width: 35,
+    height: 35,
+    borderRadius: 100,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -47,9 +47,22 @@ export default StyleSheet.create({
     marginRight: 12,
   },
   sendBtn: {
-    width: 22,
-    height: 22,
+    width: 20,
+    height: 20,
     resizeMode: 'contain',
+  },
+  recordBtn: {
+    width: 20,
+    height: 20,
+    resizeMode: 'contain',
+  },
+  btnRecord: {
+    width: 35,
+    height: 35,
+    borderRadius: 100,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 20,
   },
   messageContainer: {
     paddingHorizontal: 4,
@@ -79,7 +92,7 @@ export default StyleSheet.create({
     position: 'absolute',
   },
   contentOtherBackground: {
-    transform: [{ rotateY: '180deg' }],
+    transform: [{rotateY: '180deg'}],
     width: 48,
     height: 36,
     resizeMode: 'contain',
@@ -131,7 +144,7 @@ export default StyleSheet.create({
     fontFamily: 'Hind Vadodara',
     textAlign: 'center',
     fontSize: 12,
-    color: '#BABABA',
+    lineHeight: 22,
   },
   activeImageContainer: {
     position: 'absolute',
@@ -187,4 +200,4 @@ export default StyleSheet.create({
     fontSize: 12,
     lineHeight: 14,
   },
-})
+});

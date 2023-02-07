@@ -1,6 +1,9 @@
-import { StyleSheet } from 'react-native'
+import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
+  viewContainer: {
+    marginTop: 25,
+  },
   chatRoomCounter: {
     flexDirection: 'row',
     padding: 14,
@@ -9,14 +12,23 @@ export default StyleSheet.create({
     fontFamily: 'Raleway',
     fontWeight: '500',
     fontSize: 14,
-    lineHeight: 18,
-    textDecorationLine: 'underline',
+    lineHeight: 19,
     marginRight: 6,
+    marginTop: 17,
+  },
+  chatTextBox: {
+    width: 50,
+    borderBottomWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  chatListContainer: {
+    marginTop: 8,
   },
   itemContainer: {
     flexDirection: 'row',
-    padding: 8,
-    marginVertical: 4,
+    padding: 10,
+    marginVertical: 5,
     alignItems: 'center',
     borderRadius: 8,
   },
@@ -36,9 +48,9 @@ export default StyleSheet.create({
     marginHorizontal: 12,
   },
   itemImage: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
+    width: 50,
+    height: 50,
+    borderRadius: 100,
   },
   itemTitle: {
     fontFamily: 'Hind Vadodara',
@@ -54,4 +66,4 @@ export default StyleSheet.create({
     lineHeight: 22,
     color: '#C4C4C4',
   },
-})
+});

@@ -8,7 +8,7 @@ export const COLOR_TRANSPARENT = 'transparent';
 
 export const COLOR_BTN_BACKGROUND = '#1D1C1C';
 export const COLOR_BTN_TITLE = '#FFFFFF';
-export const COLOR_BTN_BORDER = '#555555';
+export const COLOR_BTN_BORDER = '#585858';
 
 export const themes = {
   light: {
