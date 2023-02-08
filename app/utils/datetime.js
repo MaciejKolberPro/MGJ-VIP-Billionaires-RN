@@ -110,7 +110,7 @@ export const dateStringFromNowShort = date => {
 
 export const date_str_format = function (datetime, format) {
   if (!datetime) return ''
-  let date = new Date(Date.parse(datetime))
+  let date = new Date(String(datetime))
   let yy = date.getFullYear()
   let mm = date.getMonth() + 1
   let dd = date.getDate()
@@ -154,5 +154,6 @@ export const date_str_format = function (datetime, format) {
   if (/S/.test(format)) {
     format_str = format_str.replace('S', `${SS}`)
   }
+  console.log(format_str)
   return format_str
 }

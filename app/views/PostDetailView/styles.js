@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native';
-import { COLOR_YELLOW } from '../../constants/colors';
+import {StyleSheet} from 'react-native';
+import {COLOR_YELLOW} from '../../constants/colors';
 
 export default StyleSheet.create({
   container: {
@@ -16,21 +16,21 @@ export default StyleSheet.create({
     position: 'relative',
   },
   avatar: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    borderWidth: 1,
-    borderColor: 'grey',
+    width: 49,
+    height: 49,
+    borderRadius: 10,
+    borderWidth: 4,
+    borderColor: '#2F3131',
   },
   profileInfo: {
-    marginLeft: 20,
+    marginLeft: 10,
     flexGrow: 1,
     flexDirection: 'column',
     justifyContent: 'center',
   },
   profileName: {
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: 14,
+    fontWeight: '600',
   },
   captionText: {
     marginTop: 12,
@@ -41,8 +41,8 @@ export default StyleSheet.create({
   },
   titleText: {
     paddingVertical: 12,
-    fontSize: 16,
-    lineHeight: 24,
+    fontSize: 14,
+    lineHeight: 19,
   },
   photoImage: {
     flex: 1,
@@ -115,16 +115,16 @@ export default StyleSheet.create({
   },
   commentContents: {
     marginTop: 12,
-    paddingLeft: 12,
   },
   commentContainer: {
-    marginBottom: 20,
-    marginLeft: 10,
+    marginBottom: 10,
+    paddingHorizontal: 12,
   },
   commentMain: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    marginRight: 40,
+    borderRadius: 14,
+    padding: 12,
   },
   commentContent: {
     flexGrow: 1,
@@ -152,9 +152,15 @@ export default StyleSheet.create({
   commentAvatar: {
     width: 45,
     height: 45,
-    borderRadius: 24,
+    borderRadius: 10,
+    borderWidth: 4,
+    borderColor: '#2B2D2E',
+  },
+  commentSmallAvatar: {
+    width: 33,
+    height: 33,
     borderWidth: 1,
-    borderColor: 'grey',
+    borderRadius: 50,
   },
   replyAction: {
     marginLeft: 12,
@@ -203,5 +209,89 @@ export default StyleSheet.create({
     borderRadius: 10,
     height: 40,
     alignItems: 'center',
+  },
+  count: {
+    fontSize: 12,
+    fontFamily: 'Hind Vadodara',
+    marginHorizontal: 6,
+    marginRight: 12,
+  },
+  shareContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  shareCouText: {
+    fontSize: 10,
+    fontWeight: '600',
+    fontFamily: 'Hind Vadodara',
+  },
+  shareCouBack: {
+    width: 24,
+    height: 24,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 20,
+  },
+  shareCouBack1: {
+    marginRight: -5,
+    zIndex: 2,
+  },
+  shareCouBack2: {
+    marginRight: -5,
+    zIndex: 3,
+  },
+  shareCouBack3: {
+    zIndex: 4,
+  },
+  shareButton: {
+    marginLeft: 8,
+  },
+  sharedUserBox: {
+    flexDirection: 'row',
+  },
+  commentBoxContainer: {
+    paddingHorizontal: 12,
+  },
+  commentContextContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  commentEditBox: {
+    width: '100%',
+    height: 50,
+    borderRadius: 14,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    padding: 10,
+  },
+  commentEditBtn: {
+    flexDirection: 'row',
+    marginRight: 5,
+  },
+  commentEditBtnText: {
+    fontSize: 12,
+    lineHeight: 18,
+    fontWeight: '400',
+    marginLeft: 8,
+    marginTop: 1,
+  },
+  commentContentHeader: {
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    paddingHorizontal: 16,
+    marginTop: 30,
+    marginBottom: 17,
+  },
+  replyButton: {
+    fontSize: 12,
+    fontWeight: '400',
+    marginLeft: 8,
+  },
+  miniIcon: {
+    width: 17,
+    height: 15,
   },
 });

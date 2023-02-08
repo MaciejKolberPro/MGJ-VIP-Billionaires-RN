@@ -1,15 +1,14 @@
-export const COLOR_WHITE = '#ffffff'
-export const COLOR_BLACK = '#2F3131'
-export const COLOR_GRAY_DARK = '#858585'
-export const COLOR_LIGHT_DARK = '#C4C4C4'
-export const COLOR_YELLOW = '#F5BF4D'
-export const COLOR_RED = '#E2665E'
-export const COLOR_TRANSPARENT = 'transparent'
+export const COLOR_WHITE = '#ffffff';
+export const COLOR_BLACK = '#2F3131';
+export const COLOR_GRAY_DARK = '#858585';
+export const COLOR_LIGHT_DARK = '#C4C4C4';
+export const COLOR_YELLOW = '#F5BF4D';
+export const COLOR_RED = '#E2665E';
+export const COLOR_TRANSPARENT = 'transparent';
 
-export const COLOR_BTN_BACKGROUND = '#1D1C1C'
-export const COLOR_BTN_TITLE = '#FFFFFF'
-export const COLOR_BTN_BORDER = '#555555'
-
+export const COLOR_BTN_BACKGROUND = '#1D1C1C';
+export const COLOR_BTN_TITLE = '#FFFFFF';
+export const COLOR_BTN_BORDER = '#585858';
 
 export const themes = {
   light: {
@@ -17,7 +16,7 @@ export const themes = {
     backgroundColor: '#FFFFFF',
     focusedBackground: '#F6F5F2',
     borderColor: '#C4C4C4',
-    popupBackground: '#CCC9C9',
+    popupBackground: '#FFFFFF',
     postBackground: '#F6F5F2',
     titleColor: '#2F3131',
     textColor: '#585858',
@@ -30,10 +29,17 @@ export const themes = {
     messageOtherBackground: '#C4C4C4',
     onlineStatusColor: '#32D674',
 
+    websiteLink: '#F5BF4D',
+    normalTextColor: '#C4C4C4',
+    buttonBackground: '#1D1C1C',
+    disableButtonBackground: '#555555',
+    deactiveTintColor: '#858585',
+
+    commentCardBox: '#F6F6F6',
+
     // buttonTextColor: '#FFFFFF',
-    //
     // chatComponentBackground: '#f3f4f5',
-    // tabBorderColor: '#FBF6E7',
+    tabBorderColor: '#FBF6E7',
     // tabActivatedBorderColor: '#2F3131',
     // auxiliaryBackground: '#efeff4',
     // avatarBackground: '#caced1',
@@ -58,7 +64,7 @@ export const themes = {
     // tintActive: '#549df9',
     // auxiliaryTintColor: '#ffcfb8',
     // actionTintColor: '#0d3a97',
-    // actionColor: '#efc455',
+    actionColor: '#efc455',
     // separatorColor: '#888888',
     // navbarBackground: '#1B202D',
     // headerBorder: '#080808',
@@ -68,7 +74,7 @@ export const themes = {
     // headerTitleColor: '#2F3131',
     // headerColor: '#858585',
     // headerSecondaryText: '#1d74f5',
-    // toastBackground: '#414852',
+    toastBackground: '#414852',
     // videoBackground: '#1f2329',
     // favoriteBackground: '#ffbb00',
     // hideBackground: '#54585e',
@@ -123,7 +129,7 @@ export const themes = {
     backgroundColor: '#2F3131',
     focusedBackground: '#2B2A2A',
     borderColor: '#555555',
-    popupBackground: '#CCC9C9',
+    popupBackground: '#2F3131',
     postBackground: '#1D1C1C',
     titleColor: '#FFFFFF',
     textColor: '#C4C4C4',
@@ -136,13 +142,20 @@ export const themes = {
     messageOtherBackground: '#555555',
     onlineStatusColor: '#32D674',
 
+    websiteLink: '#F5BF4D',
+    normalTextColor: '#C4C4C4',
+    disableButtonBackground: '#555555',
+    deactiveTintColor: '#858585',
+
+    commentCardBox: '#3C3E3E',
+
     // buttonColor: '#1D1C1C',
     // buttonTextColor: '#FFFFFF',
     // buttonPressColor: '#1D1C1C',
     // buttonPressTextColor: '#1D1C1C',
     //
     // chatComponentBackground: '#f3f4f5',
-    // tabBorderColor: '#4B4B4B',
+    tabBorderColor: '#FBF6E7',
     // tabActivatedBorderColor: '#FFFFFF',
     // auxiliaryBackground: '#efeff4',
     // avatarBackground: '#caced1',
@@ -167,7 +180,7 @@ export const themes = {
     // tintActive: '#549df9',
     // auxiliaryTintColor: '#ffcfb8',
     // actionTintColor: '#0d3a97',
-    // actionColor: '#efc455',
+    actionColor: '#efc455',
     // separatorColor: '#6d6d6d',
     // navbarBackground: '#21242C',
     // headerBorder: '#080808',
@@ -177,7 +190,7 @@ export const themes = {
     // headerTitleColor: '#ffffff',
     // headerColor: '#858585',
     // headerSecondaryText: '#1d74f5',
-    // toastBackground: '#414852',
+    toastBackground: '#414852',
     // videoBackground: '#1f2329',
     // favoriteBackground: '#ffbb00',
     // hideBackground: '#54585e',
@@ -225,4 +238,4 @@ export const themes = {
     // inActivatedIcon: '#858585',
     // profileBorderColor: '#2B2D2E',
   },
-}
+};

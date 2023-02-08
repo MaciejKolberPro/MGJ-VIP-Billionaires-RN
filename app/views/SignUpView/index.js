@@ -79,20 +79,20 @@ const SignUpView = props => {
   const isValid = () => {
     const { name, city, gender, password, confirm_password, email } = state
 
-    if (!name.length) {
-      showToast(I18n.t('please_enter_name'))
-      nameInput.current.focus()
-      return false
-    }
-    if (!gender) {
-      showToast(I18n.t('please_select_gender'))
-      return false
-    }
-    if (!city.length) {
-      showToast(I18n.t('please_enter_city'))
-      cityInput.current.focus()
-      return false
-    }
+    // if (!name.length) {
+    //   showToast(I18n.t('please_enter_name'))
+    //   nameInput.current.focus()
+    //   return false
+    // }
+    // if (!gender) {
+    //   showToast(I18n.t('please_select_gender'))
+    //   return false
+    // }
+    // if (!city.length) {
+    //   showToast(I18n.t('please_enter_city'))
+    //   cityInput.current.focus()
+    //   return false
+    // }
     if (!email.length) {
       showToast(I18n.t('please_enter_email'))
       emailInput.current.focus()
@@ -166,6 +166,9 @@ const SignUpView = props => {
         phone +
         '\nEmail : ' +
         email
+
+      console.log(mailBody)
+
       sendEmail('info@zedinternational.net', 'A new user registered', mailBody)
 
       firebaseSdk
@@ -263,7 +266,7 @@ const SignUpView = props => {
               style={styles.submitBtn}
               title={'Submit'}
               size="W"
-              // onPress={onSubmit}
+              onPress={onSubmit}
               loading={isLoading}
               theme={theme}
             />

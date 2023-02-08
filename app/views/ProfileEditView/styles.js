@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
   headerContainer: {
@@ -42,8 +42,9 @@ export default StyleSheet.create({
   },
   inputContainer: {
     flexGrow: 1,
-    paddingVertical: 8,
     paddingHorizontal: 18,
+    paddingTop: 8,
+    paddingBottom: 20,
   },
   submitBtn: {
     marginTop: 8,
@@ -54,5 +55,16 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     marginTop: 30,
+  },
+  updateButton: {
+    height: 45,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 6,
+    marginTop: 20,
+  },
+  updateText: {
+    fontSize: 14,
+    fontWeight: '600',
   },
 });

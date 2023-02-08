@@ -57,22 +57,24 @@ const PickLibraryView = (props) => {
 
   const init = async () => {
     const { type } = state
+
     navigateHeader()
     CameraRoll.getPhotos({
-      first: 50,
+      first: 1,
       assetType: type === POST_TYPE_VIDEO ? 'Videos' : 'Photos',
     })
       .then(res => {
-        const images = res.edges.map(e => ({ uri: e.node.image.uri }))
-        setSafeState({
-          data: images,
-          isLoading: false,
-          select_image_index: images.length ? 0 : null,
-        })
+        console.log('access')
+    //     const images = res.edges.map(e => ({ uri: e.node.image.uri }))
+    //     setSafeState({
+    //       data: images,
+    //       isLoading: false,
+    //       select_image_index: images.length ? 0 : null,
+    //     })
       })
       .catch(error => {
-        setSafeState({ isLoading: false })
-        console.log(error)
+    //     setSafeState({ isLoading: false })
+    //     console.log(error)
       })
   }
 
@@ -133,7 +135,8 @@ const PickLibraryView = (props) => {
         paddingHorizontal: 20,
       }]}>
         <StatusBar />
-        {isLoading && (
+        {
+          isLoading && (
           <ActivityIndicator absolute theme={theme} size={'large'} />
         )}
         {data.length ? (

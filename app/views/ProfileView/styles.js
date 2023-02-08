@@ -1,6 +1,6 @@
-import { Dimensions, StyleSheet } from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
 
-const { width } = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 export default StyleSheet.create({
   logoContainer: {
@@ -35,6 +35,13 @@ export default StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 12,
   },
+  searchToolBox: {
+    width: 36,
+    height: 36,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 8,
+  },
   mainInfo: {
     flexDirection: 'row',
   },
@@ -44,18 +51,21 @@ export default StyleSheet.create({
   },
   city: {
     marginTop: 10,
-    fontSize: 12,
+    fontSize: 16,
+    fontWeight: '500',
   },
   location: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   website: {
-    marginTop: 2,
+    marginTop: 5,
+    fontSize: 16,
+    fontWeight: '500',
   },
   job: {
-    marginTop: 2,
-    fontSize: 12,
+    marginTop: 10,
+    fontSize: 16,
   },
   avatarContainer: {
     width: 100,
@@ -67,9 +77,9 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   avatar: {
-    borderRadius: 45,
-    width: 90,
-    height: 90,
+    borderRadius: 25,
+    width: 100,
+    height: 100,
   },
   profileInfo: {
     flexGrow: 1,
@@ -91,8 +101,8 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
   },
   profileName: {
-    fontSize: 15,
-    fontWeight: '700',
+    fontSize: 24,
+    fontWeight: '400',
   },
   settingIcon: {
     width: 16,
@@ -106,6 +116,19 @@ export default StyleSheet.create({
     width: 100,
     height: 24,
     resizeMode: 'contain',
+  },
+  editProfileTxtBtn: {
+    width: 357,
+    height: 46,
+    borderRadius: 14,
+    marginTop: 14,
+    alignItems: 'center',
+    textAlign: 'center',
+    justifyContent: 'center',
+  },
+  editProfileTxt: {
+    fontSize: 16,
+    fontWeight: '500',
   },
   actionContainer: {
     marginTop: 8,
@@ -132,7 +155,7 @@ export default StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    width: '30%',
+    width: '33%',
   },
   borderLeft: {
     borderLeftWidth: StyleSheet.hairlineWidth,
@@ -143,26 +166,27 @@ export default StyleSheet.create({
     borderRightColor: 'grey',
   },
   optionValue: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginBottom: 4,
+    fontSize: 24,
+    fontWeight: '600',
+    fontFamily: 'Hind Vadodara',
+    marginBottom: 8,
   },
   optionTitle: {
-    fontSize: 12,
+    fontSize: 16,
+    fontWeight: '500',
+    fontFamily: 'Hind Vadodara',
   },
   followWrap: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    marginTop: -25,
-    paddingHorizontal: '10%',
+    paddingBottom: 20,
+    borderBottomWidth: 1,
   },
   topRightButtons: {
-    position: 'absolute',
-    top: 5,
-    right: 20,
+    position: 'relative',
+    top: 20,
     zIndex: 2,
-    left: 20,
+    paddingHorizontal: 10,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -180,16 +204,27 @@ export default StyleSheet.create({
     backgroundColor: '#2A2A2AB2',
     justifyContent: 'center',
   },
+  tabContainer: {
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   tab: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    marginTop: 20,
     marginBottom: 15,
+    width: 360,
+    height: 49,
+    borderRadius: 14,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   tabItem: {
-    paddingBottom: 4,
-    borderBottomColor: '#A2A8B8',
-    borderBottomWidth: 3,
-    marginHorizontal: 15,
+    width: 175,
+    height: 40,
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   tabItemText: {
     fontWeight: '400',
@@ -200,15 +235,43 @@ export default StyleSheet.create({
     width: 200,
     height: 200,
     margin: 5,
+    borderRadius: 6,
   },
   tile2: {
     width: width - 230,
     height: 95,
     margin: 5,
+    borderRadius: 6,
   },
   tile3: {
     width: (width - 40) / 3,
     height: 167,
     margin: 5,
+    borderRadius: 6,
+  },
+
+  apptitle: {
+    fontSize: 18,
+    fontWeight: '600',
+  },
+  iconContainer: {
+    position: 'absolute',
+    bottom: -5,
+    right: -5,
+    backgroundColor: '#F5BF4D',
+    borderWidth: 2,
+    borderColor: '#FEFBFF',
+    borderRadius: 13,
+    width: 23,
+    height: 23,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  prevButton: {
+    width: 36,
+    height: 36,
+    borderWidth: 1,
+    borderColor: 'rgba(133, 133, 133, 0.25)',
+    borderRadius: 8,
   },
 });

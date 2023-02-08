@@ -7,6 +7,7 @@ const images = {
   intro_3: require('./img/intro-3.png'),
   bg_splash_onboard: require('./images/background_splash.png'),
   logo: require('./img/logo.png'),
+  menu_item: require('./images/menu_item.png'),
   logo_text: require('./images/logo_text.png'),
   logo_facebook: require('./images/facebook.png'),
   username: require('./images/username.png'),
@@ -42,6 +43,9 @@ const images = {
   clock_icon: require('./images/clockIcon.png'),
   reply_icon: require('./images/IconReply.png'),
   ic_send: require('./images/send.png'),
+  ic_send_dark: require('./images/send_dark.png'),
+  ic_record: require('./images/record.png'),
+  ic_record_dark: require('./images/record_dark.png'),
   upload_image: require('./images/image.png'),
   upload_photo: require('./images/camera_t.png'),
   chat_background_regular: require('./images/bubble_regular.png'),
@@ -87,6 +91,8 @@ const images = {
   fast_email_sending: require('./img/fast_email_sending.png'),
   location_home: require('./images/location_home.png'),
   en_language: require('./images/en_language.png'),
-}
+  heart: require('./images/heart.png'),
+  chat: require('./images/chat.png'),
+};
 
-export default images
+export default images;

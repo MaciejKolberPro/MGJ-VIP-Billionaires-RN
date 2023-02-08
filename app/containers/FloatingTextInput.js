@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, {useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -6,14 +6,20 @@ import {
   Text,
   Platform,
   Dimensions,
-} from 'react-native'
-import { TextInput } from 'react-native'
+} from 'react-native';
+import {TextInput} from 'react-native';
 
-import { COLOR_BORDER, COLOR_GRAY_DARK, COLOR_LIGHT_DARK, COLOR_RED, themes } from '../constants/colors'
-import images from '../assets/images'
-import Styles from '../views/Styles'
+import {
+  COLOR_BORDER,
+  COLOR_GRAY_DARK,
+  COLOR_LIGHT_DARK,
+  COLOR_RED,
+  themes,
+} from '../constants/colors';
+import images from '../assets/images';
+import Styles from '../views/Styles';
 
-const { width } = Dimensions.get('window')
+const {width} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   iconWrap: {
@@ -40,7 +46,6 @@ const styles = StyleSheet.create({
   },
   container: {
     width: '100%',
-    alignSelf: 'center',
     borderRadius: 8,
     borderWidth: 1,
   },
@@ -51,7 +56,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 16,
   },
-})
+});
 
 const FloatingTextInput = props => {
   const {
@@ -74,23 +79,32 @@ const FloatingTextInput = props => {
     multiline,
     value,
     ...inputProps
-  } = props
+  } = props;
 
-  const [showPassword, setShowPassword] = useState(!secureTextEntry)
+  const [showPassword, setShowPassword] = useState(!secureTextEntry);
 
   return (
-    <View style={{ marginBottom: 16 }}>
-      <Text style={[styles.labelText, { color: themes[theme].textColor }]}>{label}</Text>
-      <View style={[styles.container, {
-        borderColor: error ? COLOR_RED : themes[theme].borderColor,
-        height: multiline ? 123 : 56,
-      }]}>
+    <View style={{marginBottom: 16}}>
+      <Text style={[styles.labelText, {color: themes[theme].normalTextColor}]}>
+        {label}
+      </Text>
+      <View
+        style={[
+          styles.container,
+          {
+            borderColor: error ? COLOR_RED : themes[theme].borderColor,
+          },
+        ]}>
         <TextInput
           ref={inputRef}
           value={value}
-          style={[styles.textInput,
+          style={[
+            styles.textInput,
             {
               backgroundColor: backgroundColor ?? 'transparent',
+              color: themes[theme].activeTintColor,
+              textAlignVertical: multiline ? 'top' : 'center',
+              padding: multiline ? 12 : 6,
             },
           ]}
           outlineColor={error ? COLOR_RED : outlineColor || COLOR_BORDER}
@@ -108,11 +122,11 @@ const FloatingTextInput = props => {
       </View>
       {error ? <Text style={styles.error}>{error}</Text> : null}
     </View>
-  )
-}
+  );
+};
 
 FloatingTextInput.defaultProps = {
   error: '',
-}
+};
 
-export default FloatingTextInput
+export default FloatingTextInput;

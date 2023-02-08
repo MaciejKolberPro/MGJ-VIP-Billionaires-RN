@@ -1,12 +1,18 @@
-import React, { useMemo, useRef, useState } from 'react'
-import { Dimensions, StyleSheet, View, Text, TouchableOpacity } from 'react-native'
-import DatePicker, { getFormatedDate } from 'react-native-modern-datepicker'
-import { date_str_format, DATE_STRING_DISPLAY_FORMAT } from '../utils/datetime'
-import { COLOR_YELLOW, themes } from '../constants/colors'
-import sharedStyles from '../views/Styles'
-import { VectorIcon } from './VectorIcon'
+import React, {useMemo, useRef, useState} from 'react';
+import {
+  Dimensions,
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
+import DatePicker, {getFormatedDate} from 'react-native-modern-datepicker';
+import {date_str_format, DATE_STRING_DISPLAY_FORMAT} from '../utils/datetime';
+import {COLOR_YELLOW, themes} from '../constants/colors';
+import sharedStyles from '../views/Styles';
+import {VectorIcon} from './VectorIcon';
 
-const { width, height } = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {
@@ -19,7 +25,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 10,
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   label: {
     marginBottom: 4,
@@ -34,7 +40,7 @@ const styles = StyleSheet.create({
     width: '100%',
     shadowColor: 'black',
     shadowOpacity: 0.2,
-    shadowOffset: { x: 2, y: 2 },
+    shadowOffset: {x: 2, y: 2},
     shadowRadius: 4,
     elevation: 2,
     marginTop: 8,
@@ -115,60 +121,78 @@ const styles = StyleSheet.create({
   },
   labelText: {
     fontFamily: 'Raleway',
-    marginBottom: 5,
-    marginLeft: 16,
-    color: '#4A4A4A'
+    marginBottom: 8,
+    color: '#C4C4C4',
   },
-})
+});
 
 const calendarLightOption = {
   borderColor: 'transparent',
-}
+};
 
 const calendarDarkOption = {
   borderColor: 'transparent',
   backgroundColor: 'transparent',
   textDefaultColor: 'white',
-}
+};
 
 const ExDatePicker = props => {
-  const [show, setShow] = useState(false)
-  const { label, containerStyle, theme, error, value: currentDate, placeholder } = props
-  const inputBox = useRef(null)
+  const [show, setShow] = useState(false);
+  const {
+    label,
+    containerStyle,
+    theme,
+    error,
+    value: currentDate,
+    placeholder,
+  } = props;
+  const inputBox = useRef(null);
 
   const RightIcon = () => {
     return (
-        <VectorIcon
-          type={'Entypo'}
-          name={show ? 'chevron-thin-up' : 'chevron-thin-right'}
-          color={themes[theme].activeTintColor}
-          size={18}
-        />
-    )
-  }
+      <VectorIcon
+        type={'Entypo'}
+        name={show ? 'chevron-thin-up' : 'chevron-thin-right'}
+        color={themes[theme].activeTintColor}
+        size={18}
+      />
+    );
+  };
 
   const selectedDate = useMemo(() => {
     if (currentDate) {
-      const units = currentDate.split('/')
-      return `${units[2]}-${units[0]}-${units[1]}`
+      const units = currentDate.split('/');
+      return `${units[2]}-${units[0]}-${units[1]}`;
     } else {
-      return getFormatedDate(new Date(), 'YYYY/MM/DD')
+      return getFormatedDate(new Date(), 'YYYY/MM/DD');
     }
-  }, [currentDate])
+  }, [currentDate]);
 
   return (
     <>
-    {label && <Text style={styles.labelText}>{label}</Text>}
+      {label && <Text style={styles.labelText}>{label}</Text>}
       <TouchableOpacity
-        style={[styles.container, containerStyle]}
+        style={[
+          styles.container,
+          containerStyle,
+          {
+            borderColor: themes[theme].disableButtonBackground,
+            color: themes[theme].activeTintColor,
+          },
+        ]}
         onPress={() => setShow(true)}>
         <Text
           style={[
             styles.date,
-            {color: currentDate ? '#000000' : '#C4C4C4'},
+            {
+              color: currentDate
+                ? themes[theme].activeTintColor
+                : themes[theme].normalTextColor,
+            },
           ]}>
           {currentDate
-            ? date_str_format(currentDate, DATE_STRING_DISPLAY_FORMAT)
+            ? // ? date_str_format(currentDate, DATE_STRING_DISPLAY_FORMAT)
+              currentDate
             : 'Select date'}
         </Text>
         {show && (
@@ -179,13 +203,13 @@ const ExDatePicker = props => {
                 {borderRadius: 10},
                 theme === 'dark' && {borderWidth: 1, borderColor: 'white'},
               ]}
-              options={
-                theme === 'dark' ? calendarDarkOption : calendarLightOption
-              }
+              // options={
+              //   theme === 'dark' ? calendarDarkOption : calendarLightOption
+              // }
               current={selectedDate}
               selected={selectedDate}
               onSelectedChange={date => {
-                console.log('MMM - ' + date);
+                // console.log('MMM - ' + date);
                 let units = date.split('/');
                 const newDate = `${units[1]}/${units[2]}/${units[0]}`;
                 units = selectedDate.split(/-|\//);
@@ -205,6 +229,6 @@ const ExDatePicker = props => {
       </TouchableOpacity>
     </>
   );
-}
+};
 
-export default ExDatePicker
+export default ExDatePicker;

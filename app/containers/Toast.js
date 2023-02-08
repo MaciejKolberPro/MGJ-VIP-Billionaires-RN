@@ -1,11 +1,11 @@
-import React, { useRef, useEffect } from 'react'
-import { StyleSheet } from 'react-native'
-import EasyToast from 'react-native-easy-toast'
+import React, {useRef, useEffect} from 'react';
+import {StyleSheet} from 'react-native';
+import EasyToast from 'react-native-easy-toast';
 
-import { themes } from '../constants/colors'
-import sharedStyles from '../views/Styles'
-import EventEmitter from '../utils/events'
-import { withTheme } from '../theme'
+import {themes} from '../constants/colors';
+import sharedStyles from '../views/Styles';
+import EventEmitter from '../utils/events';
+import {withTheme} from '../theme';
 
 const styles = StyleSheet.create({
   toast: {
@@ -17,43 +17,43 @@ const styles = StyleSheet.create({
     ...sharedStyles.textRegular,
     ...sharedStyles.textAlignCenter,
   },
-})
+});
 
-export const LISTENER = 'Toast'
+export const LISTENER = 'Toast';
 
-const Toast = (props) => {
-  const { theme } = props
-  const toast = useRef(null)
+const Toast = props => {
+  const {theme} = props;
+  const toast = useRef(null);
   useEffect(() => {
-    EventEmitter.addEventListener(LISTENER, showToast)
+    EventEmitter.addEventListener(LISTENER, showToast);
 
     return () => {
-      EventEmitter.removeListener(LISTENER)
-    }
-  }, [])
+      EventEmitter.removeListener(LISTENER);
+    };
+  }, []);
 
   useEffect(() => {
     // Geo
     // return true
-  }, [props.theme])
+  }, [props.theme]);
 
-  const showToast = ({ message }) => {
+  const showToast = ({message}) => {
     if (toast.current && toast.current.show) {
-      toast.current.show(message, 1000)
+      toast.current.show(message, 1000);
     }
-  }
+  };
 
   return (
     <EasyToast
       ref={e => {
-        toast.current = e
+        toast.current = e;
       }}
-      position="center"
-      style={[styles.toast, { backgroundColor: themes[theme].toastBackground }]}
-      textStyle={[styles.text, { color: themes[theme].actionColor }]}
+      position="bottom"
+      style={[styles.toast, {backgroundColor: themes[theme].toastBackground}]}
+      textStyle={[styles.text, {color: themes[theme].actionColor}]}
       opacity={0.9}
     />
-  )
-}
+  );
+};
 
-export default withTheme(Toast)
+export default withTheme(Toast);
