@@ -321,7 +321,14 @@ const HomeView = props => {
         </View>
       );
     } else {
-      return <NoFriends onPress={() => {}} />;
+      return (
+        <NoFriends
+          textToShow={
+            state.searchText.length > 0 ? I18n.t('no_found_search') : null
+          }
+          onPress={() => {}}
+        />
+      );
     }
   };
 
@@ -380,15 +387,13 @@ const HomeView = props => {
     if (debounceText.length > 0) {
       setState({...state, isUpdating: true});
       firestore()
-        .collection(firebaseSdk.TBL_ACTIVITY)
-        .where('title', '>=', debounceText)
+        .collection(firebaseSdk.TBL_POST)
+        .where('text', '<=', debounceText)
         .get()
         .then(querySnapshot => {
           const searchResult = [];
           querySnapshot.forEach(doc => {
-            if (doc.data().postId !== null) {
-              searchResult.push({id: doc.id, ...doc.data()});
-            }
+            searchResult.push(doc.data());
           });
           if (searchResult.length > 0) {
             setState({
@@ -397,7 +402,7 @@ const HomeView = props => {
               dataToDisplay: searchResult,
             });
           } else {
-            // TODO : show no result
+            setState({...state, isUpdating: false, dataToDisplay: []});
           }
         })
         .catch(error => console.log(error));
