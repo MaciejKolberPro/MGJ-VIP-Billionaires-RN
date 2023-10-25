@@ -71,7 +71,6 @@ const HomeView = props => {
     refreshing,
   } = state;
 
-  console.log('state', state);
   useEffect(() => {
     if (!global.unSubscribeRoom) {
       const roomSubscribe = firestore().collection(firebaseSdk.TBL_ROOM);
@@ -405,7 +404,9 @@ const HomeView = props => {
             setState({...state, isUpdating: false, dataToDisplay: []});
           }
         })
-        .catch(error => console.log(error));
+        .catch(error => {
+          throw new Error(error);
+        });
     } else {
       setState({
         ...state,
