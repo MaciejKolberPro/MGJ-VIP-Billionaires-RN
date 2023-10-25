@@ -53,12 +53,13 @@ import {dateStringFromNowShort} from '../../utils/datetime';
 const PostDetailView = props => {
   const navigation = useNavigation();
   const postData = props.route.params?.post;
-  const [text, setText] = useState('');
+  const [commentId, setCommentId] = useState(0);
   const [state, setState] = useState({
     post: postData,
     thumbnail: null,
     playing: false,
     comment: '',
+    reply:'',
     initializing: true,
   });
   const [isLoading, setIsLoading] = useState(false);
@@ -111,6 +112,7 @@ const PostDetailView = props => {
         comment_accounts,
       };
 
+      console.log("--PostDetailView--", post)
       setSafeState({post, initializing: false});
     });
   };
@@ -165,21 +167,23 @@ const PostDetailView = props => {
       });
   };
 
-  const onComment = cm => {
-    let str = comment;
-    if (cm) {
-      str = cm;
-    }
-    if (isValid(str)) {
+  const onComment = () => {
+    // let str = comment;
+    // if (cm) {
+    //   str = cm;
+    // }
+
+    if (isValid(comment)) {
       let update = {
         id: post.id,
         comments: [
           ...post.comments,
-          {userId: user.userId, text: str.trim(), date: new Date()},
+          {userId: user.userId, text: comment.trim(), date: new Date()},
         ],
       };
 
       setIsLoading(true);
+      setInputMode(false);
       textInput.current.blur();
       firebaseSdk
         .setData(firebaseSdk.TBL_POST, DB_ACTION_UPDATE, update)
@@ -195,7 +199,7 @@ const PostDetailView = props => {
               type: NOTIFICATION_TYPE_COMMENT,
               sender: user.userId,
               receiver: post.owner.userId,
-              content: str.trim(),
+              content: comment.trim(),
               text: post.text,
               postId: post.id,
               postImage,
@@ -209,7 +213,7 @@ const PostDetailView = props => {
             firebaseSdk.addActivity(activity, post.owner.token).then(r => {});
           }
           textInput.current.clear();
-          // setState({ ...state, comment: '', isLoading: false });
+          setState({ ...state, comment: ''});
           setIsLoading(false);
         })
         .catch(() => {
@@ -326,6 +330,13 @@ const PostDetailView = props => {
     const isOwner = item.owner.userId === user.userId;
     return {options: isOwner ? ownerOptions : options};
   };
+
+  const onSendReply = () => {
+    console.log("--post id--", id)
+    setInputMode(false);
+
+
+  }
 
   const isLiking = post.likes && post.likes.includes(user.userId);
   return (
@@ -697,9 +708,12 @@ const PostDetailView = props => {
                   ]}
                 />
                 <TextInput
+                  ref={e => {
+                    textInput.current = e;
+                  }}
                   multiline={true}
                   numberOfLines={2}
-                  onChangeText={text => console.log(text)}
+                  onChangeText={text => setState({...state, comment: text})}
                   placeholder={I18n.t('search_here')}
                   placeholderColor={themes[theme].subTextColor}
                   style={{
@@ -710,7 +724,8 @@ const PostDetailView = props => {
                   }}
                 />
               </View>
-              <TouchableOpacity style={styles.commentEditBtn}>
+              <TouchableOpacity style={styles.commentEditBtn}
+                onPress={onComment}>
                 <VectorIcon
                   type="Ionicons"
                   name="add"
@@ -735,7 +750,7 @@ const PostDetailView = props => {
                 {I18n.t('all_comments')}
               </Text>
               <Text style={{fontSize: 14, color: themes[theme].textColor}}>
-                {I18n.t('view_all') + ' ' + 5}
+                {I18n.t('view_all') + ' ' + post.comment_accounts.length}
               </Text>
             </View>
             <View style={styles.commentContents}>
@@ -771,6 +786,17 @@ const PostDetailView = props => {
                             ]}>
                             {c.displayName}
                           </Text>
+                          {/* <PopupMenu
+                            theme={theme}
+                            options={onAction(post).options}
+                            renderTrigger={() => (
+                              <VectorIcon
+                                type="Feather"
+                                name="more-horizontal"
+                                size={18}
+                                color={themes[theme].activeTintColor}
+                              />
+                            )} /> */}
                           <VectorIcon
                             type="Feather"
                             name="more-horizontal"
@@ -809,7 +835,8 @@ const PostDetailView = props => {
                             {dateStringFromNow(c.date)}
                           </Text>
                           <TouchableOpacity
-                            style={{flexDirection: 'row', marginLeft: 5}}>
+                            style={{flexDirection: 'row', marginLeft: 5}}
+                            onPress={()=>setInputMode(true)}>
                             <VectorIcon
                               type="Entypo"
                               name="reply"
@@ -819,7 +846,7 @@ const PostDetailView = props => {
                             <Text
                               style={[
                                 styles.replyButton,
-                                {color: themes[theme].deactiveTintColor},
+                                {color: themes[theme].deactiveTintColor, marginTop: 3},
                               ]}>
                               {I18n.t('reply_now')}
                             </Text>
@@ -850,11 +877,11 @@ const PostDetailView = props => {
               placeholder={I18n.t('placeholder_reply')}
               returnKeyType="send"
               keyboardType="default"
-              onChangeText={text => setState({...state, comment: text})}
-              onSubmitEditing={onComment}
+              onChangeText={text => setState({...state, reply: text})}
+              onSubmitEditing={onSendReply}
               theme={theme}
             />
-            <TouchableOpacity onPress={() => onComment()}>
+            <TouchableOpacity onPress={onSendReply}>
               <Image
                 source={images.ic_send}
                 style={[
