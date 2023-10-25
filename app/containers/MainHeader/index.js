@@ -16,7 +16,12 @@ import {VectorIcon} from '../VectorIcon';
 import {useNavigation} from '@react-navigation/native';
 import {themes} from '../../constants/colors';
 
-const MainHeader = ({avatarImage, onChangeText, ...otherInputProps}) => {
+const MainHeader = ({
+  avatarImage,
+  onChangeText,
+  clearInput,
+  ...otherInputProps
+}) => {
   const {theme} = useTheme();
 
   const [showSearchIcon, setShowSearchIcon] = useState(true);
@@ -35,6 +40,9 @@ const MainHeader = ({avatarImage, onChangeText, ...otherInputProps}) => {
     inputRef.current.clear();
     setTimeout(() => {
       setShowSearchIcon(true);
+      if (clearInput && typeof clearInput === 'function') {
+        clearInput();
+      }
     }, 100);
   };
 

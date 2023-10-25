@@ -18,3 +18,5 @@ export default function debounce(func, wait, immediate) {
   _debounce.stop = () => clearTimeout(timeout);
   return _debounce;
 }
+
+//please use hook useDebounce instead of this old class function
