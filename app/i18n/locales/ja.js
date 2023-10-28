@@ -284,6 +284,7 @@ export default {
   No_files_in_device: 'ファイルがありません。',
   Sent_message_to_you: '{{name}} からあなたにメッセージ「{{message}}」',
   user_not_found: 'ユーザーが見当たりません',
+  no_found_search: '結果が見つかりません。 別の検索を試してください。',
   follow_you: 'あなたをフォローしました',
   please_complete_these_steps_to_confirm:
     'これらの手順を完了して確認してください',

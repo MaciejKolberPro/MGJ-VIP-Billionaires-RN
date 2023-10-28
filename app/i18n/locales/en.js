@@ -288,7 +288,7 @@ export default {
   please_complete_these_steps_to_confirm:
     'Please complete these steps to confirm',
   Phone_number: 'Phone number',
-
+  no_found_search: 'No result found. Try another search.',
   user_not_found: 'User not found',
   follow_you: 'follows you',
   agree_with: 'I agree with the',

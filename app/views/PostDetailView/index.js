@@ -53,7 +53,7 @@ import {dateStringFromNowShort} from '../../utils/datetime';
 const PostDetailView = props => {
   const navigation = useNavigation();
   const postData = props.route.params?.post;
-  const [selComment, setSelComment] = useState(null);
+  const [commentIdx, setCommentIdx] = useState(0);
   const [state, setState] = useState({
     post: postData,
     thumbnail: null,
@@ -85,10 +85,10 @@ const PostDetailView = props => {
       const userSnaps = await firestore()
         .collection(firebaseSdk.TBL_USER)
         .get();
+      
       const users = [];
       userSnaps.forEach(s => users.push(s.data()));
       const data = querySnapShot.data();
-      console.log("--PostDetailView--", data)
 
       const owner = users.find(u => u.userId === data.userId);
       const likes_accounts = data.likes.map(l => {
@@ -98,6 +98,7 @@ const PostDetailView = props => {
       const comment_accounts = data.comments
         .map(c => {
           const comment_user = users.find(u => u.userId === c.userId);
+          // console.log('Post DetailView---', c)
           return {
             ...c,
             avatar: comment_user?.avatar,
@@ -113,7 +114,7 @@ const PostDetailView = props => {
         likes_accounts,
         comment_accounts,
       };
-
+      
       setSafeState({post, initializing: false});
     });
   };
@@ -174,8 +175,7 @@ const PostDetailView = props => {
         id: post.id,
         comments: [
           ...post.comments,
-          {userId: user.userId, text: comment.trim(), date: new Date(), likes: [],
-          replies: [{text: "Reply testing", date: new Date(), likes: []}, {text: "Reply testing2222", date: new Date(), likes: []}]}, //Testing data
+          {userId: user.userId, text: comment.trim(), date: new Date(), likes: []}
         ],
       };
 
@@ -329,53 +329,53 @@ const PostDetailView = props => {
   };
 
   const onSendReply = () => {
-    if(isValid(replyText)) {
-      // const replies = post.comments[0].replies ?? []
-      let reply = {text: replyText.trim(), date: new Date(), likes: []}
-      let update = post.comments.map(g => {
-        return {...g, 'replies':[reply]}
-      })
-      // console.log("--post id--", update)
-
-      setIsLoading(true);
-      setInputMode(false);
-      firebaseSdk
-          .setData(firebaseSdk.TBL_POST, DB_ACTION_UPDATE, update)
-          .then(() => {
-            if (post.owner.userId !== user.userId) {
-              const postImage =
-                post.type === 'video'
-                  ? post.thumbnail
-                  : post.type === 'photo'
-                  ? post.photo
-                  : '';
-              const activity = {
-                type: NOTIFICATION_TYPE_COMMENT,
-                sender: user.userId,
-                receiver: post.owner.userId,
-                content: update,
-                text: post.text,
-                postId: post.id,
-                postImage,
-                postType: post.type,
-                title: post.owner.displayName,
-                message: I18n.t('commented_in_your_post', {
-                  name: user.displayName,
-                }),
-                date: new Date(),
-              };
-              firebaseSdk.addActivity(activity, post.owner.token).then(r => {});
-            }
-            // textInput.current.clear();
-            // setState({ ...state, comment: ''});
-            setIsLoading(false);
-          })
-          .catch(() => {
-            setIsLoading(false);
-          });
-    }
+    if (!isValid(replyText)) return;
     
-  }
+    let update = {text: replyText.trim(), date: new Date(), likes: []};
+    if (post.comments[commentIdx].replies) {
+      post.comments[commentIdx].replies.push(update); 
+    } else {
+      post.comments[commentIdx].replies = [update]; 
+    }
+    // console.log('Selected comment', post.comments)
+
+    setIsLoading(true);
+    setInputMode(false);
+    firebaseSdk
+        .setData(firebaseSdk.TBL_POST, DB_ACTION_UPDATE, update)
+        .then(() => {
+          if (post.owner.userId !== user.userId) {
+            const postImage =
+              post.type === 'video'
+                ? post.thumbnail
+                : post.type === 'photo'
+                ? post.photo
+                : '';
+            const activity = {
+              type: NOTIFICATION_TYPE_COMMENT,
+              sender: user.userId,
+              receiver: post.owner.userId,
+              content: post.comments,
+              text: post.text,
+              postId: post.id,
+              postImage,
+              postType: post.type,
+              title: post.owner.displayName,
+              message: I18n.t('commented_in_your_post', {
+                name: user.displayName,
+              }),
+              date: new Date(),
+            };
+            firebaseSdk.addActivity(activity, post.owner.token).then(r => {});
+          }
+          // textInput.current.clear();
+          // setState({ ...state, comment: ''});
+          setIsLoading(false);
+        })
+        .catch(() => {
+          setIsLoading(false);
+        });
+}
 
   const generateUUID = (index) => {
     let str = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVXZ';
@@ -917,7 +917,7 @@ const PostDetailView = props => {
                                 style={{flexDirection: 'row', marginLeft: 5}}
                                 onPress={()=> {
                                   setInputMode(true);
-                                  setSelComment(c);
+                                  setCommentIdx(index);
                                 }}>
                                 <VectorIcon
                                   type="Entypo"
