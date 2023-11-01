@@ -552,7 +552,7 @@ const ProfileView = props => {
                 <Text
                   style={[
                     styles.tabItemText,
-                    {color: themes[theme].activeTintColor},
+                    {color: isPostTab ? themes[theme].normalTextColor : themes[theme].subTextColor},
                   ]}>
                   {I18n.t('Posts')}
                 </Text>
@@ -570,7 +570,7 @@ const ProfileView = props => {
                 <Text
                   style={[
                     styles.tabItemText,
-                    {color: themes[theme].activeTintColor},
+                    {color: !isPostTab ? themes[theme].normalTextColor : themes[theme].subTextColor},
                   ]}>
                   {I18n.t('media')}
                 </Text>

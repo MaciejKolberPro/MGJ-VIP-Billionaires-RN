@@ -462,7 +462,7 @@ const ChatView = props => {
     return message;
   };
 
-  initAudioRecord = () => {
+  const initAudioRecord = () => {
     const options = {
       sampleRate: 16000,
       channels: 1,

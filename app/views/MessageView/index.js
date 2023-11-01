@@ -236,7 +236,7 @@ const MessageView = props => {
       style={[
         styles.itemContainer,
         {
-          backgroundColor: themes[theme].buttonBackground,
+          backgroundColor: themes[theme].messageOwnBackground,
           marginBottom: index === data.length - 1 ? tabBarHeight : undefined,
         },
       ]}>

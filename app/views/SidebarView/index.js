@@ -196,7 +196,7 @@ const SidebarView = (props) => {
       </ScrollView>
       <TouchableOpacity
         onPress={onLogOut}
-        style={[styles.logoutBtn, { backgroundColor: themes[theme].buttonBackground }]}>
+        style={[styles.logoutBtn, { backgroundColor: themes[theme].messageOwnBackground }]}>
         <VectorIcon
           name={'logout-variant'}
           type={'MaterialCommunityIcons'}

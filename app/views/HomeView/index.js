@@ -298,7 +298,7 @@ const HomeView = props => {
           <Text
             style={[
               styles.suggestBoxHeader,
-              {color: themes[theme].normalTextColor},
+              {color: themes[theme].textColor},
             ]}>
             {I18n.t('suggested_posts')}
           </Text>

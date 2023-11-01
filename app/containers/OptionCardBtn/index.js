@@ -14,7 +14,7 @@ const OptionCardBtn = ({ image, title, subTextColor, smallText, rightIcon, right
     <TouchableOpacity
       style={[
         styles.container,
-        { backgroundColor: themes[theme].buttonBackground },
+        { backgroundColor: themes[theme].messageOwnBackground },
       ]}>
       <View style={styles.imageView}>
         <Image source={image} style={styles.image} />

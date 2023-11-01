@@ -427,7 +427,7 @@ const PostDetailView = props => {
             flexDirection: 'row',
             alignItems: 'center',
             paddingHorizontal: 15,
-            borderBottomColor: themes[theme].separatorColor,
+            borderBottomColor: themes[theme].separatorColor ,
           }}>
           <TouchableOpacity
             onPress={() => navigation.goBack()}
@@ -485,7 +485,7 @@ const PostDetailView = props => {
                 </Text>
                 <Text
                   style={{
-                    color: themes[theme].normalTextColor,
+                    color: themes[theme].textColor,
                     fontSize: 12,
                     marginTop: 3,
                   }}>
@@ -510,7 +510,7 @@ const PostDetailView = props => {
                 <Text
                   style={[
                     styles.titleText,
-                    {color: themes[theme].normalTextColor},
+                    {color: themes[theme].textColor},
                   ]}>
                   {post.text}
                 </Text>
@@ -520,7 +520,7 @@ const PostDetailView = props => {
                   <Text
                     style={[
                       styles.titleText,
-                      {color: themes[theme].normalTextColor},
+                      {color: themes[theme].textColor},
                     ]}>
                     {post.text}
                   </Text>
@@ -585,12 +585,14 @@ const PostDetailView = props => {
                 </>
               )}
             </View>
-            <View
+            {/* <View
               style={[
                 styles.separator,
                 {backgroundColor: themes[theme].separatorColor},
               ]}
-            />
+            /> */}
+            <View
+              style={{height:20}}/>
             {/* Post Toolkit */}
             <View
               style={{
@@ -605,7 +607,7 @@ const PostDetailView = props => {
                   onPress={() => toggleLikes(isLiking)}
                   style={{flexDirection: 'row', alignItems: 'center'}}>
                   <Image
-                    source={images.heart}
+                    source={theme === 'dark' ? images.heart : images.heart_dark}
                     style={[styles.miniIcon, {opacity: isLiking ? 0.5 : 1}]}
                   />
                   <Text
@@ -619,8 +621,8 @@ const PostDetailView = props => {
                   // onPress={onPress}
                   style={{flexDirection: 'row', alignItems: 'center'}}>
                   <Image
-                    source={images.chat}
-                    style={[styles.miniIcon, {opacity: 0.5}]}
+                    source={theme === 'dark' ? images.chat : images.chat_dark}
+                    style={[styles.miniIcon, {opacity: 1}]}
                   />
                   <Text
                     style={[styles.count, {color: themes[theme].titleColor}]}>
@@ -760,7 +762,7 @@ const PostDetailView = props => {
             <View
               style={[
                 styles.commentEditBox,
-                {backgroundColor: themes[theme].buttonBackground},
+                {backgroundColor: themes[theme].commentCardBox, borderWidth:1, borderColor:themes[theme].borderColor},
               ]}>
               <View style={styles.commentContextContainer}>
                 <Image
@@ -813,7 +815,7 @@ const PostDetailView = props => {
           <View>
             <View style={styles.commentContentHeader}>
               <Text
-                style={{fontSize: 16, color: themes[theme].activeTintColor}}>
+                style={{fontSize: 16, color: themes[theme].titleColor}}>
                 {I18n.t('all_comments')}
               </Text>
               <Text style={{fontSize: 14, color: themes[theme].textColor}}>
@@ -834,7 +836,7 @@ const PostDetailView = props => {
                         source={
                           c.avatar ? {uri: c.avatar} : images.default_avatar
                         }
-                        style={styles.commentAvatar}
+                        style={[styles.commentAvatar, {borderColor: themes[theme].borderColor}]}
                       />
                       <View style={[styles.commentContent]}>
                         <View
@@ -900,7 +902,7 @@ const PostDetailView = props => {
                               <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center'}}
                                 onPress={()=>onCommentsLike(c.likes, index)}>
                                 <Image
-                                  source={images.heart}
+                                  source={theme === 'dark' ? images.heart : images.heart_dark}
                                   style={[styles.miniIcon, {opacity: 0.5}]}
                                 />
                                 <Text
@@ -914,8 +916,8 @@ const PostDetailView = props => {
                                 // onPress={onPress}
                                 style={{flexDirection: 'row', alignItems: 'center'}}>
                                 <Image
-                                  source={images.chat}
-                                  style={[styles.miniIcon, {opacity: 0.5}]}
+                                  source={theme === 'dark' ? images.chat : images.chat_dark}
+                                  style={[styles.miniIcon, {opacity: 1}]}
                                 />
                                 <Text
                                   style={[styles.count, {color: themes[theme].titleColor}]}>
@@ -969,7 +971,7 @@ const PostDetailView = props => {
                                     source={
                                       r.avatar ? {uri: r.avatar} : images.default_avatar
                                     }
-                                    style={styles.commentAvatar}
+                                    style={[styles.commentAvatar, {borderColor:themes[theme].borderColor}]}
                                   />
                                   <View style={[styles.commentContent, {padding:0}]}>
                                     <View
@@ -1016,7 +1018,7 @@ const PostDetailView = props => {
                                           <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center'}}
                                             onPress={()=>onReplyLike(r.likes, index, key)}>
                                             <Image
-                                              source={images.heart}
+                                              source={theme === 'dark' ? images.heart : images.heart_dark}
                                               style={[styles.miniIcon, {opacity: 0.5}]}
                                             />
                                             <Text
@@ -1030,8 +1032,8 @@ const PostDetailView = props => {
                                             // onPress={onPress}
                                             style={{flexDirection: 'row', alignItems: 'center'}}>
                                             <Image
-                                              source={images.chat}
-                                              style={[styles.miniIcon, {opacity: 0.5}]}
+                                              source={theme === 'dark' ? images.chat : images.chat_dark}
+                                              style={[styles.miniIcon, {opacity: 1}]}
                                             />
                                             <Text
                                               style={[styles.count, {color: themes[theme].titleColor}]}>
