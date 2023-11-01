@@ -50,6 +50,7 @@ import {getUserRepresentString, onSharePost} from '../../utils/const';
 
 import {dateStringFromNowShort} from '../../utils/datetime';
 
+
 const PostDetailView = props => {
   const navigation = useNavigation();
   const postData = props.route.params?.post;
@@ -98,7 +99,6 @@ const PostDetailView = props => {
       const comment_accounts = data.comments
         .map(c => {
           const comment_user = users.find(u => u.userId === c.userId);
-          // console.log('Post DetailView---', c)
           return {
             ...c,
             avatar: comment_user?.avatar,
@@ -106,7 +106,7 @@ const PostDetailView = props => {
             handle: comment_user.handle,
           };
         })
-        .sort((a, b) => a.date.seconds - b.date.seconds);
+        .sort((a, b) => a.date.seconds - b.date.seconds); 
       const post = {
         id: querySnapShot.id,
         ...data,
@@ -114,7 +114,7 @@ const PostDetailView = props => {
         likes_accounts,
         comment_accounts,
       };
-      
+      // console.log('Post DetailView--1231-',post.comments)
       setSafeState({post, initializing: false});
     });
   };
@@ -128,19 +128,12 @@ const PostDetailView = props => {
 
   const onMore = () => {};
 
-  const toggleLikes = isLiking => {
-    let update = {};
-    if (isLiking) {
-      update = {id: post.id, likes: post.likes.filter(l => l !== user.userId)};
-    } else {
-      update = {id: post.id, likes: [...post.likes, user.userId]};
-    }
-
+  const updatePost = (postData, isRoot = false) => {
     setIsLoading(true);
     firebaseSdk
-      .setData(firebaseSdk.TBL_POST, DB_ACTION_UPDATE, update)
+      .setData(firebaseSdk.TBL_POST, DB_ACTION_UPDATE, postData)
       .then(() => {
-        if (!isLiking && post.owner.userId !== user.userId) {
+        if (isRoot && !isLiking && post.owner.userId !== user.userId) {
           const postImage =
             post.type === 'video'
               ? post.thumbnail
@@ -167,7 +160,100 @@ const PostDetailView = props => {
       .catch(() => {
         setIsLoading(false);
       });
+  }
+
+  const toggleLikes = isLiking => {
+    let update = {};
+    if (isLiking) {
+      update = {id: post.id, likes: post.likes.filter(l => l !== user.userId)};
+    } else {
+      update = {id: post.id, likes: [...post.likes, user.userId]};
+    }
+
+    updatePost(update, true);
   };
+
+  const onCommentsLike = (likeArr = [], id) => {
+    let likes = [...likeArr];
+    let idx = likes.indexOf(user.userId);
+    if(idx > -1) {
+      likes.splice(idx, 1);
+    } else {
+      likes.push(user.userId);
+    }
+
+    const comments = [...post.comments];
+    comments[id].likes = likes;
+
+    let update = {
+      ...post,
+      comments
+    };
+
+    updatePost(update);
+  }
+
+  const onReplyLike = (likeArr = [], cmtIdx, replyIdx) => {
+    let likes = [...likeArr];
+    let idx = likes.indexOf(user.userId);
+    if(idx > -1) {
+      likes.splice(idx, 1);
+    } else {
+      likes.push(user.userId);
+    }
+
+    const comments = [...post.comments];
+    comments[cmtIdx].replies[replyIdx].likes = likes;
+
+    let update = {
+      ...post,
+      comments
+    };
+
+    updatePost(update);
+  }
+
+  const updateComment = (cmtData, isComment = false) => {
+    setIsLoading(true);
+    setInputMode(false);
+    textInput.current.blur();
+    
+    firebaseSdk
+      .setData(firebaseSdk.TBL_POST, DB_ACTION_UPDATE, cmtData)
+      .then(() => {
+        if (post.owner.userId !== user.userId) {
+          const postImage =
+            post.type === 'video'
+              ? post.thumbnail
+              : post.type === 'photo'
+              ? post.photo
+              : '';
+          const activity = {
+            type: NOTIFICATION_TYPE_COMMENT,
+            sender: user.userId,
+            receiver: post.owner.userId,
+            content: isComment ? comment.trim() : replyText.trim(),
+            text: post.text,
+            postId: post.id,
+            postImage,
+            postType: post.type,
+            title: post.owner.displayName,
+            message: I18n.t('commented_in_your_post', {
+              name: user.displayName,
+            }),
+            date: new Date(),
+          };
+          firebaseSdk.addActivity(activity, post.owner.token).then(r => {});
+        }
+
+        textInput.current.clear();
+        // setState({ ...state, comment: ''});
+        setIsLoading(false);
+      })
+      .catch(() => {
+        setIsLoading(false);
+      });
+  }
 
   const onComment = () => {
     if (isValid(comment)) {
@@ -179,43 +265,7 @@ const PostDetailView = props => {
         ],
       };
 
-      setIsLoading(true);
-      setInputMode(false);
-      textInput.current.blur();
-      firebaseSdk
-        .setData(firebaseSdk.TBL_POST, DB_ACTION_UPDATE, update)
-        .then(() => {
-          if (post.owner.userId !== user.userId) {
-            const postImage =
-              post.type === 'video'
-                ? post.thumbnail
-                : post.type === 'photo'
-                ? post.photo
-                : '';
-            const activity = {
-              type: NOTIFICATION_TYPE_COMMENT,
-              sender: user.userId,
-              receiver: post.owner.userId,
-              content: comment.trim(),
-              text: post.text,
-              postId: post.id,
-              postImage,
-              postType: post.type,
-              title: post.owner.displayName,
-              message: I18n.t('commented_in_your_post', {
-                name: user.displayName,
-              }),
-              date: new Date(),
-            };
-            firebaseSdk.addActivity(activity, post.owner.token).then(r => {});
-          }
-          textInput.current.clear();
-          // setState({ ...state, comment: ''});
-          setIsLoading(false);
-        })
-        .catch(() => {
-          setIsLoading(false);
-        });
+      updateComment(update, true);
     }
   };
 
@@ -330,61 +380,30 @@ const PostDetailView = props => {
 
   const onSendReply = () => {
     if (!isValid(replyText)) return;
-    
-    let update = {text: replyText.trim(), date: new Date(), likes: []};
-    if (post.comments[commentIdx].replies) {
-      post.comments[commentIdx].replies.push(update); 
-    } else {
-      post.comments[commentIdx].replies = [update]; 
-    }
-    // console.log('Selected comment', post.comments)
 
-    setIsLoading(true);
-    setInputMode(false);
-    firebaseSdk
-        .setData(firebaseSdk.TBL_POST, DB_ACTION_UPDATE, update)
-        .then(() => {
-          if (post.owner.userId !== user.userId) {
-            const postImage =
-              post.type === 'video'
-                ? post.thumbnail
-                : post.type === 'photo'
-                ? post.photo
-                : '';
-            const activity = {
-              type: NOTIFICATION_TYPE_COMMENT,
-              sender: user.userId,
-              receiver: post.owner.userId,
-              content: post.comments,
-              text: post.text,
-              postId: post.id,
-              postImage,
-              postType: post.type,
-              title: post.owner.displayName,
-              message: I18n.t('commented_in_your_post', {
-                name: user.displayName,
-              }),
-              date: new Date(),
-            };
-            firebaseSdk.addActivity(activity, post.owner.token).then(r => {});
-          }
-          // textInput.current.clear();
-          // setState({ ...state, comment: ''});
-          setIsLoading(false);
-        })
-        .catch(() => {
-          setIsLoading(false);
-        });
+    let reply = {userId: user.userId, 
+                  avatar: user.avatar,
+                  displayName: user.displayName,
+                  handle:user.handle,
+                  text: replyText.trim(), 
+                  date: new Date(), 
+                  likes: []};
+    if (post.comments[commentIdx].replies) { //Error exception if replies array is empty
+      post.comments[commentIdx].replies.push(reply); 
+    } else {
+      post.comments[commentIdx].replies = [reply]; 
+    }
+    
+    let update = {
+      id: post.id,
+      comments: [
+        ...post.comments
+      ],
+    };
+
+    updateComment(update);
 }
 
-  const generateUUID = (index) => {
-    let str = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVXZ';
-    let uuid = [];
-    for (let i = 0; i < index; i++) {
-        uuid.push(str[Math.floor(Math.random() * str.length)]);
-    }
-    return uuid.join('');
-  }
 
   const isLiking = post.likes && post.likes.includes(user.userId);
   return (
@@ -809,7 +828,7 @@ const PostDetailView = props => {
                     <View
                       style={[
                         styles.commentMain,
-                        {backgroundColor: themes[theme].commentCardBox},
+                        {backgroundColor: themes[theme].commentCardBox, flex:1},
                       ]}>
                       <Image
                         source={
@@ -878,15 +897,16 @@ const PostDetailView = props => {
                             alignItems: 'center'
                           }}>
                             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                              <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center'}}>
+                              <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center'}}
+                                onPress={()=>onCommentsLike(c.likes, index)}>
                                 <Image
                                   source={images.heart}
-                                  style={[styles.miniIcon, {opacity: isLiking ? 0.5 : 1}]}
+                                  style={[styles.miniIcon, {opacity: 0.5}]}
                                 />
                                 <Text
                                   style={[styles.count, {color: themes[theme].titleColor}]}>
-                                  {post.likes && post.likes.length > 0
-                                    ? post.likes.length
+                                  {c.likes && c.likes.length > 0
+                                    ? c.likes.length
                                     : null}
                                 </Text>
                               </TouchableOpacity>
@@ -899,8 +919,8 @@ const PostDetailView = props => {
                                 />
                                 <Text
                                   style={[styles.count, {color: themes[theme].titleColor}]}>
-                                  {post.comments && post.comments.length > 0
-                                    ? post.comments.length
+                                  {c.replies && c.replies.length > 0
+                                    ? c.replies.length
                                     : null}
                                 </Text>
                               </TouchableOpacity>
@@ -943,15 +963,15 @@ const PostDetailView = props => {
                               <View
                                 style={[
                                   styles.commentMain,
-                                  {backgroundColor: themes[theme].commentCardBox},
+                                  {backgroundColor: themes[theme].commentCardBox, padding:0},
                                 ]}>
                                   <Image
                                     source={
-                                      c.avatar ? {uri: c.avatar} : images.default_avatar
+                                      r.avatar ? {uri: r.avatar} : images.default_avatar
                                     }
                                     style={styles.commentAvatar}
                                   />
-                                  <View style={[styles.commentContent]}>
+                                  <View style={[styles.commentContent, {padding:0}]}>
                                     <View
                                       style={{
                                         flexDirection: 'row',
@@ -966,7 +986,7 @@ const PostDetailView = props => {
                                             color: themes[theme].activeTintColor,
                                           },
                                         ]}>
-                                        {c.displayName}
+                                        {r.displayName ?? ""}
                                       </Text>
                                       
                                       <VectorIcon
@@ -981,8 +1001,8 @@ const PostDetailView = props => {
                                         styles.commentText,
                                         {
                                           color: themes[theme].textColor,
-                                          marginVertical: 10,
-                                        },
+                                          marginVertical: 10
+                                        }
                                       ]}>
                                       {r.text}
                                     </Text>
@@ -993,15 +1013,16 @@ const PostDetailView = props => {
                                         alignItems: 'center'
                                       }}>
                                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                                          <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center'}}>
+                                          <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center'}}
+                                            onPress={()=>onReplyLike(r.likes, index, key)}>
                                             <Image
                                               source={images.heart}
-                                              style={[styles.miniIcon, {opacity: isLiking ? 0.5 : 1}]}
+                                              style={[styles.miniIcon, {opacity: 0.5}]}
                                             />
                                             <Text
                                               style={[styles.count, {color: themes[theme].titleColor}]}>
-                                              {post.likes && post.likes.length > 0
-                                                ? post.likes.length
+                                              {r.likes && r.likes.length > 0
+                                                ? r.likes.length
                                                 : null}
                                             </Text>
                                           </TouchableOpacity>
@@ -1014,8 +1035,8 @@ const PostDetailView = props => {
                                             />
                                             <Text
                                               style={[styles.count, {color: themes[theme].titleColor}]}>
-                                              {post.comments && post.comments.length > 0
-                                                ? post.comments.length
+                                              {r.replies && r.replies.length > 0
+                                                ? r.replies.length
                                                 : null}
                                             </Text>
                                           </TouchableOpacity>

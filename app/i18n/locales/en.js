@@ -342,4 +342,5 @@ export default {
   update_basic_information: 'Update basic Information',
   url: 'Url',
   chat: 'Chat',
+  submit: 'Submit',
 };

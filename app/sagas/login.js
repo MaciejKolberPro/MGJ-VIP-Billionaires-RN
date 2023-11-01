@@ -22,7 +22,7 @@ const handleLoginSuccess = function* handleLoginSuccess({ data }) {
 
   if (!data.emailVerified) {
     yield put(appStart({ root: ROOT_VERIFY_EMAIL }))
-  } else if (data.approved) {
+  } else if (!data.approved) {
     yield put(appStart({ root: ROOT_THANK_YOU }))
   } else {
     yield put(fetchUnread())

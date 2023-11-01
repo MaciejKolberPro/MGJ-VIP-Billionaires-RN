@@ -157,6 +157,14 @@ const EditPostView = props => {
           />
         </TouchableOpacity>
       ),
+      headerRight: () => (
+        type === POST_TYPE_TEXT ?
+          <TouchableOpacity style={{marginTop:15, paddingRight:20}}
+            onPress={onSubmit}>
+            <Text style={{fontSize: 14, fontWeight: '600', color: themes[theme].textColor}}>{I18n.t('submit')}</Text>
+          </TouchableOpacity>
+        : null
+      ),
     });
 
     console.log('photo', state.photo);

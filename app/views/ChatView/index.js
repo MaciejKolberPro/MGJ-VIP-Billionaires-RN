@@ -146,10 +146,10 @@ const ChatView = props => {
           style={{
             flex: 1,
             flexDirection: 'row',
-            alignItems: 'center',
+            alignItems: 'center'
           }}>
           <TouchableOpacity
-            style={{padding: 16}}
+            style={{paddingHorizontal: 16, justifyContent:'center'}}
             onPress={() => navigation.goBack()}>
             <VectorIcon
               type="MaterialCommunityIcons"

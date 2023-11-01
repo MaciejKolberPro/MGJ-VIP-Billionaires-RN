@@ -31,6 +31,7 @@ import sharedStyles from '../Styles'
 import I18n from '../../i18n'
 import { GradientHeader } from '../../containers/GradientHeader'
 import { navigateToProfile } from '../../utils/const'
+import {VectorIcon} from '../../containers/VectorIcon';
 
 const FollowView = props => {
   const navigation = useNavigation()
@@ -54,6 +55,17 @@ const FollowView = props => {
   useEffect(() => {
     navigation.setOptions({
       title: I18n.t('Followings'),
+      headerLeft: () => (
+        <TouchableOpacity style={{justifyContent:'center'}}
+          onPress={() => navigation.goBack()}>
+          <VectorIcon
+            size={20}
+            name={'arrowleft'}
+            type={'AntDesign'}
+            color={themes[theme].activeTintColor}
+            style={{marginLeft: 18}}/>
+        </TouchableOpacity>
+      ),
     })
 
     if (type) {

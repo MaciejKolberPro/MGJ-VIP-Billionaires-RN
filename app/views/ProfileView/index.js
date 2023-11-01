@@ -480,7 +480,7 @@ const ProfileView = props => {
                   styles.optionValue,
                   {color: themes[theme].activeTintColor},
                 ]}>
-                {account.followings?.length ?? 0}
+                {posts.length ?? 0}
               </Text>
               <Text
                 style={[

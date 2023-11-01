@@ -114,11 +114,13 @@ export default StyleSheet.create({
     borderColor: 'grey',
   },
   commentContents: {
-    marginTop: 12,
+    marginTop: 12
   },
   commentContainer: {
     marginBottom: 10,
     paddingHorizontal: 12,
+    flex:1,
+    width:'100%'
   },
   commentMain: {
     flexDirection: 'row',
@@ -131,6 +133,7 @@ export default StyleSheet.create({
     borderRadius: 8,
     marginLeft: 12,
     padding: 4,
+    flex:1
   },
   commentAccountName: {
     fontSize: 14,

@@ -333,7 +333,7 @@ const OtherProfileView = props => {
           </Text>
         </TouchableOpacity>
       </SafeAreaView>
-      <ScrollView {...scrollPersistTaps}>
+      <ScrollView {...scrollPersistTaps} style={{flex:1, marginTop:20}}>
         {/* Display Avatar Detail */}
         <View
           style={[
@@ -549,7 +549,7 @@ const OtherProfileView = props => {
               ).map((p, index) => {
                 if (index % 4 === 0)
                   return (
-                    <View style={{flexDirection: 'row'}}>
+                    <View key={index} style={{flexDirection: 'row'}}>
                       <TouchableOpacity onPress={() => onOpenPost(p[0])}>
                         <Image
                           source={{uri: p[0]?.photo || p[0]?.thumbnail}}
