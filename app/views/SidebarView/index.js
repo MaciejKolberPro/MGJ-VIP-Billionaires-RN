@@ -137,9 +137,11 @@ const SidebarView = (props) => {
               ]}>
               {user.displayName}
             </Text>
-            <Text style={[styles.roleName, { color: COLOR_YELLOW }]}>
-              View Profile
-            </Text>
+            <Pressable onPress={() => onNavigate('Profile')}>
+              <Text style={[styles.roleName, { color: COLOR_YELLOW }]}>
+                {I18n.t('View_Profile')}
+              </Text>
+            </Pressable>
           </View>
         </View>
         <Pressable onPress={() => navigation.closeDrawer()} style={styles.closeIconAndText}>
@@ -150,7 +152,7 @@ const SidebarView = (props) => {
             color={themes[theme].textColor}
             style={styles.closeIcon}
           />
-          <Text style={[{ color: themes[theme].textColor }]}>Clear</Text>
+          <Text style={[{ color: themes[theme].textColor }]}>{I18n.t('Clear')}</Text>
         </Pressable>
       </View>
       <ScrollView

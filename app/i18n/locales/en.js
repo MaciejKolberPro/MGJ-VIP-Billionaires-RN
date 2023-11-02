@@ -344,4 +344,10 @@ export default {
   chat: 'Chat',
   Username: 'Username',
   Enter_username: 'Enter Your Username',
+  Account_Settings: 'Account Settings',
+  Privacy_Settings: 'Privacy Settings',
+  Other_Settings: 'Other Settings',
+  Blocked_Users: 'Blocked Users',
+  View_Profile: 'View Profile',
+  Clear: 'Clear',
 };

@@ -78,17 +78,17 @@ const PrivacyAndSettingsView = (props) => {
         <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', marginBottom: 16 }}>
           <VectorIcon style={{ marginRight: 16 }} type="MaterialCommunityIcons" name="shield-lock"
                       color={COLOR_LIGHT_DARK} size={20} />
-          <Text style={[styles.title, { color: themes[theme].titleColor }]}>Privacy and Settings</Text>
+          <Text style={[styles.title, { color: themes[theme].titleColor }]}>{I18n.t('Privacy_and_settings')}</Text>
         </View>
-        <SidebarItem text={'Account Settings'} onPress={() => onClick(onShowAccountSettings(true))} theme={theme}
+        <SidebarItem text={I18n.t('Account_Settings')} onPress={() => onClick(onShowAccountSettings(true))} theme={theme}
                      hasRight />
-        <SidebarItem text={'Privacy Setting'} onPress={() => onClick()} theme={theme} hasRight />
+        <SidebarItem text={I18n.t('Privacy_Settings')} onPress={() => onClick()} theme={theme} hasRight />
 
         <View style={{ marginTop: 56, marginBottom: 16 }}>
-          <Text style={[styles.title, { color: themes[theme].titleColor, margin: 0 }]}>Other Settings</Text>
+          <Text style={[styles.title, { color: themes[theme].titleColor, margin: 0 }]}>{I18n.t('Other_Settings')}</Text>
         </View>
-        <SidebarItem text={'Blocked Users'} onPress={() => navigation.navigate('Block')} theme={theme} hasRight />
-        <SidebarItem text={'Delete Account'} textStyle={{ color: COLOR_RED }} onPress={() => onClick()} theme={theme} />
+        <SidebarItem text={I18n.t('Blocked_Users')} onPress={() => navigation.navigate('Block')} theme={theme} hasRight />
+        <SidebarItem text={I18n.t('Delete_Account')} textStyle={{ color: COLOR_RED }} onPress={() => onClick()} theme={theme} />
       </ScrollView>
 
       <AccountSettingModal
