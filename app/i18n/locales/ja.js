@@ -340,4 +340,6 @@ export default {
   update_basic_information: 'Update basic Information',
   url: 'Url',
   chat: 'Chat',
+  Username: 'Username',
+  Enter_username: 'Enter Your Username',
 };

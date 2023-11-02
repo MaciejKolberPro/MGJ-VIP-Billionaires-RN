@@ -29,7 +29,6 @@ export default StyleSheet.create({
   },
   submitBtn: {
     marginTop: 8,
-    paddingVertical: 2,
     alignSelf: 'center',
   },
 })

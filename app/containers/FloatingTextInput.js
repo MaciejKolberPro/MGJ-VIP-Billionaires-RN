@@ -32,7 +32,6 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   textInput: {
-    flex: 1,
     paddingHorizontal: 12,
     fontSize: 14,
     lineHeight: 16,
