@@ -88,7 +88,7 @@ const SidebarView = (props) => {
       case 'MyConnections':
         return onNavigate('MyConnections')
       case 'vip_members':
-        return onNavigate('')
+        return onNavigate('VipMembers')
       default:
         onNavigate(item.route, { type: item.init })
     }
