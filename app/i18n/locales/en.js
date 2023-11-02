@@ -115,7 +115,7 @@ export default {
   Terms_of_use: 'Terms of Use',
   Privacy_and_settings: 'Privacy and settings',
   Help_and_support: 'Help and support',
-  My_connections: 'My connections',
+  My_connections: 'My Connections',
   Eula: 'EULA',
   Posts: 'Posts',
   Followers: 'Followers',

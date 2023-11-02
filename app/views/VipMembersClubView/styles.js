@@ -5,6 +5,11 @@ export default StyleSheet.create({
     flex: 1,
     alignItems: 'center',
   },
+  header: {
+    paddingHorizontal: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   headerContainer: {
     marginTop: 20,
     paddingVertical: 24,
