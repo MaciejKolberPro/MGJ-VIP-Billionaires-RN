@@ -1,48 +1,38 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
-  Image,
   ScrollView,
   Text,
   TouchableOpacity,
   View,
-  Linking,
   SafeAreaView,
-  Pressable,
-  TextInput,
 } from 'react-native';
 import {connect} from 'react-redux';
 
 import {
   COLOR_LIGHT_DARK,
   COLOR_RED,
-  COLOR_WHITE,
-  COLOR_YELLOW,
-  HEADER_BAR_START,
-  NAV_BAR_END,
-  NAV_BAR_START,
   themes,
 } from '../../constants/colors';
 import StatusBar from '../../containers/StatusBar';
 import {withTheme} from '../../theme';
 import styles from './styles';
-import images from '../../assets/images';
 import scrollPersistTaps from '../../utils/scrollPersistTaps';
-import {logout as logoutAction} from '../../actions/login';
-import {showConfirmationAlert} from '../../lib/info';
-import {GradientHeader} from '../../containers/GradientHeader';
 import I18n from '../../i18n';
-import {SITE_SHOP_URL} from '../../constants/app';
 import {VectorIcon} from '../../containers/VectorIcon';
-import OptionCardBtn from '../../containers/OptionCardBtn';
-import {Icon} from '../../containers/List';
 import SidebarItem from '../SidebarView/SidebarItem';
-import Modal from 'react-native-modal';
 import AccountSettingModal from './AccountSettingsModal';
+import DeleteAccountModal from './DeleteAccountModal';
+import ActivityIndicator from '../../containers/ActivityIndicator'
+import firebaseSdk from '../../lib/firebaseSdk'
+import { logout as logoutAction } from '../../actions/login'
+import { showErrorAlert } from '../../lib/info'
 
 const PrivacyAndSettingsView = props => {
   const {user, theme, navigation} = props;
   const [isShowAccountSettings, onShowAccountSettings] = useState(false);
   const [isShowPasswordSettings, onShowPasswordSettings] = useState(false);
+  const [isShowDeleteAccount, onShowDeleteAccount] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     navigation.setOptions({
@@ -67,7 +57,44 @@ const PrivacyAndSettingsView = props => {
     });
   }, [theme]);
 
-  const onClick = item => {};
+  const deleteAccount = password => {
+    const {user, logout} = props;
+    setLoading(true);
+
+    firebaseSdk
+      .signInWithEmail(user.email, password)
+      .then(_ => {
+        firebaseSdk
+          .deleteUser(user.id)
+          .then(_ => {
+            setLoading(false);
+            logout();
+          })
+          .catch(err => {
+            setLoading(false);
+            console.log('error', err);
+          });
+      })
+      .catch(err => {
+        setLoading(false);
+        showErrorAlert(I18n.t('error-invalid-password'));
+        console.log('error', err);
+      });
+  };
+
+  const renderFooter = () => {
+    const { theme } = props
+    if (loading) {
+      return <ActivityIndicator style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        bottom: 0,
+        right: 0,
+      }} theme={theme} size={'large'} />
+    }
+    return null
+  }
 
   return (
     <SafeAreaView
@@ -103,13 +130,13 @@ const PrivacyAndSettingsView = props => {
         </View>
         <SidebarItem
           text={I18n.t('Account_Settings')}
-          onPress={() => onClick(onShowAccountSettings(true))}
+          onPress={() => onShowAccountSettings(true)}
           theme={theme}
           hasRight
         />
         <SidebarItem
           text={I18n.t('Privacy_Settings')}
-          onPress={() => onClick()}
+          onPress={() => {}}
           theme={theme}
           hasRight
         />
@@ -132,7 +159,7 @@ const PrivacyAndSettingsView = props => {
         <SidebarItem
           text={I18n.t('Delete_Account')}
           textStyle={{color: COLOR_RED}}
-          onPress={() => onClick()}
+          onPress={() => onShowDeleteAccount(true)}
           theme={theme}
         />
       </ScrollView>
@@ -142,6 +169,13 @@ const PrivacyAndSettingsView = props => {
         theme={theme}
         onClose={() => onShowAccountSettings(false)}
       />
+      <DeleteAccountModal
+        isShow={isShowDeleteAccount}
+        theme={theme}
+        onClose={() => onShowDeleteAccount(false)}
+        onSubmit={(password) => deleteAccount(password)}
+      />
+      {renderFooter()}
     </SafeAreaView>
   );
 };
@@ -150,7 +184,9 @@ const mapStateToProps = state => ({
   user: state.login.user,
 });
 
-const mapDispatchToProps = () => ({});
+const mapDispatchToProps = () => ({
+  logout: params => dispatch(logoutAction(params)),
+});
 
 export default connect(
   mapStateToProps,
