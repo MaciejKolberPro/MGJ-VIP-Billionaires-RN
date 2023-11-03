@@ -23,7 +23,7 @@ const VipMembersClubView = (props) => {
       headerLeft: () => (
         <TouchableOpacity
           style={styles.header}
-          onPress={() => navigation.toggleDrawer()}>
+          onPress={() => navigation.goBack()}>
           <VectorIcon
             type="MaterialCommunityIcons"
             name="arrow-left"

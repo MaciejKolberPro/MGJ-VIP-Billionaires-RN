@@ -348,4 +348,5 @@ export default {
   Blocked_Users: 'Blocked Users',
   View_Profile: 'View Profile',
   Clear: 'Clear',
+  Back_To_Menu: 'Back To Menu',
 };

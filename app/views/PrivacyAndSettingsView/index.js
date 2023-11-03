@@ -58,7 +58,7 @@ const PrivacyAndSettingsView = props => {
           />
         </TouchableOpacity>
       ),
-      title: null,
+      title: I18n.t('Back_To_Menu'),
       headerRight: () => <></>,
       headerStyle: {
         backgroundColor: themes[theme].backgroundColor,
