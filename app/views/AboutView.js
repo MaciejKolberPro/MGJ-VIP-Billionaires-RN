@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { WebView } from 'react-native-webview'
 import { useNavigation, useRoute } from '@react-navigation/native'
-import { Text, View } from 'react-native'
+import { Text, View, TouchableOpacity } from 'react-native'
 
 import { themes } from '../constants/colors'
 import StatusBar from '../containers/StatusBar'
@@ -17,6 +17,7 @@ import {
 } from '../constants/app'
 import sharedStyles from './Styles'
 import I18n from '../i18n'
+import {VectorIcon} from '../containers/VectorIcon';
 import styles from './ActivityView/styles'
 import * as HeaderButton from '../containers/HeaderButton'
 import { GradientHeader } from '../containers/GradientHeader'
@@ -27,12 +28,22 @@ const AboutView = props => {
   const [titleText, setTitleText] = useState('')
   const [contentText, setContentText] = useState('')
   const { theme } = props
-  // const { type } = route.params
+  const { type } = route.params
 
   useEffect(() => {
+    
     navigation.setOptions({
       headerLeft: () => (
-        <Text onPress={() => {navigation.toggleDrawer()}} style={[styles.headerText, { color: themes[theme].titleText }]}>Notifications</Text>
+        <TouchableOpacity
+          style={{paddingHorizontal: 16, justifyContent:'center'}}
+          onPress={() => navigation.goBack()}>
+          <VectorIcon
+            type="MaterialCommunityIcons"
+            name="arrow-left"
+            color={themes[theme].activeTintColor}
+            size={24}
+          />
+        </TouchableOpacity>
       ),
       title: null,
       headerRight: () => (<></>),
@@ -42,7 +53,12 @@ const AboutView = props => {
     })
   }, [theme])
 
-  const type = 0
+  // useEffect(() => {
+  //   checkType()
+  //   init()
+  // }, [type])
+
+  // const type = 0
   useEffect(() => {
     checkType()
     init()

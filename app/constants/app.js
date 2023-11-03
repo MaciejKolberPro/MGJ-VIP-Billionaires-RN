@@ -10,6 +10,7 @@ export const SITE_VIP_MEMBERS_URL =
 export const CLOUD_URL =
   'https://us-central1-vip-billionaires-c07df.cloudfunctions.net';
 export const MERCHANT_ID = 'merchant.com.ninasoft.vipbillionaires';
+export const INVITE_URL = 'https://www.vipbillionaires.com/user/invite';
 
 export const Genders = [
   { value: 'male', text: I18n.t('Male') },
@@ -222,7 +223,7 @@ export const Countries = [
 
 export const CONTENT_PRIVACY_POLICY =
   '<h1>Privacy Policy</h1>\n' +
-  '<p>Updated at 2021-09-27</p>\n' +
+  '<p>Updated at 2023-08-22</p>\n' +
   '<p>VIP Billionaires (“we,” “our,” or “us”) is committed to protecting your privacy. This Privacy Policy explains how your personal\n' +
   'information is collected, used, and disclosed by VIP Billionaires.</p>\n' +
   '<p>This Privacy Policy applies to our website, and its associated subdomains (collectively, our “Service”) alongside our application,\n' +
@@ -539,7 +540,7 @@ export const CONTENT_PRIVACY_POLICY =
 
 export const CONTENT_PRIVACY_POLICY_JP =
   '<h1>ご利用規約</h1>\n' +
-  '<p>更新日：2021-09-27</p>\n' +
+  '<p>更新日：2023-08-22</p>\n' +
   '\n' +
   '<h3>一般規約</h3>\n' +
   '<p>VIP Billionaires にアクセスして注文することで、以下の利用規約に含まれるサービス条件に同意し、拘束されることを確認します。<br/>\n' +
@@ -689,7 +690,7 @@ export const CONTENT_PRIVACY_POLICY_JP =
 
 export const CONTENT_TERMS_AND_CONDITIONS =
   '<h2>Terms & Conditions</h2>\n' +
-  '<p>Updated at 2021-09-27</p>\n' +
+  '<p>Updated at 2023-08-22</p>\n' +
   '<h3>General Terms</h3>\n' +
   '<p>By accessing and placing an order with VIP Billionaires, you confirm that you are in agreement with and bound by the terms of\n' +
   'service contained in the Terms & Conditions outlined below. These terms apply to the entire website and any email or other type\n' +
@@ -1054,7 +1055,7 @@ export const CONTENT_TERMS_AND_CONDITIONS_JP =
 
 export const CONTENT_USER_AGREEMENT =
   '<h1>End-User License Agreement</h1>\n' +
-  '<p>Updated at 2021-09-27</p>\n' +
+  '<p>Updated at 2023-08-22</p>\n' +
   '<p>VIP Billionaires hereby grants you access to (“the Website”) and invites you to purchase the services offered here.</p>\n' +
   '<h3>Definitions and key terms</h3>\n' +
   '<p>To help explain things as clearly as possible in this Eula, every time any of these terms are referenced, are strictly defined as:</p>\n' +
@@ -1248,7 +1249,7 @@ export const CONTENT_USER_AGREEMENT =
 
 export const CONTENT_USER_AGREEMENT_JP =
   '<h1>エンドユーザーライセンス契約</h1>\n' +
-  '<p>更新日：2021-09-27<p>\n' +
+  '<p>更新日：2023-08-22<p>\n' +
   '<p>VIP Billionairesは、ここにあなたに(以下「本ウェブサイト」)へのアクセスを許可し、ここで提供されるサービスの購入を招待します。</p>\n' +
   '\n' +
   '<h3>定義と主要用語</h3>\n' +

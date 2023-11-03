@@ -31,6 +31,7 @@ import ProductDetailView from '../views/ProductDetailView'
 import EditPostView from '../views/EditPostView'
 import ProductWebView from '../views/ProductWebView'
 import PickLibraryView from '../views/PickLibraryView'
+import InviteView from '../views/InviteView'
 import UpdateProfileAndBasicInfo from '../views/UpdateProfileAndBasicInfo'
 import { MainTabBar } from '../containers/MainScreen'
 import MenuStack from './MenuStack'
@@ -137,10 +138,11 @@ const InsideStack = () => {
       />
       <Inside.Screen name="Chat" component={ChatView} />
       <Inside.Screen name="Setting" component={SettingView} />
-      {/*<Inside.Screen name="About" component={AboutView} />*/}
+      <Inside.Screen name="About" component={AboutView} />
       <Inside.Screen name="Security" component={SecurityView} />
       {/*<Inside.Screen name="Block" component={BlockView} />*/}
       <Inside.Screen name="ProductWeb" component={ProductWebView} />
+      <Inside.Screen name="InviteView" component={InviteView} />
       <Inside.Screen
         name="Category"
         component={CategoryView}
