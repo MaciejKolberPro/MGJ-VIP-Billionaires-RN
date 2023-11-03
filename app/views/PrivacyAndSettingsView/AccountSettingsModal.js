@@ -29,6 +29,7 @@ const AccountSettingsModal = ({ isShow, onClose, theme }) => {
             onPressOut={onClose}>
         <Text style={[styles.modalTitle, { color: themes[theme].titleColor }]}>Account Setting</Text>
         <FloatingTextInput
+          style={{height:50, paddingLeft:10}}
           returnKeyType="next"
           textContentType="oneTimeCode"
           label={'Name'}
@@ -37,16 +38,17 @@ const AccountSettingsModal = ({ isShow, onClose, theme }) => {
           theme={theme}
           onSubmitEditing={() => {
             usernameInput.current.focus()
-          }}
-        />
+          }}/>
+
         <FloatingTextInput
+          style={{height:50, paddingLeft:10}}
           inputRef={usernameInput}
           textContentType="oneTimeCode"
-          label={'username'}
+          label={'Username'}
           placeholder={'Enter Your Username'}
           onChangeText={username => setUsername({username})}
-          theme={theme}
-        />
+          theme={theme}/>
+
         <Button
           style={styles.submitBtn}
           title={'Save'}

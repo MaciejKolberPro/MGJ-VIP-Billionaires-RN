@@ -32,6 +32,7 @@ import I18n from '../../i18n'
 import { GradientHeader } from '../../containers/GradientHeader'
 import { navigateToProfile } from '../../utils/const'
 import {VectorIcon} from '../../containers/VectorIcon';
+import { formatNumber } from '../../utils/utils'
 
 const FollowView = props => {
   const navigation = useNavigation()
@@ -77,6 +78,7 @@ const FollowView = props => {
 
   useEffect(() => {
     getData(text)
+    console.log('User details', user)
   }, [text, user])
 
   const getData = useCallback(
@@ -186,7 +188,7 @@ const FollowView = props => {
           <View style={styles.itemContent}>
             <Text style={[styles.itemText, { color: themes[theme].activeTintColor }]}>{item.displayName}</Text>
             <Text
-              style={[styles.itemPost, { color: themes[theme].infoText }]}>{`${item.postCount} ${I18n.t('Posts').toLowerCase()}`}</Text>
+              style={[styles.itemPost, { color: themes[theme].textColor }]}>{`${item.postCount} ${I18n.t('Posts').toLowerCase()}`}</Text>
           </View>
         </View>
         {isSelf && (
@@ -236,7 +238,7 @@ const FollowView = props => {
                 styles.tabItemText,
                 { color: themes[theme].activeTintColor },
               ]}>
-              {I18n.t('followers_lower')}
+              {formatNumber(user.followers?.length) + "  " + I18n.t('followers_lower')}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -250,7 +252,7 @@ const FollowView = props => {
                 styles.tabItemText,
                 { color: themes[theme].activeTintColor },
               ]}>
-              {I18n.t('followings_lower')}
+              {formatNumber(user.followings?.length) + "  " + I18n.t('followings_lower')}
             </Text>
           </TouchableOpacity>
         </View>
@@ -265,7 +267,7 @@ const FollowView = props => {
         <View style={styles.container}>
           {data.length > 0 && (
             <FlatList
-              style={{ height: '100%' }}
+              style={{ height: '100%', marginTop: 10 }}
               data={data}
               renderItem={renderItem}
               keyExtractor={item => item.userId}
