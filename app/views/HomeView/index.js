@@ -60,7 +60,6 @@ const HomeView = props => {
     isUpdating: false,
     searchText: '',
   });
-
   const debounceText = useDebounce(state.searchText, 500);
   const {user, theme, setUser} = props;
   const {
