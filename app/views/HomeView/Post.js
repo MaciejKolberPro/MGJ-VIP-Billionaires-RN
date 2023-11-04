@@ -210,9 +210,7 @@ const Post = ({
   const [playing, setPlaying] = useState(false);
 
   const getAvatarFromId = id => {
-    const avatar_url = '';
-
-    console.log(firebaseSdk);
+    let avatar_url = '';
 
     firebaseSdk
       .getUser(id)
@@ -222,10 +220,10 @@ const Post = ({
         console.log(user);
       })
       .catch(err => {
-        avatar_url = '';
+        if (err) {
+          avatar_url = '';
+        }
       });
-
-    console.log(avatar_url);
 
     return avatar_url;
   };

@@ -37,6 +37,7 @@ import {navigateToProfile, onSharePost} from '../../utils/const';
 import {fetchUnread as fetchUnreadAction} from '../../actions/chat';
 import {TabView, SceneMap} from 'react-native-tab-view';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import {useDebounce} from '../../utils/useDebounce';
 
 const {width} = Dimensions.get('screen');
 
@@ -45,8 +46,10 @@ const HomeView = props => {
   const tabBarHeight = useBottomTabBarHeight();
   const [state, setState] = useState({
     text: '',
+    dataToDisplay: [],
     followedPosts: [],
     followingPosts: [],
+    searchResult: [],
     showModal: false,
     showAddModal: false,
     editMeetup: null,
@@ -55,11 +58,18 @@ const HomeView = props => {
     loading: false,
     notifying: false,
     isUpdating: false,
+    searchText: '',
   });
-
+  const debounceText = useDebounce(state.searchText, 500);
   const {user, theme, setUser} = props;
-  const {followedPosts, followingPosts, loading, isUpdating, refreshing} =
-    state;
+  const {
+    dataToDisplay,
+    followedPosts,
+    followingPosts,
+    loading,
+    isUpdating,
+    refreshing,
+  } = state;
 
   useEffect(() => {
     if (!global.unSubscribeRoom) {
@@ -73,6 +83,10 @@ const HomeView = props => {
   useEffect(() => {
     init();
   }, [user]);
+
+  useEffect(() => {
+    onSearch();
+  }, [debounceText]);
 
   const init = async () => {
     const userSnaps = await firestore().collection(firebaseSdk.TBL_USER).get();
@@ -104,6 +118,7 @@ const HomeView = props => {
     setState({
       ...state,
       followedPosts: followedPosts,
+      dataToDisplay: followedPosts,
       followingPosts: followingPosts,
       refreshing: false,
     });
@@ -177,7 +192,7 @@ const HomeView = props => {
           setState({...state, isUpdating: false});
           showToast(I18n.t('Report_post_complete'));
         })
-        .catch(err => {
+        .catch(() => {
           showErrorAlert(I18n.t('Report_post_failed'), I18n.t('Oops'));
           setState({...state, isUpdating: false});
         });
@@ -223,7 +238,7 @@ const HomeView = props => {
           showToast(I18n.t('Remove_post_complete'));
           setState({...state, isUpdating: false});
         })
-        .catch(err => {
+        .catch(() => {
           showErrorAlert(I18n.t('Remove_post_failed'), I18n.t('Oops'));
           setState({...state, isUpdating: false});
         });
@@ -305,7 +320,14 @@ const HomeView = props => {
         </View>
       );
     } else {
-      return <NoFriends onPress={() => {}} />;
+      return (
+        <NoFriends
+          textToShow={
+            state.searchText.length > 0 ? I18n.t('no_found_search') : null
+          }
+          onPress={() => {}}
+        />
+      );
     }
   };
 
@@ -318,7 +340,7 @@ const HomeView = props => {
   ]);
 
   const renderScene = SceneMap({
-    first: () => <RenderFlatListItem type={'followers'} data={followedPosts} />,
+    first: () => <RenderFlatListItem type={'followers'} data={dataToDisplay} />,
     second: () => (
       <RenderFlatListItem type={'followings'} data={followingPosts} />
     ),
@@ -360,20 +382,47 @@ const HomeView = props => {
     );
   };
 
-  async function onTest() {
-    let options = {
-      title: 'Select Image',
-    };
-    console.log('jewr');
-    launchImageLibrary(options, function (res) {
-      console.log('res');
-    });
-  }
+  const onSearch = React.useCallback(() => {
+    if (debounceText.length > 0) {
+      setState({...state, isUpdating: true});
+      firestore()
+        .collection(firebaseSdk.TBL_POST)
+        .where('text', '<=', debounceText)
+        .get()
+        .then(querySnapshot => {
+          const searchResult = [];
+          querySnapshot.forEach(doc => {
+            searchResult.push(doc.data());
+          });
+          if (searchResult.length > 0) {
+            setState({
+              ...state,
+              isUpdating: false,
+              dataToDisplay: searchResult,
+            });
+          } else {
+            setState({...state, isUpdating: false, dataToDisplay: []});
+          }
+        })
+        .catch(error => {
+          throw new Error(error);
+        });
+    } else {
+      setState({
+        ...state,
+        dataToDisplay: state.followedPosts,
+      });
+    }
+  }, [debounceText]);
 
   return (
     <MainScreen navigation={navigation}>
       <StatusBar />
-      <MainHeader avatarImage="" onChangeText={() => onTest()} />
+      <MainHeader
+        avatarImage=""
+        onChangeText={e => setState({...state, searchText: e})}
+        clearInput={() => setState({...state, searchText: ''})}
+      />
       {isUpdating && (
         <ActivityIndicator absolute theme={theme} size={'large'} />
       )}

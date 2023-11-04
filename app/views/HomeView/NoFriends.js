@@ -1,10 +1,10 @@
 import React from 'react';
-import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
-import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
+import {View, StyleSheet, Text, Image, TouchableOpacity} from 'react-native';
+import {useBottomTabBarHeight} from '@react-navigation/bottom-tabs';
 import I18n from '../../i18n';
 import images from '../../assets/images';
-import { withTheme } from '../../theme';
-import { themes } from '../../constants/colors';
+import {withTheme} from '../../theme';
+import {themes} from '../../constants/colors';
 
 const styles = StyleSheet.create({
   btnContainer: {
@@ -27,10 +27,10 @@ const styles = StyleSheet.create({
   },
 });
 
-const NoFriends = ({ onPress, theme }) => {
+const NoFriends = ({onPress, theme, textToShow}) => {
   const tabbarHeight = useBottomTabBarHeight();
   return (
-    <View style={[styles.btnContainer, { marginBottom: tabbarHeight }]}>
+    <View style={[styles.btnContainer, {marginBottom: tabbarHeight}]}>
       <TouchableOpacity style={styles.container} onPress={onPress}>
         <Image
           source={
@@ -40,7 +40,10 @@ const NoFriends = ({ onPress, theme }) => {
           }
           style={styles.iconStyle}
         />
-        <Text style={[styles.titleText, { color: themes[theme].activeTintColor }]}>{I18n.t('No_friends')}</Text>
+        <Text
+          style={[styles.titleText, {color: themes[theme].activeTintColor}]}>
+          {textToShow ? textToShow : I18n.t('No_friends')}
+        </Text>
       </TouchableOpacity>
     </View>
   );
