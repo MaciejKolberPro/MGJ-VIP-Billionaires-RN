@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Dimensions } from 'react-native'
+import { Dimensions, useColorScheme } from 'react-native'
 import { Provider } from 'react-redux'
 import {
   SafeAreaProvider,
@@ -16,6 +16,7 @@ import InAppNotification from './containers/InAppNotification'
 import Toast from './containers/Toast'
 import debounce from './utils/debounce'
 
+
 const Root = () => {
   const [state, setState] = useState({
     theme: defaultTheme(),
@@ -26,12 +27,16 @@ const Root = () => {
   })
 
   const { theme, width, height, scale, fontScale } = state
+  const colorTheme = useColorScheme();
 
   useEffect(() => {
     Dimensions.addEventListener('change', onDimensionsChange)
   }, [])
 
   useEffect(() => {
+    // if (colorTheme === 'dark') setTheme('dark');
+    // else setTheme('light');
+
     setTheme('dark')
     // setTheme('light')
     // let timer = setInterval(() => {

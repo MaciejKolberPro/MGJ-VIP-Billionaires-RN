@@ -993,6 +993,8 @@ PODS:
     - React-Core
   - react-native-create-thumbnail (1.6.3):
     - React-Core
+  - react-native-image-picker (4.0.6):
+    - React-Core
   - react-native-keyboard-controller (1.4.1):
     - React-Core
   - react-native-netinfo (9.3.7):
@@ -1080,6 +1082,8 @@ PODS:
     - React-perflogger (= 0.70.6)
   - rn-fetch-blob (0.12.0):
     - React-Core
+  - RNAudioRecord (0.2.2):
+    - React
   - RNCAsyncStorage (1.17.11):
     - React-Core
   - RNCPicker (2.4.8):
@@ -1192,6 +1196,7 @@ DEPENDENCIES:
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - "react-native-cameraroll (from `../node_modules/@react-native-camera-roll/camera-roll`)"
   - react-native-create-thumbnail (from `../node_modules/react-native-create-thumbnail`)
+  - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-keyboard-controller (from `../node_modules/react-native-keyboard-controller`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-pager-view (from `../node_modules/react-native-pager-view`)
@@ -1211,6 +1216,7 @@ DEPENDENCIES:
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - rn-fetch-blob (from `../node_modules/rn-fetch-blob`)
+  - RNAudioRecord (from `../node_modules/react-native-audio-record`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCPicker (from `../node_modules/@react-native-picker/picker`)"
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
@@ -1313,6 +1319,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-camera-roll/camera-roll"
   react-native-create-thumbnail:
     :path: "../node_modules/react-native-create-thumbnail"
+  react-native-image-picker:
+    :path: "../node_modules/react-native-image-picker"
   react-native-keyboard-controller:
     :path: "../node_modules/react-native-keyboard-controller"
   react-native-netinfo:
@@ -1351,6 +1359,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   rn-fetch-blob:
     :path: "../node_modules/rn-fetch-blob"
+  RNAudioRecord:
+    :path: "../node_modules/react-native-audio-record"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
   RNCPicker:
@@ -1440,6 +1450,7 @@ SPEC CHECKSUMS:
   React-logger: 1623c216abaa88974afce404dc8f479406bbc3a0
   react-native-cameraroll: 0ff04cc4e0ff5f19a94ff4313e5c8bc4503cd86d
   react-native-create-thumbnail: 94e68f6cc050a870f830352d1a924c1e8d38b52f
+  react-native-image-picker: a6e56460d34905c849ada551db30897dc7f3d535
   react-native-keyboard-controller: 21d4aacc7c5fac64cd6e6d19777e71eea713a3ab
   react-native-netinfo: 2517ad504b3d303e90d7a431b0fcaef76d207983
   react-native-pager-view: 54bed894cecebe28cede54c01038d9d1e122de43
@@ -1459,6 +1470,7 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: 15437b576139df27635400de0599d9844f1ab817
   ReactCommon: 349be31adeecffc7986a0de875d7fb0dcf4e251c
   rn-fetch-blob: f065bb7ab7fb48dd002629f8bdcb0336602d3cba
+  RNAudioRecord: 162fee3b8fb628773ec704bf0333823125be2ed7
   RNCAsyncStorage: 8616bd5a58af409453ea4e1b246521bb76578d60
   RNCPicker: 0bf8ef8f7800524f32d2bb2a8bcadd53eda0ecd1
   RNDateTimePicker: 0530a73a6f3a1a85814cbde0802736993b9e675e
@@ -1481,4 +1493,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 79f1323183b608370230af55d2de5e3fd7f5eb95
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.13.0

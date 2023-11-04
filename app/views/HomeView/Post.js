@@ -394,7 +394,7 @@ const Post = ({
               onPress={() => onLike(isLiking)}
               style={{flexDirection: 'row', alignItems: 'center'}}>
               <Image
-                source={images.heart}
+                source={theme === 'dark' ? images.heart : images.heart_dark}
                 style={[styles.miniIcon, {opacity: isLiking ? 0.5 : 1}]}
               />
               <Text style={[styles.count, {color: themes[theme].titleColor}]}>
@@ -405,7 +405,7 @@ const Post = ({
               onPress={onPress}
               style={{flexDirection: 'row', alignItems: 'center'}}>
               <Image
-                source={images.chat}
+                source={theme === 'dark' ? images.chat : images.chat_dark}
                 style={[styles.miniIcon, {opacity: 0.5}]}
               />
               <Text style={[styles.count, {color: themes[theme].titleColor}]}>
