@@ -353,6 +353,7 @@ export default {
   Back_To_Menu: 'Back To Menu',
   Back_to_Privacy_and_settings: "Back to Privacy and settings",
   Update_Email_Address: 'Update Email Address',
+  Update_password_complete: 'You successfully updated your password',
   '2_step_verfication': '2 step verification',
   submit: 'Submit',
   invite_friend: 'Invite to grow your connection',

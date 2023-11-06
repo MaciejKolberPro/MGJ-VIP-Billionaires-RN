@@ -15,12 +15,12 @@ import KeyboardView from '../../containers/KeyboardView';
 import images from '../../assets/images';
 import PhoneInput from '../../containers/PhoneAuthenticationInput';
 import { useState } from 'react';
-import firebaseSdk, { DB_ACTION_UPDATE } from '../../lib/firebaseSdk';
-import {showErrorAlert, showToast} from '../../lib/info';
-import { setUser as setUserAction } from '../../actions/login'
+import firebaseSdk from '../../lib/firebaseSdk';
+import {showToast} from '../../lib/info';
+import { logout as logoutAction} from '../../actions/login'
 
 const PrivacySettingsView = props => {
-  const {theme, user, setUser} = props;
+  const {theme, user, logout} = props;
   const [state, setState] = useState({
     email: user.email ?? '',
     phone: user.phone ?? ''
@@ -79,12 +79,10 @@ const PrivacySettingsView = props => {
         email: state.email
       }
       firebaseSdk
-        .setData(firebaseSdk.TBL_USER, DB_ACTION_UPDATE, userInfo)
+        .updateEmail(state.email)
         .then(() => {
-          showToast(I18n.t('Update_profile_complete'));
-          setState({...state, isLoading: false});
-          const updateUser = {...user, ...userInfo};
-          setUser(updateUser);
+          showToast(I18n.t('Update_password_complete'));
+          logout();
         })
         .catch(err => {
           showToast(I18n.t(err.message));
@@ -198,7 +196,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setUser: params => dispatch(setUserAction(params)),
+  logout: params => dispatch(logoutAction(params)),
 });
 
 export default connect(

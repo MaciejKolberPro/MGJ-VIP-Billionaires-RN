@@ -110,6 +110,18 @@ const firebaseSdk = {
     })
   },
 
+  updateEmail(email) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        let user = firebase.auth().currentUser
+        await user.updateEmail(email)
+        resolve();
+      } catch (e) {
+        reject(e)
+      }
+    })
+  },
+
   socialLogin(socialCredential) {
     return new Promise(async (resolve, reject) => {
       const userInfos = await firebase
