@@ -210,9 +210,7 @@ const Post = ({
   const [playing, setPlaying] = useState(false);
 
   const getAvatarFromId = id => {
-    const avatar_url = '';
-
-    console.log(firebaseSdk);
+    let avatar_url = '';
 
     firebaseSdk
       .getUser(id)
@@ -222,10 +220,10 @@ const Post = ({
         console.log(user);
       })
       .catch(err => {
-        avatar_url = '';
+        if (err) {
+          avatar_url = '';
+        }
       });
-
-    console.log(avatar_url);
 
     return avatar_url;
   };
@@ -396,7 +394,7 @@ const Post = ({
               onPress={() => onLike(isLiking)}
               style={{flexDirection: 'row', alignItems: 'center'}}>
               <Image
-                source={images.heart}
+                source={theme === 'dark' ? images.heart : images.heart_dark}
                 style={[styles.miniIcon, {opacity: isLiking ? 0.5 : 1}]}
               />
               <Text style={[styles.count, {color: themes[theme].titleColor}]}>
@@ -407,7 +405,7 @@ const Post = ({
               onPress={onPress}
               style={{flexDirection: 'row', alignItems: 'center'}}>
               <Image
-                source={images.chat}
+                source={theme === 'dark' ? images.chat : images.chat_dark}
                 style={[styles.miniIcon, {opacity: 0.5}]}
               />
               <Text style={[styles.count, {color: themes[theme].titleColor}]}>

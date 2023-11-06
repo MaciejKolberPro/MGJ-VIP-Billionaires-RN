@@ -57,6 +57,7 @@ const images = {
   vip_menu: require('./images/vip.png'),
   message_btn: require('./images/message_btn.png'),
   menu_feed: require('./images/menu_feed.png'),
+  menu_item_dark: require('./images/menu_item_dark.png'),
   menu_open_post: require('./images/menu_open_post.png'),
   menu_shop: require('./images/menu_shop.png'),
   menu_vip_members: require('./images/menu_vip_members.png'),
@@ -92,7 +93,18 @@ const images = {
   location_home: require('./images/location_home.png'),
   en_language: require('./images/en_language.png'),
   heart: require('./images/heart.png'),
+  heart_dark: require('./images/heart_dark.png'),
   chat: require('./images/chat.png'),
+  chat_dark: require('./images/chat_dark.png'),
+  invite_friend: require('./images/invite_friend.png'),
+  call: require('./images/call.png'),
+  call_dark: require('./images/call_dark.png'),
+  linkedin: require('./images/linkedin.png'),
+  linkedin_dark: require('./images/linkedin_dark.png'),
+  facebook_icon: require('./images/facebook_icon.png'),
+  facebook_dark: require('./images/facebook_dark.png'),
+  twitter: require('./images/twitter.png'),
+  twitter_dark: require('./images/twitter_dark.png'),
 };
 
 export default images;

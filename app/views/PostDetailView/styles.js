@@ -16,14 +16,12 @@ export default StyleSheet.create({
     position: 'relative',
   },
   avatar: {
-    width: 49,
-    height: 49,
-    borderRadius: 10,
-    borderWidth: 4,
-    borderColor: '#2F3131',
+    width: 50,
+    height: 50,
+    borderRadius: 10
   },
   profileInfo: {
-    marginLeft: 10,
+    marginLeft: 15,
     flexGrow: 1,
     flexDirection: 'column',
     justifyContent: 'center',
@@ -114,11 +112,13 @@ export default StyleSheet.create({
     borderColor: 'grey',
   },
   commentContents: {
-    marginTop: 12,
+    marginTop: 12
   },
   commentContainer: {
     marginBottom: 10,
     paddingHorizontal: 12,
+    flex:1,
+    width:'100%'
   },
   commentMain: {
     flexDirection: 'row',
@@ -131,6 +131,7 @@ export default StyleSheet.create({
     borderRadius: 8,
     marginLeft: 12,
     padding: 4,
+    flex:1
   },
   commentAccountName: {
     fontSize: 14,
@@ -153,8 +154,7 @@ export default StyleSheet.create({
     width: 45,
     height: 45,
     borderRadius: 10,
-    borderWidth: 4,
-    borderColor: '#2B2D2E',
+    borderWidth: 4
   },
   commentSmallAvatar: {
     width: 33,
@@ -252,6 +252,7 @@ export default StyleSheet.create({
   },
   commentBoxContainer: {
     paddingHorizontal: 12,
+    marginTop:10
   },
   commentContextContainer: {
     flexDirection: 'row',

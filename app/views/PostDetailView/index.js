@@ -50,15 +50,17 @@ import {getUserRepresentString, onSharePost} from '../../utils/const';
 
 import {dateStringFromNowShort} from '../../utils/datetime';
 
+
 const PostDetailView = props => {
   const navigation = useNavigation();
   const postData = props.route.params?.post;
-  const [text, setText] = useState('');
+  const [commentIdx, setCommentIdx] = useState(0);
   const [state, setState] = useState({
     post: postData,
     thumbnail: null,
     playing: false,
     comment: '',
+    replyText:'',
     initializing: true,
   });
   const [isLoading, setIsLoading] = useState(false);
@@ -66,7 +68,7 @@ const PostDetailView = props => {
   const [photoMode, setPhotoMode] = useState(false);
   const textInput = useRef(null);
   const {user, theme} = props;
-  const {post, comment, playing, initializing} = state;
+  const {post, comment, playing, initializing, replyText} = state;
 
   useEffect(() => {
     init(post.id);
@@ -75,6 +77,7 @@ const PostDetailView = props => {
   const setSafeState = states => {
     setState({...state, ...states});
   };
+
   const init = async id => {
     let postSubscribe = await firestore()
       .collection(firebaseSdk.TBL_POST)
@@ -83,6 +86,7 @@ const PostDetailView = props => {
       const userSnaps = await firestore()
         .collection(firebaseSdk.TBL_USER)
         .get();
+      
       const users = [];
       userSnaps.forEach(s => users.push(s.data()));
       const data = querySnapShot.data();
@@ -102,7 +106,7 @@ const PostDetailView = props => {
             handle: comment_user.handle,
           };
         })
-        .sort((a, b) => a.date.seconds - b.date.seconds);
+        .sort((a, b) => a.date.seconds - b.date.seconds); 
       const post = {
         id: querySnapShot.id,
         ...data,
@@ -110,7 +114,7 @@ const PostDetailView = props => {
         likes_accounts,
         comment_accounts,
       };
-
+      // console.log('Post DetailView--1231-',post.comments)
       setSafeState({post, initializing: false});
     });
   };
@@ -124,19 +128,12 @@ const PostDetailView = props => {
 
   const onMore = () => {};
 
-  const toggleLikes = isLiking => {
-    let update = {};
-    if (isLiking) {
-      update = {id: post.id, likes: post.likes.filter(l => l !== user.userId)};
-    } else {
-      update = {id: post.id, likes: [...post.likes, user.userId]};
-    }
-
+  const updatePost = (postData, isRoot = false) => {
     setIsLoading(true);
     firebaseSdk
-      .setData(firebaseSdk.TBL_POST, DB_ACTION_UPDATE, update)
+      .setData(firebaseSdk.TBL_POST, DB_ACTION_UPDATE, postData)
       .then(() => {
-        if (!isLiking && post.owner.userId !== user.userId) {
+        if (isRoot && !isLiking && post.owner.userId !== user.userId) {
           const postImage =
             post.type === 'video'
               ? post.thumbnail
@@ -147,7 +144,7 @@ const PostDetailView = props => {
             type: NOTIFICATION_TYPE_LIKE,
             sender: user.userId,
             receiver: post.owner.userId,
-            content: '',
+            content: post.comment,
             text: post.text,
             postId: post.id,
             postImage,
@@ -163,58 +160,112 @@ const PostDetailView = props => {
       .catch(() => {
         setIsLoading(false);
       });
+  }
+
+  const toggleLikes = isLiking => {
+    let update = {};
+    if (isLiking) {
+      update = {id: post.id, likes: post.likes.filter(l => l !== user.userId)};
+    } else {
+      update = {id: post.id, likes: [...post.likes, user.userId]};
+    }
+
+    updatePost(update, true);
   };
 
-  const onComment = cm => {
-    let str = comment;
-    if (cm) {
-      str = cm;
+  const onCommentsLike = (likeArr = [], id) => {
+    let likes = [...likeArr];
+    let idx = likes.indexOf(user.userId);
+    if(idx > -1) {
+      likes.splice(idx, 1);
+    } else {
+      likes.push(user.userId);
     }
-    if (isValid(str)) {
+
+    const comments = [...post.comments];
+    comments[id].likes = likes;
+
+    let update = {
+      ...post,
+      comments
+    };
+
+    updatePost(update);
+  }
+
+  const onReplyLike = (likeArr = [], cmtIdx, replyIdx) => {
+    let likes = [...likeArr];
+    let idx = likes.indexOf(user.userId);
+    if(idx > -1) {
+      likes.splice(idx, 1);
+    } else {
+      likes.push(user.userId);
+    }
+
+    const comments = [...post.comments];
+    comments[cmtIdx].replies[replyIdx].likes = likes;
+
+    let update = {
+      ...post,
+      comments
+    };
+
+    updatePost(update);
+  }
+
+  const updateComment = (cmtData, isComment = false) => {
+    setIsLoading(true);
+    setInputMode(false);
+    textInput.current.blur();
+    
+    firebaseSdk
+      .setData(firebaseSdk.TBL_POST, DB_ACTION_UPDATE, cmtData)
+      .then(() => {
+        if (post.owner.userId !== user.userId) {
+          const postImage =
+            post.type === 'video'
+              ? post.thumbnail
+              : post.type === 'photo'
+              ? post.photo
+              : '';
+          const activity = {
+            type: NOTIFICATION_TYPE_COMMENT,
+            sender: user.userId,
+            receiver: post.owner.userId,
+            content: isComment ? comment.trim() : replyText.trim(),
+            text: post.text,
+            postId: post.id,
+            postImage,
+            postType: post.type,
+            title: post.owner.displayName,
+            message: I18n.t('commented_in_your_post', {
+              name: user.displayName,
+            }),
+            date: new Date(),
+          };
+          firebaseSdk.addActivity(activity, post.owner.token).then(r => {});
+        }
+
+        textInput.current.clear();
+        // setState({ ...state, comment: ''});
+        setIsLoading(false);
+      })
+      .catch(() => {
+        setIsLoading(false);
+      });
+  }
+
+  const onComment = () => {
+    if (isValid(comment)) {
       let update = {
         id: post.id,
         comments: [
           ...post.comments,
-          {userId: user.userId, text: str.trim(), date: new Date()},
+          {userId: user.userId, text: comment.trim(), date: new Date(), likes: []}
         ],
       };
 
-      setIsLoading(true);
-      textInput.current.blur();
-      firebaseSdk
-        .setData(firebaseSdk.TBL_POST, DB_ACTION_UPDATE, update)
-        .then(() => {
-          if (post.owner.userId !== user.userId) {
-            const postImage =
-              post.type === 'video'
-                ? post.thumbnail
-                : post.type === 'photo'
-                ? post.photo
-                : '';
-            const activity = {
-              type: NOTIFICATION_TYPE_COMMENT,
-              sender: user.userId,
-              receiver: post.owner.userId,
-              content: str.trim(),
-              text: post.text,
-              postId: post.id,
-              postImage,
-              postType: post.type,
-              title: post.owner.displayName,
-              message: I18n.t('commented_in_your_post', {
-                name: user.displayName,
-              }),
-              date: new Date(),
-            };
-            firebaseSdk.addActivity(activity, post.owner.token).then(r => {});
-          }
-          textInput.current.clear();
-          // setState({ ...state, comment: '', isLoading: false });
-          setIsLoading(false);
-        })
-        .catch(() => {
-          setIsLoading(false);
-        });
+      updateComment(update, true);
     }
   };
 
@@ -327,6 +378,33 @@ const PostDetailView = props => {
     return {options: isOwner ? ownerOptions : options};
   };
 
+  const onSendReply = () => {
+    if (!isValid(replyText)) return;
+
+    let reply = {userId: user.userId, 
+                  avatar: user.avatar,
+                  displayName: user.displayName,
+                  handle:user.handle,
+                  text: replyText.trim(), 
+                  date: new Date(), 
+                  likes: []};
+    if (post.comments[commentIdx].replies) { //Error exception if replies array is empty
+      post.comments[commentIdx].replies.push(reply); 
+    } else {
+      post.comments[commentIdx].replies = [reply]; 
+    }
+    
+    let update = {
+      id: post.id,
+      comments: [
+        ...post.comments
+      ],
+    };
+
+    updateComment(update);
+}
+
+
   const isLiking = post.likes && post.likes.includes(user.userId);
   return (
     <View style={sharedStyles.container}>
@@ -349,7 +427,7 @@ const PostDetailView = props => {
             flexDirection: 'row',
             alignItems: 'center',
             paddingHorizontal: 15,
-            borderBottomColor: themes[theme].separatorColor,
+            borderBottomColor: themes[theme].separatorColor ,
           }}>
           <TouchableOpacity
             onPress={() => navigation.goBack()}
@@ -407,7 +485,7 @@ const PostDetailView = props => {
                 </Text>
                 <Text
                   style={{
-                    color: themes[theme].normalTextColor,
+                    color: themes[theme].textColor,
                     fontSize: 12,
                     marginTop: 3,
                   }}>
@@ -432,7 +510,7 @@ const PostDetailView = props => {
                 <Text
                   style={[
                     styles.titleText,
-                    {color: themes[theme].normalTextColor},
+                    {color: themes[theme].textColor},
                   ]}>
                   {post.text}
                 </Text>
@@ -442,7 +520,7 @@ const PostDetailView = props => {
                   <Text
                     style={[
                       styles.titleText,
-                      {color: themes[theme].normalTextColor},
+                      {color: themes[theme].textColor},
                     ]}>
                     {post.text}
                   </Text>
@@ -507,12 +585,14 @@ const PostDetailView = props => {
                 </>
               )}
             </View>
-            <View
+            {/* <View
               style={[
                 styles.separator,
                 {backgroundColor: themes[theme].separatorColor},
               ]}
-            />
+            /> */}
+            <View
+              style={{height:20}}/>
             {/* Post Toolkit */}
             <View
               style={{
@@ -527,7 +607,7 @@ const PostDetailView = props => {
                   onPress={() => toggleLikes(isLiking)}
                   style={{flexDirection: 'row', alignItems: 'center'}}>
                   <Image
-                    source={images.heart}
+                    source={theme === 'dark' ? images.heart : images.heart_dark}
                     style={[styles.miniIcon, {opacity: isLiking ? 0.5 : 1}]}
                   />
                   <Text
@@ -541,8 +621,8 @@ const PostDetailView = props => {
                   // onPress={onPress}
                   style={{flexDirection: 'row', alignItems: 'center'}}>
                   <Image
-                    source={images.chat}
-                    style={[styles.miniIcon, {opacity: 0.5}]}
+                    source={theme === 'dark' ? images.chat : images.chat_dark}
+                    style={[styles.miniIcon, {opacity: 1}]}
                   />
                   <Text
                     style={[styles.count, {color: themes[theme].titleColor}]}>
@@ -682,7 +762,7 @@ const PostDetailView = props => {
             <View
               style={[
                 styles.commentEditBox,
-                {backgroundColor: themes[theme].buttonBackground},
+                {backgroundColor: themes[theme].commentCardBox, borderWidth:1, borderColor:themes[theme].borderColor},
               ]}>
               <View style={styles.commentContextContainer}>
                 <Image
@@ -697,9 +777,12 @@ const PostDetailView = props => {
                   ]}
                 />
                 <TextInput
+                  ref={e => {
+                    textInput.current = e;
+                  }}
                   multiline={true}
                   numberOfLines={2}
-                  onChangeText={text => console.log(text)}
+                  onChangeText={text => setState({...state, comment: text})}
                   placeholder={I18n.t('search_here')}
                   placeholderColor={themes[theme].subTextColor}
                   style={{
@@ -710,7 +793,8 @@ const PostDetailView = props => {
                   }}
                 />
               </View>
-              <TouchableOpacity style={styles.commentEditBtn}>
+              <TouchableOpacity style={styles.commentEditBtn}
+                onPress={onComment}>
                 <VectorIcon
                   type="Ionicons"
                   name="add"
@@ -731,11 +815,11 @@ const PostDetailView = props => {
           <View>
             <View style={styles.commentContentHeader}>
               <Text
-                style={{fontSize: 16, color: themes[theme].activeTintColor}}>
+                style={{fontSize: 16, color: themes[theme].titleColor}}>
                 {I18n.t('all_comments')}
               </Text>
               <Text style={{fontSize: 14, color: themes[theme].textColor}}>
-                {I18n.t('view_all') + ' ' + 5}
+                {I18n.t('view_all') + ' ' + post.comment_accounts.length}
               </Text>
             </View>
             <View style={styles.commentContents}>
@@ -746,13 +830,13 @@ const PostDetailView = props => {
                     <View
                       style={[
                         styles.commentMain,
-                        {backgroundColor: themes[theme].commentCardBox},
+                        {backgroundColor: themes[theme].commentCardBox, flex:1},
                       ]}>
                       <Image
                         source={
                           c.avatar ? {uri: c.avatar} : images.default_avatar
                         }
-                        style={styles.commentAvatar}
+                        style={[styles.commentAvatar, {borderColor: themes[theme].borderColor}]}
                       />
                       <View style={[styles.commentContent]}>
                         <View
@@ -771,6 +855,17 @@ const PostDetailView = props => {
                             ]}>
                             {c.displayName}
                           </Text>
+                          {/* <PopupMenu
+                            theme={theme}
+                            options={onAction(post).options}
+                            renderTrigger={() => (
+                              <VectorIcon
+                                type="Feather"
+                                name="more-horizontal"
+                                size={18}
+                                color={themes[theme].activeTintColor}
+                              />
+                            )} /> */}
                           <VectorIcon
                             type="Feather"
                             name="more-horizontal"
@@ -796,35 +891,182 @@ const PostDetailView = props => {
                           ]}>
                           {c.text}
                         </Text>
+                        {/* Comments Like*/}
                         <View
                           style={{
                             flexDirection: 'row',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'space-between',
+                            alignItems: 'center'
                           }}>
-                          <Text
-                            style={[
-                              styles.commentAccountName,
-                              {color: themes[theme].deactiveTintColor},
-                            ]}>
-                            {dateStringFromNow(c.date)}
-                          </Text>
-                          <TouchableOpacity
-                            style={{flexDirection: 'row', marginLeft: 5}}>
-                            <VectorIcon
-                              type="Entypo"
-                              name="reply"
-                              size={20}
-                              color={themes[theme].textColor}
-                            />
-                            <Text
-                              style={[
-                                styles.replyButton,
-                                {color: themes[theme].deactiveTintColor},
-                              ]}>
-                              {I18n.t('reply_now')}
-                            </Text>
-                          </TouchableOpacity>
+                            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                              <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center'}}
+                                onPress={()=>onCommentsLike(c.likes, index)}>
+                                <Image
+                                  source={theme === 'dark' ? images.heart : images.heart_dark}
+                                  style={[styles.miniIcon, {opacity: 0.5}]}
+                                />
+                                <Text
+                                  style={[styles.count, {color: themes[theme].titleColor}]}>
+                                  {c.likes && c.likes.length > 0
+                                    ? c.likes.length
+                                    : null}
+                                </Text>
+                              </TouchableOpacity>
+                              <TouchableOpacity
+                                // onPress={onPress}
+                                style={{flexDirection: 'row', alignItems: 'center'}}>
+                                <Image
+                                  source={theme === 'dark' ? images.chat : images.chat_dark}
+                                  style={[styles.miniIcon, {opacity: 1}]}
+                                />
+                                <Text
+                                  style={[styles.count, {color: themes[theme].titleColor}]}>
+                                  {c.replies && c.replies.length > 0
+                                    ? c.replies.length
+                                    : null}
+                                </Text>
+                              </TouchableOpacity>
+                            </View>
+                            <View style={{flexDirection:'row', alignItems:'center'}}>
+                              <Text
+                                style={[
+                                  styles.commentAccountName,
+                                  {color: themes[theme].deactiveTintColor},
+                                ]}>
+                                {dateStringFromNow(c.date)}
+                              </Text>
+                              <TouchableOpacity
+                                style={{flexDirection: 'row', marginLeft: 5}}
+                                onPress={()=> {
+                                  setInputMode(true);
+                                  setCommentIdx(index);
+                                }}>
+                                <VectorIcon
+                                  type="Entypo"
+                                  name="reply"
+                                  size={20}
+                                  color={themes[theme].textColor}
+                                />
+                                <Text
+                                  style={[
+                                    styles.replyButton,
+                                    {color: themes[theme].deactiveTintColor, marginTop: 3},
+                                  ]}>
+                                  {I18n.t('reply_now')}
+                                </Text>
+                              </TouchableOpacity>
+                            </View>
+                          
                         </View>
+                        {/* Reply List Show */}
+                        { c.replies && 
+                          c.replies.map((r, key) => (
+                            <View key={key} style={{marginTop:25}}>
+                              <View
+                                style={[
+                                  styles.commentMain,
+                                  {backgroundColor: themes[theme].commentCardBox, padding:0},
+                                ]}>
+                                  <Image
+                                    source={
+                                      r.avatar ? {uri: r.avatar} : images.default_avatar
+                                    }
+                                    style={[styles.commentAvatar, {borderColor:themes[theme].borderColor}]}
+                                  />
+                                  <View style={[styles.commentContent, {padding:0}]}>
+                                    <View
+                                      style={{
+                                        flexDirection: 'row',
+                                        flexWrap: 'wrap',
+                                        justifyContent: 'space-between',
+                                      }}>
+                                      <Text
+                                        style={[
+                                          styles.commentAccountName,
+                                          {
+                                            fontWeight: 'bold',
+                                            color: themes[theme].activeTintColor,
+                                          },
+                                        ]}>
+                                        {r.displayName ?? ""}
+                                      </Text>
+                                      
+                                      <VectorIcon
+                                        type="Feather"
+                                        name="more-horizontal"
+                                        size={20}
+                                        color={themes[theme].iconColor}
+                                      />
+                                    </View>
+                                    <Text
+                                      style={[
+                                        styles.commentText,
+                                        {
+                                          color: themes[theme].textColor,
+                                          marginVertical: 10
+                                        }
+                                      ]}>
+                                      {r.text}
+                                    </Text>
+                                    <View
+                                      style={{
+                                        flexDirection: 'row',
+                                        justifyContent: 'space-between',
+                                        alignItems: 'center'
+                                      }}>
+                                        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                                          <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center'}}
+                                            onPress={()=>onReplyLike(r.likes, index, key)}>
+                                            <Image
+                                              source={theme === 'dark' ? images.heart : images.heart_dark}
+                                              style={[styles.miniIcon, {opacity: 0.5}]}
+                                            />
+                                            <Text
+                                              style={[styles.count, {color: themes[theme].titleColor}]}>
+                                              {r.likes && r.likes.length > 0
+                                                ? r.likes.length
+                                                : null}
+                                            </Text>
+                                          </TouchableOpacity>
+                                          <TouchableOpacity
+                                            // onPress={onPress}
+                                            style={{flexDirection: 'row', alignItems: 'center'}}>
+                                            <Image
+                                              source={theme === 'dark' ? images.chat : images.chat_dark}
+                                              style={[styles.miniIcon, {opacity: 1}]}
+                                            />
+                                            <Text
+                                              style={[styles.count, {color: themes[theme].titleColor}]}>
+                                              {r.replies && r.replies.length > 0
+                                                ? r.replies.length
+                                                : null}
+                                            </Text>
+                                          </TouchableOpacity>
+                                          <Text
+                                            style={[
+                                              styles.commentAccountName,
+                                              {color: themes[theme].deactiveTintColor},
+                                            ]}>
+                                            {dateStringFromNow(r.date)}
+                                          </Text>
+                                        </View>
+                                        <TouchableOpacity
+                                          style={{flexDirection: 'row', marginLeft: 5}}
+                                          onPress={()=> {
+                                          }}>
+                                          <VectorIcon
+                                            type="Entypo"
+                                            name="reply"
+                                            size={20}
+                                            color={themes[theme].textColor}
+                                          />
+                                        </TouchableOpacity>
+                                    </View>
+                                  </View>
+                              </View>
+                            </View>
+                          ))
+                        }
                       </View>
                     </View>
                     {/* <View style={styles.commentFooter}></View> */}
@@ -850,11 +1092,11 @@ const PostDetailView = props => {
               placeholder={I18n.t('placeholder_reply')}
               returnKeyType="send"
               keyboardType="default"
-              onChangeText={text => setState({...state, comment: text})}
-              onSubmitEditing={onComment}
+              onChangeText={text => setState({...state, replyText: text})}
+              onSubmitEditing={onSendReply}
               theme={theme}
             />
-            <TouchableOpacity onPress={() => onComment()}>
+            <TouchableOpacity onPress={onSendReply}>
               <Image
                 source={images.ic_send}
                 style={[

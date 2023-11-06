@@ -288,7 +288,7 @@ export default {
   please_complete_these_steps_to_confirm:
     'Please complete these steps to confirm',
   Phone_number: 'Phone number',
-
+  no_found_search: 'No result found. Try another search.',
   user_not_found: 'User not found',
   follow_you: 'follows you',
   agree_with: 'I agree with the',
@@ -354,4 +354,11 @@ export default {
   Back_to_Privacy_and_settings: "Back to Privacy and settings",
   Update_Email_Address: 'Update Email Address',
   '2_step_verfication': '2 step verification',
+  submit: 'Submit',
+  invite_friend: 'Invite to grow your connection',
+  invite_body: 'Invite body',
+  invite_via: 'Invite via',
+  invite_url: 'Invited URL',
+  invite_content: 'Hey there,\nI’ve just discovered VIP Billionaires – the ultimate social network for successful entrepreneurs. It’s an invite-only opportunity to supercharge your connections and tap into a world of growth, knowledge, and success. Join me on VIP Billionaires, where success meets connection!',
+  invite_title: 'Elevate Your Network with VIP Billionaires',
 };

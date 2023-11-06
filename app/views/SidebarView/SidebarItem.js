@@ -11,7 +11,7 @@ const Item = React.memo(
         key={id}
         onPress={onPress}
         style={[styles.container, {
-          backgroundColor: themes[theme].buttonBackground,
+          backgroundColor: themes[theme].messageOwnBackground,
         }]}>
         <View style={styles.item}>
           {left && (<View style={styles.itemLeft}>{left}</View>)}

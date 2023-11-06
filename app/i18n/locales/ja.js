@@ -284,6 +284,7 @@ export default {
   No_files_in_device: 'ファイルがありません。',
   Sent_message_to_you: '{{name}} からあなたにメッセージ「{{message}}」',
   user_not_found: 'ユーザーが見当たりません',
+  no_found_search: '結果が見つかりません。 別の検索を試してください。',
   follow_you: 'あなたをフォローしました',
   please_complete_these_steps_to_confirm:
     'これらの手順を完了して確認してください',
@@ -352,4 +353,11 @@ export default {
   Back_to_Privacy_and_settings: "Back to Provacy and settings",
   Update_Email_Address: 'Update Email Address',
   '2_step_verfication': '2 step verification',
+  submit: '提出する',
+  invite_friend: 'Invite to grow your connection',
+  invite_body: 'Invite body',
+  invite_via: 'Invite via',
+  invite_url: 'Invited URL',
+  invite_content: 'Hey there,\nI’ve just discovered VIP Billionaires – the ultimate social network for successful entrepreneurs. It’s an invite-only opportunity to supercharge your connections and tap into a world of growth, knowledge, and success. Join me on VIP Billionaires, where success meets connection!',
+  invite_title: 'Elevate Your Network with VIP Billionaires',
 };

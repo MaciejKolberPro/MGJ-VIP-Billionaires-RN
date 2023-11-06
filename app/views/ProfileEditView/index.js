@@ -109,7 +109,7 @@ const ProfileEditView = props => {
             type={'AntDesign'}
             name={'arrowleft'}
             size={20}
-            color={'white'}
+            color={theme === 'dark' ? 'white' : themes[theme].deactiveTintColor}
           />
         </TouchableOpacity>
       ),

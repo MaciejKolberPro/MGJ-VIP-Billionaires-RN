@@ -109,7 +109,7 @@ const FloatingTextInput = props => {
 
   return (
     <View style={{marginBottom: 16}}>
-      <Text style={[styles.labelText, {color: themes[theme].normalTextColor}]}>
+      <Text style={[styles.labelText, {color: themes[theme].textColor}]}>
         {label}
       </Text>
       <View
