@@ -15,7 +15,8 @@ import AppContainer from './AppContainer'
 import InAppNotification from './containers/InAppNotification'
 import Toast from './containers/Toast'
 import debounce from './utils/debounce'
-
+import {LogBox} from 'react-native'
+LogBox.ignoreAllLogs();
 const Root = () => {
   const [state, setState] = useState({
     theme: defaultTheme(),

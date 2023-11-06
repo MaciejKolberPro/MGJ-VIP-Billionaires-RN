@@ -82,6 +82,11 @@ const PrivacyAndSettingsView = props => {
       });
   };
 
+  const onNavigate = (routeName, params) => {
+    const { navigation } = props
+    navigation.navigate(routeName, params)
+  }
+
   const renderFooter = () => {
     const { theme } = props
     if (loading) {
@@ -136,7 +141,7 @@ const PrivacyAndSettingsView = props => {
         />
         <SidebarItem
           text={I18n.t('Privacy_Settings')}
-          onPress={() => {}}
+          onPress={() => {onNavigate('PrivacySettings')}}
           theme={theme}
           hasRight
         />

@@ -351,4 +351,7 @@ export default {
   View_Profile: 'View Profile',
   Clear: 'Clear',
   Back_To_Menu: 'Back To Menu',
+  Back_to_Privacy_and_settings: "Back to Privacy and settings",
+  Update_Email_Address: 'Update Email Address',
+  '2_step_verfication': '2 step verification',
 };
