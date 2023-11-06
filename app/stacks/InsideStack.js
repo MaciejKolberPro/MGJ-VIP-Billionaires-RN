@@ -35,6 +35,7 @@ import InviteView from '../views/InviteView'
 import UpdateProfileAndBasicInfo from '../views/UpdateProfileAndBasicInfo'
 import { MainTabBar } from '../containers/MainScreen'
 import MenuStack from './MenuStack'
+import PrivacySettingsView from '../views/PrivacySettingsView'
 
 const Tab = createBottomTabNavigator()
 const Inside = createStackNavigator()
@@ -160,6 +161,7 @@ const InsideStack = () => {
         component={UpdateProfileAndBasicInfo}
         options={{ headerShown: false }}
       />
+      <Inside.Screen name="PrivacySettings" component={PrivacySettingsView} />
     </Inside.Navigator>
   )
 }

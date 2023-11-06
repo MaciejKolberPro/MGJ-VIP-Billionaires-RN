@@ -12,6 +12,7 @@ import images from '../../assets/images'
 import { COLOR_YELLOW, themes } from '../../constants/colors'
 import I18n from '../../i18n'
 import { SITE_VIP_MEMBERS_URL } from '../../constants/app'
+import { VectorIcon } from '../../containers/VectorIcon'
 
 const VipMembersClubView = (props) => {
   const { theme } = props
@@ -19,6 +20,18 @@ const VipMembersClubView = (props) => {
 
   useEffect(() => {
     navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity
+          style={styles.header}
+          onPress={() => navigation.goBack()}>
+          <VectorIcon
+            type="MaterialCommunityIcons"
+            name="arrow-left"
+            color={themes[theme].titleColor}
+            size={24}
+          />
+        </TouchableOpacity>
+      ),
       title: I18n.t('Vip_members'),
     })
   }, [])
@@ -26,7 +39,7 @@ const VipMembersClubView = (props) => {
   return (
     <View style={[
       sharedStyles.container,
-      { backgroundColor: themes[theme].navbarBackground }
+      { backgroundColor: themes[theme].navbarBackground },
     ]}>
       <StatusBar />
       <View style={[sharedStyles.contentContainer, { backgroundColor: themes[theme].backgroundColor, height: '100%' }]}>

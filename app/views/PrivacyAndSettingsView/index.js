@@ -1,64 +1,104 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, {useEffect, useState} from 'react';
 import {
-  Image,
   ScrollView,
   Text,
   TouchableOpacity,
   View,
-  Linking,
   SafeAreaView,
-  Pressable, TextInput,
-} from 'react-native'
-import { connect } from 'react-redux'
+} from 'react-native';
+import {connect} from 'react-redux';
 
 import {
-  COLOR_LIGHT_DARK, COLOR_RED,
-  COLOR_WHITE, COLOR_YELLOW,
-  HEADER_BAR_START,
-  NAV_BAR_END,
-  NAV_BAR_START,
+  COLOR_LIGHT_DARK,
+  COLOR_RED,
   themes,
-} from '../../constants/colors'
-import StatusBar from '../../containers/StatusBar'
-import { withTheme } from '../../theme'
-import styles from './styles'
-import images from '../../assets/images'
-import scrollPersistTaps from '../../utils/scrollPersistTaps'
+} from '../../constants/colors';
+import StatusBar from '../../containers/StatusBar';
+import {withTheme} from '../../theme';
+import styles from './styles';
+import scrollPersistTaps from '../../utils/scrollPersistTaps';
+import I18n from '../../i18n';
+import {VectorIcon} from '../../containers/VectorIcon';
+import SidebarItem from '../SidebarView/SidebarItem';
+import AccountSettingModal from './AccountSettingsModal';
+import DeleteAccountModal from './DeleteAccountModal';
+import ActivityIndicator from '../../containers/ActivityIndicator'
+import firebaseSdk from '../../lib/firebaseSdk'
 import { logout as logoutAction } from '../../actions/login'
-import { showConfirmationAlert } from '../../lib/info'
-import { GradientHeader } from '../../containers/GradientHeader'
-import I18n from '../../i18n'
-import { SITE_SHOP_URL } from '../../constants/app'
-import { VectorIcon } from '../../containers/VectorIcon'
-import OptionCardBtn from '../../containers/OptionCardBtn'
-import { Icon } from '../../containers/List'
-import SidebarItem from '../SidebarView/SidebarItem'
-import Modal from 'react-native-modal'
-import AccountSettingModal from './AccountSettingsModal'
+import { showErrorAlert } from '../../lib/info'
 
-const PrivacyAndSettingsView = (props) => {
-  const { user, theme, navigation } = props
-  const [isShowAccountSettings, onShowAccountSettings] = useState(false)
-  const [isShowPasswordSettings, onShowPasswordSettings] = useState(false)
+const PrivacyAndSettingsView = props => {
+  const {user, theme, navigation} = props;
+  const [isShowAccountSettings, onShowAccountSettings] = useState(false);
+  const [isShowPasswordSettings, onShowPasswordSettings] = useState(false);
+  const [isShowDeleteAccount, onShowDeleteAccount] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <TouchableOpacity style={styles.header} onPress={() => navigation.toggleDrawer()}>
-          <VectorIcon type="MaterialCommunityIcons" name="arrow-left" color={themes[theme].titleColor} size={24} />
+        <TouchableOpacity
+          style={styles.header}
+          onPress={() => navigation.toggleDrawer()}>
+          <VectorIcon
+            type="MaterialCommunityIcons"
+            name="arrow-left"
+            color={themes[theme].titleColor}
+            size={24}
+          />
         </TouchableOpacity>
       ),
-      title: null,
-      headerRight: () => (<></>),
+      title: I18n.t('Back_To_Menu'),
+      headerRight: () => <></>,
       headerStyle: {
         backgroundColor: themes[theme].backgroundColor,
         shadowOpacity: 0,
       },
-    })
-  }, [theme])
+    });
+  }, [theme]);
 
-  const onClick = item => {
+  const deleteAccount = password => {
+    const {user, logout} = props;
+    setLoading(true);
 
+    firebaseSdk
+      .signInWithEmail(user.email, password)
+      .then(_ => {
+        firebaseSdk
+          .deleteUser(user.id)
+          .then(_ => {
+            setLoading(false);
+            logout();
+          })
+          .catch(err => {
+            setLoading(false);
+            console.log('error', err);
+          });
+      })
+      .catch(err => {
+        setLoading(false);
+        showErrorAlert(I18n.t('error-invalid-password'));
+        console.log('error', err);
+      });
+  };
+
+  const onNavigate = (routeName, params) => {
+    const { navigation } = props
+    navigation.navigate(routeName, params)
+  }
+
+  const renderFooter = () => {
+    const { theme } = props
+    if (loading) {
+      return <ActivityIndicator style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        bottom: 0,
+        right: 0,
+      }} theme={theme} size={'large'} />
+    }
+    return null
   }
 
   return (
@@ -75,34 +115,85 @@ const PrivacyAndSettingsView = (props) => {
           paddingHorizontal: 16,
         }}
         {...scrollPersistTaps}>
-        <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', marginBottom: 16 }}>
-          <VectorIcon style={{ marginRight: 16 }} type="MaterialCommunityIcons" name="shield-lock"
-                      color={COLOR_LIGHT_DARK} size={20} />
-          <Text style={[styles.title, { color: themes[theme].titleColor }]}>Privacy and Settings</Text>
+        <View
+          style={{
+            flex: 1,
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginBottom: 16,
+          }}>
+          <VectorIcon
+            style={{marginRight: 16}}
+            type="MaterialCommunityIcons"
+            name="shield-lock"
+            color={COLOR_LIGHT_DARK}
+            size={20}
+          />
+          <Text style={[styles.title, {color: themes[theme].titleColor}]}>
+            {I18n.t('Privacy_and_settings')}
+          </Text>
         </View>
-        <SidebarItem text={'Account Settings'} onPress={() => onClick(onShowAccountSettings(true))} theme={theme}
-                     hasRight />
-        <SidebarItem text={'Privacy Setting'} onPress={() => onClick()} theme={theme} hasRight />
+        <SidebarItem
+          text={I18n.t('Account_Settings')}
+          onPress={() => onShowAccountSettings(true)}
+          theme={theme}
+          hasRight
+        />
+        <SidebarItem
+          text={I18n.t('Privacy_Settings')}
+          onPress={() => {onNavigate('PrivacySettings')}}
+          theme={theme}
+          hasRight
+        />
 
-        <View style={{ marginTop: 56, marginBottom: 16 }}>
-          <Text style={[styles.title, { color: themes[theme].titleColor, margin: 0 }]}>Other Settings</Text>
+        <View style={{marginTop: 56, marginBottom: 16}}>
+          <Text
+            style={[
+              styles.title,
+              {color: themes[theme].titleColor, margin: 0},
+            ]}>
+            {I18n.t('Other_Settings')}
+          </Text>
         </View>
-        <SidebarItem text={'Blocked Users'} onPress={() => navigation.navigate('Block')} theme={theme} hasRight />
-        <SidebarItem text={'Delete Account'} textStyle={{ color: COLOR_RED }} onPress={() => onClick()} theme={theme} />
+        <SidebarItem
+          text={I18n.t('Blocked_Users')}
+          onPress={() => navigation.navigate('Block')}
+          theme={theme}
+          hasRight
+        />
+        <SidebarItem
+          text={I18n.t('Delete_Account')}
+          textStyle={{color: COLOR_RED}}
+          onPress={() => onShowDeleteAccount(true)}
+          theme={theme}
+        />
       </ScrollView>
 
       <AccountSettingModal
-        isShow={isShowAccountSettings} theme={theme}
+        isShow={isShowAccountSettings}
+        theme={theme}
         onClose={() => onShowAccountSettings(false)}
       />
+      <DeleteAccountModal
+        isShow={isShowDeleteAccount}
+        theme={theme}
+        onClose={() => onShowDeleteAccount(false)}
+        onSubmit={(password) => deleteAccount(password)}
+      />
+      {renderFooter()}
     </SafeAreaView>
-  )
-}
+  );
+};
 
 const mapStateToProps = state => ({
   user: state.login.user,
-})
+});
 
-const mapDispatchToProps = () => ({})
+const mapDispatchToProps = () => ({
+  logout: params => dispatch(logoutAction(params)),
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(withTheme(PrivacyAndSettingsView))
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(withTheme(PrivacyAndSettingsView));
