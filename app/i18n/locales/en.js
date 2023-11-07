@@ -362,4 +362,10 @@ export default {
   invite_url: 'Invited URL',
   invite_content: 'Hey there,\nI’ve just discovered VIP Billionaires – the ultimate social network for successful entrepreneurs. It’s an invite-only opportunity to supercharge your connections and tap into a world of growth, knowledge, and success. Join me on VIP Billionaires, where success meets connection!',
   invite_title: 'Elevate Your Network with VIP Billionaires',
+  old_password: 'Old password',
+  new_password: 'New password',
+  confirm_password: 'Confirm password',
+  enter_old_password: 'Enter your recent password',
+  enter_new_password: 'Enter new password',
+  confirm_new_password: 'Confirm new password'
 };

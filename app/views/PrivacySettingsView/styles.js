@@ -70,4 +70,19 @@ export default StyleSheet.create({
     fontWeight: '700',
     marginBottom: 4,
   },
+  
+  modalContent: {
+    backgroundColor: 'red',
+    padding: 24,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
+  modalTitle: {
+    fontWeight: '600',
+    fontFamily: 'Hind Vadodara',
+    fontSize: 18,
+    lineHeight: 28,
+    marginVertical: 8,
+    textAlign: 'center',
+  },
 })

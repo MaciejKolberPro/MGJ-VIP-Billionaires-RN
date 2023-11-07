@@ -5,7 +5,14 @@ import SafeAreaView from '../../containers/SafeAreaView';
 import StatusBar from '../../containers/StatusBar';
 import {themes} from '../../constants/colors';
 import I18n from 'i18n-js';
-import {Image, ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Image,
+  Pressable,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {VectorIcon} from '../../containers/VectorIcon';
 import styles from './styles';
 import sharedStyles from '../Styles';
@@ -14,17 +21,20 @@ import FloatingTextInput from '../../containers/FloatingTextInput';
 import KeyboardView from '../../containers/KeyboardView';
 import images from '../../assets/images';
 import PhoneInput from '../../containers/PhoneAuthenticationInput';
-import { useState } from 'react';
+import {useState} from 'react';
 import firebaseSdk from '../../lib/firebaseSdk';
 import {showToast} from '../../lib/info';
-import { logout as logoutAction} from '../../actions/login'
+import {logout as logoutAction} from '../../actions/login';
+import ChangePasswordModal from './ChangePasswordModal';
 
 const PrivacySettingsView = props => {
   const {theme, user, logout} = props;
   const [state, setState] = useState({
     email: user.email ?? '',
-    phone: user.phone ?? ''
+    phone: user.phone ?? '',
   });
+  const [showChangePwdModal, setShowChangePwdModal] = useState(false);
+
   const emailInput = useRef(null);
   const phoneInput = useRef(null);
 
@@ -76,8 +86,8 @@ const PrivacySettingsView = props => {
     if (user.email !== state.email) {
       let userInfo = {
         id: user.id,
-        email: state.email
-      }
+        email: state.email,
+      };
       firebaseSdk
         .updateEmail(state.email)
         .then(() => {
@@ -89,7 +99,7 @@ const PrivacySettingsView = props => {
           setState({...state, isLoading: false});
         });
     }
-  }
+  };
 
   return (
     <KeyboardView
@@ -110,7 +120,11 @@ const PrivacySettingsView = props => {
         }}
         {...scrollPersistTaps}>
         <SafeAreaView>
-          <Text style={[styles.title, {color: themes[theme].titleColor, marginBottom: 16}]}>
+          <Text
+            style={[
+              styles.title,
+              {color: themes[theme].titleColor, marginBottom: 16},
+            ]}>
             {I18n.t('Privacy_Settings')}
           </Text>
           <FloatingTextInput
@@ -136,9 +150,11 @@ const PrivacySettingsView = props => {
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Bibendum
             vel egestas egestas cras.
           </Text>
-          <PhoneInput inputRef={phoneInput} theme={theme} value={state.phone}/>
+          <PhoneInput inputRef={phoneInput} theme={theme} value={state.phone} />
           <TouchableOpacity
-            onPress={() => {}}
+            onPress={() => {
+              setShowChangePwdModal(true);
+            }}
             style={[
               styles.container,
               {
@@ -187,12 +203,17 @@ const PrivacySettingsView = props => {
           </View>
         </SafeAreaView>
       </ScrollView>
+      <ChangePasswordModal
+        isShow={showChangePwdModal}
+        theme={theme}
+        onClose={() => setShowChangePwdModal(false)}
+      />
     </KeyboardView>
   );
 };
 
 const mapStateToProps = state => ({
-  user: state.login.user
+  user: state.login.user,
 });
 
 const mapDispatchToProps = dispatch => ({

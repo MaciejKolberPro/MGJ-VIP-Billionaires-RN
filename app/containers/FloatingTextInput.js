@@ -81,7 +81,6 @@ const FloatingTextInput = props => {
   const [readonly, setReadonly] = useState(isEdit === true ? true : false);
 
   const handleEdit = () => {
-    console.log('handleEdit');
     if (!readonly) {
       onSubmit();
     }
@@ -89,7 +88,6 @@ const FloatingTextInput = props => {
   };
 
   const renderEdit = () => {
-    console.log('renderEdit');
     return (
       <Pressable
         onPress={handleEdit}>
