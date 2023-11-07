@@ -605,10 +605,12 @@ const ProfileView = props => {
                     theme={theme}
                   />
                 );
+              } else {
+                // TODO: Add other post types
               }
             })
           ) : (
-            <View>
+            <View style={{paddingHorizontal: 11}}>
               {chunk(
                 posts.filter(
                   p => p.type === POST_TYPE_PHOTO || p.type === POST_TYPE_VIDEO,

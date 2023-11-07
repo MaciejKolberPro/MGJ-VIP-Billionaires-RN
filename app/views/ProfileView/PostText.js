@@ -1,23 +1,28 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 
-import { withTheme } from '../../theme';
-import { themes } from '../../constants/colors';
+import {withTheme} from '../../theme';
+import {themes} from '../../constants/colors';
 import images from '../../assets/images';
-import { dateStringFromNowShort } from '../../utils/datetime';
+import {dateStringFromNowShort} from '../../utils/datetime';
 import PopupMenu from '../../containers/PopupMenu';
-import { getUserRepresentString } from '../../utils/const';
+import {getUserRepresentString} from '../../utils/const';
+import { VectorIcon } from '../../containers/VectorIcon';
 
 const styles = StyleSheet.create({
   container: {
     borderTopWidth: 0.4,
-    flexDirection: 'row',
+    flexDirection: 'column',
     padding: 18,
+    paddingHorizontal: 16,
+    borderRadius: 14,
+    borderWidth: 1,
+    marginHorizontal: 16,
   },
   avatar: {
     width: 44,
     height: 44,
-    borderRadius: 22,
+    borderRadius: 10,
     resizeMode: 'cover',
   },
   userInfo: {
@@ -32,7 +37,6 @@ const styles = StyleSheet.create({
   handle: {
     fontSize: 12,
     fontWeight: '400',
-    marginLeft: 6,
   },
   more: {
     height: 13,
@@ -61,6 +65,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  column: {
+    flexDirection: 'column',
+  },
   count: {
     fontSize: 12,
     marginLeft: 6,
@@ -82,47 +89,57 @@ const PostText = ({
     <View
       style={[
         styles.container,
-        { borderColor: themes[theme].profilePostBorder },
+        {borderColor: themes[theme].profilePostBorder},
       ]}>
-      <TouchableOpacity onPress={onPressUser}>
-        <Image
-          source={
-            item?.owner?.avatar
-              ? { uri: item?.owner?.avatar }
-              : images.default_avatar
-          }
-          style={styles.avatar}
-        />
-      </TouchableOpacity>
-      <View style={{ marginLeft: 7, flex: 1 }}>
-        <View style={styles.userInfo}>
+      <View style={styles.row}>
+        <TouchableOpacity onPress={onPressUser}>
+          <Image
+            source={
+              item?.owner?.avatar
+                ? {uri: item?.owner?.avatar}
+                : images.default_avatar
+            }
+            style={styles.avatar}
+          />
+        </TouchableOpacity>
+        <View style={[styles.column, {marginLeft: 7}]}>
           <View style={styles.row}>
-            <Text style={[styles.name, { color: themes[theme].activeTintColor }]}>
+            <Text style={[styles.name, {color: themes[theme].activeTintColor}]}>
               {item?.owner?.displayName}
             </Text>
-            <Text style={[styles.handle, { color: themes[theme].profileHandle }]}>
+            <Text
+              style={[
+                styles.handle,
+                {color: themes[theme].profileHandle, marginLeft: 7},
+              ]}>
               {getUserRepresentString(item?.owner)}
             </Text>
-            <Text style={[styles.handle, { color: themes[theme].profileHandle }]}>
-              {item?.date ? dateStringFromNowShort(item?.date) : null}
-            </Text>
           </View>
-          <PopupMenu
-            theme={theme}
-            options={onActions.options}
-            renderTrigger={() => (
-              <Image
-                source={images.more}
-                style={[styles.more, { tintColor: themes[theme].moreIcon }]}
-              />
-            )}
-          />
-        </View>
-        <TouchableOpacity onPress={onPress}>
-          <Text style={[styles.text, { color: themes[theme].activeTintColor }]}>
-            {item?.text}
+          <Text style={[styles.handle, {color: themes[theme].profileHandle}]}>
+            {item?.date ? dateStringFromNowShort(item?.date) : null}
           </Text>
-        </TouchableOpacity>
+        </View>
+        <PopupMenu
+          theme={theme}
+          options={onActions.options}
+          renderTrigger={() => (
+            <VectorIcon
+              type="Feather"
+              name="more-horizontal"
+              size={18}
+              color={themes[theme].activeTintColor}
+            />
+          )}
+        />
+      </View>
+      <View>
+        <View>
+          <TouchableOpacity onPress={onPress}>
+            <Text style={[styles.text, {color: themes[theme].activeTintColor}]}>
+              {item?.text}
+            </Text>
+          </TouchableOpacity>
+        </View>
         <View style={styles.userInfo}>
           <View style={styles.row}>
             <TouchableOpacity
@@ -138,21 +155,23 @@ const PostText = ({
                 ]}
               />
               <Text
-                style={[styles.count, { color: themes[theme].activeTintColor }]}>
+                style={[styles.count, {color: themes[theme].activeTintColor}]}>
                 {item.likes?.length ?? 0}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={onPress} style={styles.row}>
               <Image source={images.chat} style={styles.chatIcon} />
               <Text
-                style={[styles.count, { color: themes[theme].activeTintColor }]}>
+                style={[styles.count, {color: themes[theme].activeTintColor}]}>
                 {item.comments?.length ?? 0}
               </Text>
             </TouchableOpacity>
           </View>
-          <TouchableOpacity onPress={onPressShare}>
-            <Image source={images.share} style={styles.toolIcon} />
-          </TouchableOpacity>
+          <View>
+            <TouchableOpacity onPress={onPressShare}>
+              <Image source={images.share} style={styles.toolIcon} />
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </View>
