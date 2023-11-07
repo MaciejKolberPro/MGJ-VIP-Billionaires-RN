@@ -92,7 +92,6 @@ const ProfileView = props => {
             posts.sort((a, b) => b.date - a.date);
             setSafeState({account: user, isLoading: false, posts});
           }
-          console.log('profileview-posts', posts);
         });
       })
       .catch(err => {
@@ -101,18 +100,23 @@ const ProfileView = props => {
       });
   };
 
-  const goToFollowers = async () => {
-    const {navigation} = props;
+  const goToFollowers = () => {
     navigation.push('Follow', {
       type: 'followers',
       account: state.account,
     });
   };
 
-  const goToFollowings = async () => {
-    const {navigation} = props;
+  const goToFollowings = () => {
     navigation.push('Follow', {
       type: 'followings',
+      account: state.account,
+    });
+  };
+
+  const goToPosts = () => {
+    navigation.navigate('Posts', {
+      type: 'posts',
       account: state.account,
     });
   };
@@ -467,7 +471,7 @@ const ProfileView = props => {
               {borderColor: themes[theme].deactiveTintColor},
             ]}>
             <TouchableOpacity
-              onPress={() => goToFollowings()}
+              onPress={() => goToPosts()}
               style={[
                 styles.optionContainer,
                 {
@@ -552,7 +556,11 @@ const ProfileView = props => {
                 <Text
                   style={[
                     styles.tabItemText,
-                    {color: isPostTab ? themes[theme].normalTextColor : themes[theme].subTextColor},
+                    {
+                      color: isPostTab
+                        ? themes[theme].normalTextColor
+                        : themes[theme].subTextColor,
+                    },
                   ]}>
                   {I18n.t('Posts')}
                 </Text>
@@ -570,7 +578,11 @@ const ProfileView = props => {
                 <Text
                   style={[
                     styles.tabItemText,
-                    {color: !isPostTab ? themes[theme].normalTextColor : themes[theme].subTextColor},
+                    {
+                      color: !isPostTab
+                        ? themes[theme].normalTextColor
+                        : themes[theme].subTextColor,
+                    },
                   ]}>
                   {I18n.t('media')}
                 </Text>
