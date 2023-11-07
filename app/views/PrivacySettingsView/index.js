@@ -22,9 +22,10 @@ import KeyboardView from '../../containers/KeyboardView';
 import images from '../../assets/images';
 import PhoneInput from '../../containers/PhoneAuthenticationInput';
 import {useState} from 'react';
-import firebaseSdk from '../../lib/firebaseSdk';
+import firebaseSdk, { DB_ACTION_UPDATE } from '../../lib/firebaseSdk';
 import {showToast} from '../../lib/info';
 import {logout as logoutAction} from '../../actions/login';
+import {setUser as setUserAction} from '../../actions/login';
 import ChangePasswordModal from './ChangePasswordModal';
 
 const PrivacySettingsView = props => {
@@ -91,12 +92,21 @@ const PrivacySettingsView = props => {
       firebaseSdk
         .updateEmail(state.email)
         .then(() => {
+          firebaseSdk
+            .setData(firebaseSdk.TBL_USER, DB_ACTION_UPDATE, userInfo)
+            .then(() => {
+              const updateUser = {...user, ...userInfo};
+              setUser(updateUser);
+              navigation.pop();
+            })
+            .catch(err => {
+              showToast(err.message);
+            });
           showToast(I18n.t('Update_password_complete'));
           logout();
         })
         .catch(err => {
-          showToast(I18n.t(err.message));
-          setState({...state, isLoading: false});
+          showToast(err.message);
         });
     }
   };
@@ -218,6 +228,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   logout: params => dispatch(logoutAction(params)),
+  setUser: params => dispatch(setUserAction(params)),
 });
 
 export default connect(
