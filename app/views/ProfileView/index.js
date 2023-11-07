@@ -50,6 +50,7 @@ import {
   POST_TYPE_VIDEO,
 } from '../../constants/app';
 import {getUserRepresentString, onSharePost} from '../../utils/const';
+import Post from '../HomeView/Post';
 
 const ProfileView = props => {
   const {navigation, user, theme} = props;
@@ -590,25 +591,20 @@ const ProfileView = props => {
             </View>
           </View>
           {isPostTab ? (
-            posts.map(p => {
-              if (p.type === POST_TYPE_TEXT) {
-                return (
-                  <PostText
-                    key={p.id}
-                    item={p}
-                    onPress={() => onOpenPost(p)}
-                    onPressUser={() => {}}
-                    onPressShare={() => onSharePost(p)}
-                    onLike={isLiking => onToggleLike(p, isLiking)}
-                    isLiking={p.likes && p.likes.includes(user.userId)}
-                    onActions={onActionPost(p)}
-                    theme={theme}
-                  />
-                );
-              } else {
-                // TODO: Add other post types
-              }
-            })
+            posts.map((item, index) => (
+              <Post
+                key={item.id}
+                item={item}
+                onPress={() => onOpenPost(item)}
+                onPressUser={() => {}}
+                onPressShare={() => onSharePost(item)}
+                onLike={isLiking => onToggleLike(item, isLiking)}
+                isLiking={item.likes && item.likes.includes(user.userId)}
+                onActions={onActionPost(item)}
+                theme={theme}
+                style={{marginTop: index === 0 ? 0 : 8}}
+              />
+            ))
           ) : (
             <View style={{paddingHorizontal: 11}}>
               {chunk(
