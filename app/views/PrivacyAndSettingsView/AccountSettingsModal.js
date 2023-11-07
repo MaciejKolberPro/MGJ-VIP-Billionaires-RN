@@ -7,7 +7,6 @@ import Modal from 'react-native-modal'
 import { themes } from '../../constants/colors'
 import FloatingTextInput from '../../containers/FloatingTextInput'
 import Button from '../../containers/Button'
-import I18n from 'i18n-js'
 
 const AccountSettingsModal = ({ isShow, onClose, theme }) => {
   const [name, setName] = useState('')
@@ -33,8 +32,8 @@ const AccountSettingsModal = ({ isShow, onClose, theme }) => {
           style={{height:50, paddingLeft:10}}
           returnKeyType="next"
           textContentType="oneTimeCode"
-          label={I18n.t('Name')}
-          placeholder={I18n.t('enter_name')}
+          label={'Name'}
+          placeholder={'Enter Your Name'}
           onChangeText={name => setName({name})}
           theme={theme}
           onSubmitEditing={() => {
@@ -45,14 +44,14 @@ const AccountSettingsModal = ({ isShow, onClose, theme }) => {
           style={{height:50, paddingLeft:10}}
           inputRef={usernameInput}
           textContentType="oneTimeCode"
-          label={I18n.t('Username')}
-          placeholder={I18n.t('Enter_username')}
+          label={'Username'}
+          placeholder={'Enter Your Username'}
           onChangeText={username => setUsername({username})}
           theme={theme}/>
 
         <Button
           style={styles.submitBtn}
-          title={I18n.t('Save')}
+          title={'Save'}
           size="W"
           // onPress={onSubmit}
           testID="login-submit"

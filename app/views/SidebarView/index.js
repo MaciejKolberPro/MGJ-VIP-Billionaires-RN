@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react'
 import {
   Image,
   ScrollView,
@@ -8,27 +8,27 @@ import {
   Linking,
   SafeAreaView,
   Pressable,
-} from 'react-native';
-import {connect} from 'react-redux';
+} from 'react-native'
+import { connect } from 'react-redux'
 
-import {COLOR_YELLOW, themes} from '../../constants/colors';
-import StatusBar from '../../containers/StatusBar';
-import {withTheme} from '../../theme';
-import styles from './styles';
-import images from '../../assets/images';
-import SidebarItem from './SidebarItem';
-import scrollPersistTaps from '../../utils/scrollPersistTaps';
-import {logout as logoutAction} from '../../actions/login';
-import {showConfirmationAlert} from '../../lib/info';
-import {GradientHeader} from '../../containers/GradientHeader';
-import I18n from '../../i18n';
-import {SITE_SHOP_URL} from '../../constants/app';
-import {VectorIcon} from '../../containers/VectorIcon';
-import OptionCardBtn from '../../containers/OptionCardBtn';
-import InviteView from '../InviteView';
+import { COLOR_YELLOW, themes } from '../../constants/colors'
+import StatusBar from '../../containers/StatusBar'
+import { withTheme } from '../../theme'
+import styles from './styles'
+import images from '../../assets/images'
+import SidebarItem from './SidebarItem'
+import scrollPersistTaps from '../../utils/scrollPersistTaps'
+import { logout as logoutAction } from '../../actions/login'
+import { showConfirmationAlert } from '../../lib/info'
+import { GradientHeader } from '../../containers/GradientHeader'
+import I18n from '../../i18n'
+import { SITE_SHOP_URL } from '../../constants/app'
+import { VectorIcon } from '../../containers/VectorIcon'
+import OptionCardBtn from '../../containers/OptionCardBtn'
+import InviteView from '../InviteView'
 
-const SidebarView = props => {
-  const {user, theme, navigation} = props;
+const SidebarView = (props) => {
+  const { user, theme, navigation } = props
   const menus = [
     // {
     //   id: 'shop',
@@ -49,7 +49,7 @@ const SidebarView = props => {
     //   name: 'My connections',
     //   icon: 'account-multiple',
     //   route: 'VipMembers',
-    //   routes: ['MyConnections'],
+    //   routes: ['MyConnetions'],
     // },
     {
       id: 'privacy_and_settings',
@@ -65,60 +65,60 @@ const SidebarView = props => {
       route: 'Privacy',
       routes: ['HelpAndSupport'],
     },
-  ];
+  ]
   const [inviteView, setInviteView] = useState(false);
 
   useEffect(() => {
     navigation.setOptions({
       title: 'VIP Billionaires',
       headerBackground: () => <GradientHeader />,
-    });
-  }, []);
+    })
+  }, [])
 
   const onClick = item => {
     switch (item.id) {
       // case 'terms_of_use':
       //   return onNavigate('About', { type: 0 })
       case 'privacy_and_settings':
-        return onNavigate('MenuStack');
+        return onNavigate('MenuStack')
       // case 'eula':
       //   return onNavigate('About', { type: 2 })
       case 'shop':
-        return Linking.openURL(SITE_SHOP_URL);
+        return Linking.openURL(SITE_SHOP_URL)
       case 'help_and_support':
-        return onNavigate('HelpAndSupport');
+        return onNavigate('HelpAndSupport')
       case 'MyConnections':
-        return onNavigate('MyConnections');
+        return onNavigate('MyConnections')
       case 'vip_members':
-        return onNavigate('VipMembers');
+        return onNavigate('')
       default:
-        onNavigate(item.route, {type: item.init});
+        onNavigate(item.route, { type: item.init })
     }
-  };
+  }
 
   const onNavigate = (routeName, params) => {
-    const {navigation} = props;
-    navigation.navigate(routeName, params);
-  };
+    const { navigation } = props
+    navigation.navigate(routeName, params)
+  }
 
   const onLogOut = () => {
-    const {logout} = props;
+    const { logout } = props
     showConfirmationAlert({
       title: I18n.t('Logout'),
       message: I18n.t('are_you_sure_to_log_out'),
       callToAction: I18n.t('Confirm'),
       onPress: () => {
         if (global.unSubscribeRoom) {
-          global.unSubscribeRoom();
-          global.unSubscribeRoom = undefined;
+          global.unSubscribeRoom()
+          global.unSubscribeRoom = undefined
         }
-        logout();
+        logout()
       },
-    });
-  };
+    })
+  }
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{flex:1}}>
       <SafeAreaView
         style={{
           flex: 1,
@@ -129,24 +129,23 @@ const SidebarView = props => {
         <View style={styles.headerContainer}>
           <View style={styles.profileInnerContainer}>
             <Image
-              source={user.avatar ? {uri: user.avatar} : images.default_avatar}
+              source={user.avatar ? { uri: user.avatar } : images.default_avatar}
               style={styles.avatar}
             />
-            <View style={{marginLeft: 12}}>
+            <View style={{ marginLeft: 12 }}>
               <Text
-                style={[styles.profileName, {color: themes[theme].titleColor}]}>
+                style={[
+                  styles.profileName,
+                  { color: themes[theme].titleColor },
+                ]}>
                 {user.displayName}
               </Text>
-              <Pressable onPress={() => onNavigate('Profile')}>
-                <Text style={[styles.roleName, {color: COLOR_YELLOW}]}>
-                  {I18n.t('View_Profile')}
-                </Text>
-              </Pressable>
+              <Text style={[styles.roleName, { color: COLOR_YELLOW }]}>
+                View Profile
+              </Text>
             </View>
           </View>
-          <Pressable
-            onPress={() => navigation.closeDrawer()}
-            style={styles.closeIconAndText}>
+          <Pressable onPress={() => navigation.closeDrawer()} style={styles.closeIconAndText}>
             <VectorIcon
               type="AntDesign"
               name="close"
@@ -154,7 +153,7 @@ const SidebarView = props => {
               color={themes[theme].textColor}
               style={styles.closeIcon}
             />
-            <Text style={[{ color: themes[theme].textColor }]}>{I18n.t('Clear')}</Text>
+            <Text style={[{ color: themes[theme].textColor }]}>Clear</Text>
           </Pressable>
         </View>
         <ScrollView
@@ -165,7 +164,7 @@ const SidebarView = props => {
           }}
           {...scrollPersistTaps}>
           <OptionCardBtn
-            subTextColor={{color: COLOR_YELLOW}}
+            subTextColor={{ color: COLOR_YELLOW }}
             image={images.reward_badge}
             title="Premium Subscription"
             smallText="Upgrade plan"
@@ -180,9 +179,7 @@ const SidebarView = props => {
               setInviteView(true);
             }}
           />
-          <Text style={[styles.menuText, {color: themes[theme].titleColor}]}>
-            Menu
-          </Text>
+          <Text style={[styles.menuText, { color: themes[theme].titleColor }]}>Menu</Text>
           {menus.map(m => (
             <SidebarItem
               key={m.id}
@@ -193,7 +190,7 @@ const SidebarView = props => {
                   name={m.icon}
                   type={'MaterialCommunityIcons'}
                   size={20}
-                  style={{color: themes[theme].textColor}}
+                  style={{ color: themes[theme].textColor }}
                 />
               }
               hasRight
@@ -205,71 +202,50 @@ const SidebarView = props => {
         </ScrollView>
         <TouchableOpacity
           onPress={onLogOut}
-          style={[
-            styles.logoutBtn,
-            {backgroundColor: themes[theme].messageOwnBackground},
-          ]}>
+          style={[styles.logoutBtn, { backgroundColor: themes[theme].messageOwnBackground }]}>
           <VectorIcon
             name={'logout-variant'}
             type={'MaterialCommunityIcons'}
             size={24}
-            style={{color: themes[theme].textColor}}
+            style={{ color: themes[theme].textColor }}
           />
           <Text
-            style={[styles.logoutText, {color: themes[theme].activeTintColor}]}>
+            style={[styles.logoutText, { color: themes[theme].activeTintColor }]}>
             {I18n.t('Logout').toUpperCase()}
           </Text>
         </TouchableOpacity>
         <View style={styles.bottomView}>
           <View style={styles.privacyTermsEulaContainer}>
-            <Text
-              style={[styles.text, {color: themes[theme].textColor}]}
-              onPress={() => {
-                onNavigate('About', {type: 1});
-              }}>
-              Privacy policy
-            </Text>
-            <Text style={[{color: themes[theme].textColor}]}>.</Text>
-            <Text
-              style={[styles.text, {color: themes[theme].textColor}]}
-              onPress={() => {
-                onNavigate('About', {type: 0});
-              }}>
+            <Text style={[styles.text, { color: themes[theme].textColor }]} onPress={() => {onNavigate('About', { type: 1 })}}>Privacy policy</Text>
+            <Text style={[{ color: themes[theme].textColor }]}>.</Text>
+            <Text style={[styles.text, { color: themes[theme].textColor }]} onPress={() => {onNavigate('About', { type: 0 })}}>
               Terms of services
             </Text>
-            <Text style={[{color: themes[theme].textColor}]}>.</Text>
-            <Text
-              style={[styles.text, {color: themes[theme].textColor}]}
-              onPress={() => {
-                onNavigate('About', {type: 2});
-              }}>
-              Eula
-            </Text>
+            <Text style={[{ color: themes[theme].textColor }]}>.</Text>
+            <Text style={[styles.text, { color: themes[theme].textColor }]} onPress={() => {onNavigate('About', { type: 2 })}}>Eula</Text>
           </View>
           <View style={styles.languageContainer}>
             <Image source={images.en_language} />
-            <Text
-              style={[styles.languageText, {color: themes[theme].textColor}]}>
-              English (US)
-            </Text>
+            <Text style={[styles.languageText, { color: themes[theme].textColor }]}>English (US)</Text>
           </View>
         </View>
       </SafeAreaView>
 
-      <InviteView isOpen={inviteView} onClose={() => setInviteView(false)} />
+      <InviteView
+        isOpen={inviteView}
+        onClose={()=>setInviteView(false)}
+      />
     </View>
-  );
-};
+    
+  )
+}
 
 const mapStateToProps = state => ({
   user: state.login.user,
-});
+})
 
 const mapDispatchToProps = dispatch => ({
   logout: params => dispatch(logoutAction(params)),
-});
+})
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(withTheme(SidebarView));
+export default connect(mapStateToProps, mapDispatchToProps)(withTheme(SidebarView))
