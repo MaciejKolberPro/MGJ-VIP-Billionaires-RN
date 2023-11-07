@@ -4,6 +4,8 @@ export default StyleSheet.create({
   container: {},
   header: {
     paddingHorizontal: 16,
+    flex: 1,
+    flexDirection: 'row',
   },
   title: {
     fontFamily: 'Hind Vadodara',
@@ -27,6 +29,7 @@ export default StyleSheet.create({
   },
   submitBtn: {
     marginTop: 8,
+    paddingVertical: 2,
     alignSelf: 'center',
   },
 })
