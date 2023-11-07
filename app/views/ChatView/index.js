@@ -159,6 +159,11 @@ const ChatView = props => {
             />
           </TouchableOpacity>
           <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('OtherProfile', {
+                userId: room.account?.userId,
+              });
+            }}
             style={{flexGrow: 1, flexDirection: 'row', alignItems: 'center'}}>
             <View style={styles.avatarContainer}>
               <Image
@@ -180,7 +185,8 @@ const ChatView = props => {
                       : themes[theme].focusedBackground,
                   },
                   {borderColor: themes[theme].backgroundColor},
-                ]}></Badge>
+                ]}
+              />
             </View>
             <View style={{flex: 1, alignSelf: 'center', marginLeft: 10}}>
               <Text

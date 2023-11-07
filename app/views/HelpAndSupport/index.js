@@ -14,15 +14,9 @@ import I18n from '../../i18n';
 import {SITE_VIP_MEMBERS_URL} from '../../constants/app';
 import {VectorIcon} from '../../containers/VectorIcon';
 
-const VipMembersClubView = props => {
+const HelpAndSupport = props => {
   const {theme} = props;
   const navigation = useNavigation();
-
-  // useEffect(() => {
-  //   navigation.setOptions({
-  //     title: I18n.t('Vip_members'),
-  //   });
-  // }, []);
 
   useEffect(() => {
     navigation.setOptions({
@@ -38,7 +32,7 @@ const VipMembersClubView = props => {
           />
         </TouchableOpacity>
       ),
-      title: I18n.t('Vip_members'),
+      title: null,
       headerRight: () => <></>,
       headerStyle: {
         backgroundColor: themes[theme].backgroundColor,
@@ -67,31 +61,20 @@ const VipMembersClubView = props => {
             styles.mainText,
             {marginTop: 20, color: themes[theme].activeTintColor},
           ]}>
-          {I18n.t('club_title_1')}
+          We are sorry you are having issues with our app
         </Text>
         <Text style={[styles.subText, {color: themes[theme].activeTintColor}]}>
-          {I18n.t('club_title_3')}
+          To contact support please click below
         </Text>
         <TouchableOpacity
           style={[styles.actionBtn, {backgroundColor: COLOR_YELLOW}]}
           onPress={() => Linking.openURL(SITE_VIP_MEMBERS_URL)}>
-          <Image source={images.become_member} style={styles.iconStyle} />
-          <Text style={styles.actionText}>{I18n.t('become_a_member')}</Text>
+          <Image source={images.mail} style={styles.iconStyle} />
+          <Text style={styles.actionText}>Send us an Email</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 };
 
-const mapStateToProps = state => ({
-  user: state.login.user,
-});
-
-const mapDispatchToProps = dispatch => ({
-  setUser: params => dispatch(setUserAction(params)),
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(withTheme(VipMembersClubView));
+export default withTheme(HelpAndSupport);

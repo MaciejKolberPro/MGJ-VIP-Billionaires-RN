@@ -105,6 +105,7 @@ const images = {
   facebook_dark: require('./images/facebook_dark.png'),
   twitter: require('./images/twitter.png'),
   twitter_dark: require('./images/twitter_dark.png'),
+  premium: require('./images/premium.png'),
 };
 
 export default images;
