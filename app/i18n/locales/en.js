@@ -350,7 +350,7 @@ export default {
   Blocked_Users: 'Blocked Users',
   View_Profile: 'View Profile',
   Clear: 'Clear',
-  Back_To_Menu: 'Back To Menu',
+  Back_To_Menu: 'Back to Menu',
   Back_to_Privacy_and_settings: "Back to Privacy and settings",
   Update_Email_Address: 'Update Email Address',
   Update_password_complete: 'You successfully updated your password',
@@ -377,5 +377,6 @@ export default {
   instant_portfolio: 'Instant creative portfolio',
   sell_goods: 'Sell goods',
   good_content: 'A good content support',
-  cancel_anytime: 'You can cancel anytime any month as needed'
+  cancel_anytime: 'You can cancel anytime any month as needed',
+  Continue: 'Continue',
 };

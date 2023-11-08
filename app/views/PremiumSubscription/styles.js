@@ -5,7 +5,8 @@ export default StyleSheet.create({
     flex:1,
     alignItems:'center',
     padding:20,
-    borderRadius:8
+    borderRadius:8,
+    marginBottom: 30,
   },
   header: {
     flexDirection: 'row',
@@ -37,4 +38,29 @@ export default StyleSheet.create({
     marginTop: 25,
     fontFamily: 'Hind Vadodara',
   },
+  optionsBox: {
+    marginTop: 13,
+    padding: 10
+  },
+  optionContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10
+  },
+  optionText: {
+    fontSize: 14,
+    fontWeight: '400',
+    lineHeight: 22,
+    marginLeft: 12
+  },
+  continueTxtBtn: {
+    width: '100%',
+    height: 46,
+    borderRadius: 8,
+    marginTop: 22,
+    marginBottom: 18,
+    alignItems: 'center',
+    textAlign: 'center',
+    justifyContent: 'center',
+  }
 });
