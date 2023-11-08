@@ -187,6 +187,7 @@ const SidebarView = props => {
           <OptionCardBtn
             image={images.fast_email_sending}
             title="Invite to engage more people"
+            smallTitle
             smallText="Invite now"
             rightIcon
             rightIconName="share"

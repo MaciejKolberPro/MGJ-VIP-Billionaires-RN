@@ -2,10 +2,17 @@ import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
   container: {},
+  headerView: {
+    flexDirection:'row', 
+    alignItems:'center'
+  },
   header: {
-    paddingHorizontal: 16,
-    flex: 1,
     flexDirection: 'row',
+    paddingRight:20
+  },
+  headerText: {
+    fontSize: 16,
+    fontWeight: 'bold'
   },
   title: {
     fontFamily: 'Hind Vadodara',

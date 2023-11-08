@@ -42,44 +42,27 @@ const PrivacySettingsView = props => {
   useEffect(() => {
     const {navigation} = props;
     navigation.setOptions({
-      headerTitleStyle: {
-        fontSize: 16,
-        fontWeight: '600',
-        fontFamily: 'Hind Vadodara',
-        color: themes[theme].activeTintColor,
-        marginTop: 10,
-        alignItems: 'center',
-      },
-      title: I18n.t('Back_to_Privacy_and_settings'),
       headerLeft: () => (
-        <TouchableOpacity
-          style={{
-            marginTop: 12,
-            marginLeft: 15,
-          }}
-          onPress={() => navigation.pop()}>
-          <VectorIcon
-            type={'AntDesign'}
-            name={'arrowleft'}
-            size={20}
-            color={'white'}
-          />
-        </TouchableOpacity>
-      ),
-      headerRight: () => (
-        <View
-          style={{
-            marginTop: 12,
-            marginRight: 15,
-          }}>
-          <VectorIcon
-            type="MaterialCommunityIcons"
-            name="shield-lock"
-            color={themes[theme].titleColor}
-            size={20}
-          />
+        <View style={styles.headerView}>
+          <TouchableOpacity
+            style={styles.header}
+            onPress={() => navigation.navigate('MenuStack', {screen: 'PrivacyAndSettings'})}>
+            <VectorIcon
+              size={20}
+              name={'arrowleft'}
+              type={'AntDesign'}
+              color={themes[theme].activeTintColor}
+              style={{marginLeft: 18}}
+            />
+          </TouchableOpacity>
+          <Text style={[styles.headerText, {color: themes[theme].titleColor}]}>{I18n.t('Back_to_Privacy_and_settings')}</Text>
         </View>
       ),
+      title: null,
+      headerStyle: {
+        backgroundColor: themes[theme].backgroundColor,
+        shadowOpacity: 0,
+      },
     });
   }, []);
 

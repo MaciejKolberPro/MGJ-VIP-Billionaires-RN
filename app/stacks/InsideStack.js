@@ -160,7 +160,6 @@ const InsideStack = () => {
         component={UpdateProfileAndBasicInfo}
         options={{headerShown: false}}
       />
-      <Inside.Screen name="PrivacySettings" component={PrivacySettingsView} />
     </Inside.Navigator>
   );
 };

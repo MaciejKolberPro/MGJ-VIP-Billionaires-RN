@@ -7,7 +7,7 @@ import { VectorIcon } from '../VectorIcon'
 import { useTheme } from '../../theme'
 
 
-const OptionCardBtn = ({ image, title, subTextColor, smallText, rightIcon, rightIconName, onPressEvent }) => {
+const OptionCardBtn = ({ image, title, smallTitle, subTextColor, smallText, rightIcon, rightIconName, onPressEvent }) => {
   const { theme } = useTheme()
 
   return (
@@ -20,7 +20,7 @@ const OptionCardBtn = ({ image, title, subTextColor, smallText, rightIcon, right
         <Image source={image} style={styles.image} />
       </View>
       <View style={styles.textsContainer}>
-        <Text style={[styles.title, { color: themes[theme].activeTintColor }]}>
+        <Text style={[styles.title, { color: themes[theme].activeTintColor, fontSize: smallTitle ? 14 : 16 }]}>
           {title}
         </Text>
         <Text

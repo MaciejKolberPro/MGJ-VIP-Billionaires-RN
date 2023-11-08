@@ -37,19 +37,22 @@ const PrivacyAndSettingsView = props => {
   useEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <TouchableOpacity
-          style={styles.header}
-          onPress={() => navigation.toggleDrawer()}>
-          <VectorIcon
-            type="MaterialCommunityIcons"
-            name="arrow-left"
-            color={themes[theme].titleColor}
-            size={24}
-          />
-        </TouchableOpacity>
+        <View style={styles.headerView}>
+          <TouchableOpacity
+            style={styles.header}
+            onPress={() => navigation.toggleDrawer()}>
+            <VectorIcon
+              size={20}
+              name={'arrowleft'}
+              type={'AntDesign'}
+              color={themes[theme].activeTintColor}
+              style={{marginLeft: 18}}
+            />
+          </TouchableOpacity>
+          <Text style={[styles.headerText, {color: themes[theme].titleColor}]}>{I18n.t('Back_To_Menu')}</Text>
+        </View>
       ),
-      title: I18n.t('Back_To_Menu'),
-      headerRight: () => <></>,
+      title: null,
       headerStyle: {
         backgroundColor: themes[theme].backgroundColor,
         shadowOpacity: 0,
@@ -141,7 +144,7 @@ const PrivacyAndSettingsView = props => {
         />
         <SidebarItem
           text={I18n.t('Privacy_Settings')}
-          onPress={() => {onNavigate('PrivacySettings')}}
+          onPress={() => {onNavigate('MenuStack', {screen: 'PrivacySettings'})}}
           theme={theme}
           hasRight
         />
