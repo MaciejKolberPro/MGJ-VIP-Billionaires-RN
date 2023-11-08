@@ -65,6 +65,7 @@ const ProfileView = props => {
   const [isPostTab, setIsPostTab] = useState(true);
 
   const {account, posts, isLoading} = state;
+
   let unSubscribePost = '';
 
   useEffect(() => {
@@ -92,7 +93,7 @@ const ProfileView = props => {
             posts.sort((a, b) => b.date - a.date);
             setSafeState({account: user, isLoading: false, posts});
           }
-          console.log('profileview-posts', posts);
+          // console.log('profileview-posts', posts);
         });
       })
       .catch(err => {
@@ -193,7 +194,7 @@ const ProfileView = props => {
         .uploadMedia(firebaseSdk.STORAGE_TYPE_AVATAR, image_path)
         .then(image_url => {
           console.log('image_url started');
-          console.log(image_url);
+          // console.log(image_url);
 
           let userInfo = {
             id: user.id,
@@ -307,62 +308,41 @@ const ProfileView = props => {
 
   return (
     <View style={{flex: 1}}>
-      <StatusBar />
+      {/* <StatusBar /> */}
       <SafeAreaView style={styles.topRightButtons}>
-        {/* <TouchableOpacity
-          onPress={navigation.toggleDrawer}
-          style={styles.sideButton}>
-          <Feather name="menu" size={22} color={'white'} />
-        </TouchableOpacity> */}
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={styles.prevButton}>
-          <VectorIcon
-            name={'left'}
-            size={18}
-            color={COLOR_GRAY_DARK}
-            type={'AntDesign'}
-            style={{marginTop: 8, marginLeft: 8}}
-          />
-        </TouchableOpacity>
-        <Text
-          style={[styles.apptitle, {color: themes[theme].deactiveTintColor}]}>
-          {I18n.t('AppTitle')}
-        </Text>
-        <View
-          style={[
-            styles.searchToolBox,
-            {backgroundColor: 'rgba(133, 133, 133, 0.25)'},
-          ]}>
-          <VectorIcon
+        <View style={styles.topRightButtons}>
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            style={styles.prevButton}>
+            <VectorIcon
+              name={'left'}
+              size={18}
+              color={COLOR_GRAY_DARK}
+              type={'AntDesign'}
+              style={{marginTop: 8, marginLeft: 8}}
+            />
+          </TouchableOpacity>
+          <Text
+            style={[styles.apptitle, {color: themes[theme].deactiveTintColor}]}>
+            {I18n.t('AppTitle')}
+          </Text>
+          <View style={styles.searchToolBox}>
+            {/* <VectorIcon
             name={'search'}
             size={18}
             color={COLOR_GRAY_DARK}
             type={'MaterialIcons'}
-          />
+          /> */}
+          </View>
         </View>
-        {/* <View style={{flexDirection: 'row'}}>
-          <TouchableOpacity onPress={() => navigation.navigate('FindFriend')}>
-            <Image
-              source={images.profile_search}
-              style={[styles.toolButton, {marginRight: 10}]}
-            />
-          </TouchableOpacity>
-          <PopupMenu
-            theme={theme}
-            options={[
-              {
-                title: I18n.t('Edit_profile'),
-                onPress: () => navigation.navigate('ProfileEdit'),
-              },
-            ]}
-            renderTrigger={() => (
-              <Image source={images.profile_more} style={styles.toolButton} />
-            )}
-          />
-        </View> */}
       </SafeAreaView>
-      <ScrollView contentContainerStyle={{paddingBottom: 80}}>
+      <ScrollView
+        contentContainerStyle={{
+          paddingBottom: 80,
+          // display: 'flex',
+          // flexDirection: 'column',
+          // justifyContent: 'flex-start',
+        }}>
         <View style={styles.logoContainer}>
           {/* <Image style={styles.backImage} source={{ uri: account.back_image }} /> */}
           <TouchableOpacity
@@ -425,26 +405,29 @@ const ProfileView = props => {
                   {account.company + ' ' + account.role}
                 </Text>
               ) : null}
-              <View style={styles.location}>
-                {account.website && account.website.length > 0 ? (
-                  <TouchableOpacity
-                    style={styles.website}
-                    onPress={() => openLink(account.website)}>
-                    <Text
-                      style={[
-                        styles.website,
-                        {color: themes[theme].websiteLink},
-                      ]}>
-                      {account.website}
-                    </Text>
-                  </TouchableOpacity>
-                ) : null}
-              </View>
-              {/* {
-                account.purpose && account.purpose.length > 0
-                  ? (<Text style={styles.bio}>{account.purpose}</Text>)
-                  : null
-              } */}
+              {account.bio && account.bio.length > 0 ? (
+                <Text
+                  style={{
+                    ...styles.bio,
+                    ...{color: themes[theme].normalTextColor},
+                  }}>
+                  {account.bio}
+                </Text>
+              ) : null}
+              {account.website && account.website.length > 0 ? (
+                <TouchableOpacity
+                  style={styles.website}
+                  onPress={() => openLink(account.website)}>
+                  <Text
+                    style={[
+                      styles.website,
+                      {color: themes[theme].websiteLink},
+                    ]}>
+                    {account.website}
+                  </Text>
+                </TouchableOpacity>
+              ) : null}
+
               <TouchableOpacity
                 onPress={() => navigation.navigate('ProfileEdit')}
                 style={[

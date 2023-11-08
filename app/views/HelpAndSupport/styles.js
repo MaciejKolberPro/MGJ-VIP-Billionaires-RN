@@ -1,14 +1,9 @@
-import { StyleSheet } from 'react-native';
+import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-  },
-  header: {
-    paddingHorizontal: 16,
-    flex: 1,
-    flexDirection: 'row',
   },
   headerContainer: {
     marginTop: 20,
@@ -52,5 +47,10 @@ export default StyleSheet.create({
     textTransform: 'uppercase',
     fontSize: 20,
     color: 'white',
+  },
+  header: {
+    paddingHorizontal: 16,
+    flex: 1,
+    flexDirection: 'row',
   },
 });

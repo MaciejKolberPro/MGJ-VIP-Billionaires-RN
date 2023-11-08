@@ -8,8 +8,10 @@ import {
   Linking,
   SafeAreaView,
   Pressable,
-} from 'react-native'
-import { connect } from 'react-redux'
+  Button,
+} from 'react-native';
+import {connect} from 'react-redux';
+import {openComposer} from 'react-native-email-link';
 
 import { COLOR_YELLOW, themes } from '../../constants/colors'
 import StatusBar from '../../containers/StatusBar'
@@ -27,8 +29,8 @@ import { VectorIcon } from '../../containers/VectorIcon'
 import OptionCardBtn from '../../containers/OptionCardBtn'
 import InviteView from '../InviteView'
 
-const SidebarView = (props) => {
-  const { user, theme, navigation } = props
+const SidebarView = props => {
+  const {user, theme, navigation} = props;
   const menus = [
     // {
     //   id: 'shop',
@@ -72,50 +74,59 @@ const SidebarView = (props) => {
     navigation.setOptions({
       title: 'VIP Billionaires',
       headerBackground: () => <GradientHeader />,
-    })
-  }, [])
+    });
+  }, []);
 
   const onClick = item => {
     switch (item.id) {
       // case 'terms_of_use':
       //   return onNavigate('About', { type: 0 })
       case 'privacy_and_settings':
-        return onNavigate('MenuStack')
+        console.log('priv settings');
+        return onNavigate('MenuStack', {screen: 'PrivacyAndSettings'});
       // case 'eula':
       //   return onNavigate('About', { type: 2 })
       case 'shop':
-        return Linking.openURL(SITE_SHOP_URL)
+        return Linking.openURL(SITE_SHOP_URL);
       case 'help_and_support':
-        return onNavigate('HelpAndSupport')
-      case 'MyConnections':
-        return onNavigate('MyConnections')
+        console.log('fired');
+        // return onNavigate('MenuStack', {screen: 'HelpAndSupport'});
+        return openComposer({
+          to: 'vip-support@miraigroupjapan.com',
+          subject: `Help and Support Email user: ${user.id}`,
+          body: `Hello, I am ${user.displayName}, user id: ${user.id}. I am having issues with... your message`,
+        });
+      case 'connections':
+        console.log('My connect');
+        // return onNavigate('MyConnections');
+        return onNavigate('MenuStack', {screen: 'VipMembers'});
       case 'vip_members':
-        return onNavigate('')
+        return onNavigate('MenuStack', {screen: 'VipMembers'});
       default:
-        onNavigate(item.route, { type: item.init })
+        onNavigate(item.route, {type: item.init});
     }
-  }
+  };
 
   const onNavigate = (routeName, params) => {
-    const { navigation } = props
-    navigation.navigate(routeName, params)
-  }
+    const {navigation} = props;
+    navigation.navigate(routeName, params);
+  };
 
   const onLogOut = () => {
-    const { logout } = props
+    const {logout} = props;
     showConfirmationAlert({
       title: I18n.t('Logout'),
       message: I18n.t('are_you_sure_to_log_out'),
       callToAction: I18n.t('Confirm'),
       onPress: () => {
         if (global.unSubscribeRoom) {
-          global.unSubscribeRoom()
-          global.unSubscribeRoom = undefined
+          global.unSubscribeRoom();
+          global.unSubscribeRoom = undefined;
         }
-        logout()
+        logout();
       },
-    })
-  }
+    });
+  };
 
   return (
     <View style={{flex:1}}>
@@ -168,6 +179,9 @@ const SidebarView = (props) => {
             image={images.reward_badge}
             title="Premium Subscription"
             smallText="Upgrade plan"
+            onPressEvent={() => {
+              return onNavigate('MenuStack', {screen: 'PremiumSubscription'});
+            }}
           />
           <OptionCardBtn
             image={images.fast_email_sending}
@@ -236,16 +250,15 @@ const SidebarView = (props) => {
         onClose={()=>setInviteView(false)}
       />
     </View>
-    
   )
 }
 
 const mapStateToProps = state => ({
   user: state.login.user,
-})
+});
 
 const mapDispatchToProps = dispatch => ({
   logout: params => dispatch(logoutAction(params)),
-})
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(withTheme(SidebarView))

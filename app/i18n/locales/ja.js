@@ -348,4 +348,14 @@ export default {
   invite_url: 'Invited URL',
   invite_content: 'Hey there,\nI’ve just discovered VIP Billionaires – the ultimate social network for successful entrepreneurs. It’s an invite-only opportunity to supercharge your connections and tap into a world of growth, knowledge, and success. Join me on VIP Billionaires, where success meets connection!',
   invite_title: 'Elevate Your Network with VIP Billionaires',
+  back: 'Back',
+  premium_title: 'Premium Membership',
+  premium_detail: 'Thank you for your registration, before we move forward. Please verify your email address.',
+  per_month: 'per month, paid annually',
+  upgrade_profile: 'Upgraded profile',
+  multi_shot: 'Multi-shot & video',
+  instant_portfolio: 'Instant creative portfolio',
+  sell_goods: 'Sell goods',
+  good_content: 'A good content support',
+  cancel_anytime: 'You can cancel anytime any month as needed'
 };

@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'
+import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
   container: {},
@@ -27,9 +27,19 @@ export default StyleSheet.create({
     marginVertical: 8,
     textAlign: 'center',
   },
-  submitBtn: {
-    marginTop: 8,
-    paddingVertical: 2,
-    alignSelf: 'center',
+
+  editProfileTxtBtn: {
+    width: 357,
+    height: 46,
+    borderRadius: 14,
+    marginTop: 14,
+    marginBottom: 14,
+    alignItems: 'center',
+    textAlign: 'center',
+    justifyContent: 'center',
   },
-})
+  editProfileTxt: {
+    fontSize: 16,
+    fontWeight: '500',
+  },
+});

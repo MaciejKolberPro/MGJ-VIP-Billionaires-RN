@@ -2,6 +2,12 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   container: {},
+  header: {
+    paddingHorizontal: 16,
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+  },
   itemContainer: {
     flexDirection: 'row',
     paddingVertical: 8,
