@@ -1,72 +1,97 @@
-import React, { useRef, useState } from 'react'
-import { Text, View } from 'react-native'
-import { connect } from 'react-redux'
-import { withTheme } from '../../theme'
-import styles from './styles'
-import Modal from 'react-native-modal'
-import { themes } from '../../constants/colors'
-import FloatingTextInput from '../../containers/FloatingTextInput'
-import Button from '../../containers/Button'
-import I18n from 'i18n-js'
+import React, {useRef, useState} from 'react';
+import {Text, View, TouchableOpacity, KeyboardAvoidingView} from 'react-native';
+import {connect} from 'react-redux';
+import {withTheme} from '../../theme';
+import styles from './styles';
+import Modal from 'react-native-modal';
+import {themes, COLOR_BTN_BACKGROUND} from '../../constants/colors';
+import FloatingTextInput from '../../containers/FloatingTextInput';
+import I18n from 'i18n-js';
 
-const AccountSettingsModal = ({ isShow, onClose, theme }) => {
-  const [name, setName] = useState('')
-  const [username, setUsername] = useState('')
-  const nameInput = useRef(null)
-  const usernameInput = useRef(null)
-  const onClick = item => {
-
-  }
+const AccountSettingsModal = ({isShow, onClose, theme}) => {
+  const [name, setName] = useState('');
+  const [username, setUsername] = useState('');
+  const nameInput = useRef(null);
+  const usernameInput = useRef(null);
+  const onClick = item => {};
 
   return (
-    <Modal
-      // transparent={true}
-      isVisible={isShow}
-      avoidKeyboard
-      onBackdropPress={onClose}
-      style={{ justifyContent: 'flex-end', margin: 0 }}
-    >
-      <View style={[styles.modalContent, { backgroundColor: themes[theme].backgroundColor }]}
-            onPressOut={onClose}>
-        <Text style={[styles.modalTitle, { color: themes[theme].titleColor }]}>Account Setting</Text>
-        <FloatingTextInput
-          style={{height:50, paddingLeft:10}}
-          returnKeyType="next"
-          textContentType="oneTimeCode"
-          label={I18n.t('Name')}
-          placeholder={I18n.t('enter_name')}
-          onChangeText={name => setName({name})}
-          theme={theme}
-          onSubmitEditing={() => {
-            usernameInput.current.focus()
-          }}/>
+    <KeyboardAvoidingView>
+      <Modal
+        // transparent={true}
+        isVisible={isShow}
+        avoidKeyboard
+        onBackdropPress={onClose}
+        style={{justifyContent: 'flex-end', margin: 0}}>
+        <View
+          style={[
+            styles.modalContent,
+            {backgroundColor: themes[theme].backgroundColor},
+          ]}
+          onPressOut={onClose}>
+          <Text style={[styles.modalTitle, {color: themes[theme].titleColor}]}>
+            Account Setting
+          </Text>
 
-        <FloatingTextInput
-          style={{height:50, paddingLeft:10}}
-          inputRef={usernameInput}
-          textContentType="oneTimeCode"
-          label={I18n.t('Username')}
-          placeholder={I18n.t('Enter_username')}
-          onChangeText={username => setUsername({username})}
-          theme={theme}/>
+          <FloatingTextInput
+            style={{
+              color: themes[theme].activeTintColor,
+              height: 56,
+              padding: 8,
+              radius: 8,
+            }}
+            multiline
+            returnKeyType="next"
+            textContentType="oneTimeCode"
+            label={I18n.t('Name')}
+            placeholder={I18n.t('enter_name')}
+            onChangeText={name => setName({name})}
+            theme={theme}
+            onSubmitEditing={() => {
+              usernameInput.current.focus();
+            }}
+          />
+          <FloatingTextInput
+            style={{
+              color: themes[theme].activeTintColor,
+              height: 56,
+              padding: 8,
+              radius: 8,
+            }}
+            multiline
+            inputRef={usernameInput}
+            textContentType="oneTimeCode"
+            label={I18n.t('Username')}
+            placeholder={I18n.t('Enter_username')}
+            onChangeText={username => setUsername({username})}
+            theme={theme}
+          />
 
-        <Button
-          style={styles.submitBtn}
-          title={I18n.t('Save')}
-          size="W"
-          // onPress={onSubmit}
-          testID="login-submit"
-          // loading={isLoading}
-          theme={theme}
-          pressingHighlight
-        />
-      </View>
-    </Modal>
-  )
-}
+          <TouchableOpacity
+            onPress={() => console.log(username, name)}
+            style={[
+              styles.editProfileTxtBtn,
+              {backgroundColor: COLOR_BTN_BACKGROUND},
+            ]}>
+            <Text
+              style={[
+                styles.editProfileTxt,
+                {color: themes[theme].normalTextColor},
+              ]}>
+              {I18n.t('Save')}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
+    </KeyboardAvoidingView>
+  );
+};
 
-const mapStateToProps = state => ({})
+const mapStateToProps = state => ({});
 
-const mapDispatchToProps = () => ({})
+const mapDispatchToProps = () => ({});
 
-export default connect(mapStateToProps, mapDispatchToProps)(withTheme(AccountSettingsModal))
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(withTheme(AccountSettingsModal));

@@ -6,14 +6,12 @@ export default StyleSheet.create({
   logoContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    position: 'relative',
-    height: 200
+    height: 50,
   },
   mainContent: {
     flex: 1,
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
-    marginTop: -50,
     backgroundColor: 'white',
   },
   backAction: {
@@ -47,19 +45,17 @@ export default StyleSheet.create({
   },
   bio: {
     marginTop: 4,
-    fontSize: 12,
+    marginBottom: 4,
+    fontSize: 16,
   },
   city: {
     marginTop: 10,
     fontSize: 16,
     fontWeight: '500',
   },
-  location: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
   website: {
-    marginTop: 5,
+    marginTop: 4,
+    marginBottom: 4,
     fontSize: 16,
     fontWeight: '500',
   },
@@ -72,7 +68,7 @@ export default StyleSheet.create({
     height: 100,
     borderRadius: 50,
     alignSelf: 'center',
-    marginTop: -50,
+    marginTop: -20,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -104,6 +100,7 @@ export default StyleSheet.create({
   profileName: {
     fontSize: 24,
     fontWeight: '400',
+    marginBottom: 4,
   },
   settingIcon: {
     width: 16,
@@ -122,7 +119,8 @@ export default StyleSheet.create({
     width: '100%',
     height: 46,
     borderRadius: 14,
-    marginTop: 14,
+    marginTop: 4,
+    marginBottom: 4,
     alignItems: 'center',
     textAlign: 'center',
     justifyContent: 'center',
@@ -185,9 +183,11 @@ export default StyleSheet.create({
   },
   topRightButtons: {
     position: 'relative',
-    top: 20,
-    zIndex: 2,
-    paddingHorizontal: 10,
+    width: '100%',
+    display: 'flex',
+    paddingLeft: 20,
+    paddingBottom: 5,
+    paddingRight: 15,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',

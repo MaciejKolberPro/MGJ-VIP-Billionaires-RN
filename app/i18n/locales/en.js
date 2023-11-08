@@ -115,7 +115,7 @@ export default {
   Terms_of_use: 'Terms of Use',
   Privacy_and_settings: 'Privacy and settings',
   Help_and_support: 'Help and support',
-  My_connections: 'My Connections',
+  My_connections: 'My connections',
   Eula: 'EULA',
   Posts: 'Posts',
   Followers: 'Followers',
@@ -367,5 +367,15 @@ export default {
   confirm_password: 'Confirm password',
   enter_old_password: 'Enter your recent password',
   enter_new_password: 'Enter new password',
-  confirm_new_password: 'Confirm new password'
+  confirm_new_password: 'Confirm new password',
+  back: 'Back',
+  premium_title: 'Premium Membership',
+  premium_detail: 'Thank you for your registration, before we move forward. Please verify your email address.',
+  per_month: 'per month, paid annually',
+  upgrade_profile: 'Upgraded profile',
+  multi_shot: 'Multi-shot & video',
+  instant_portfolio: 'Instant creative portfolio',
+  sell_goods: 'Sell goods',
+  good_content: 'A good content support',
+  cancel_anytime: 'You can cancel anytime any month as needed'
 };

@@ -1,9 +1,11 @@
-import { StyleSheet } from 'react-native'
+import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
   container: {},
   header: {
     paddingHorizontal: 16,
+    flex: 1,
+    flexDirection: 'row',
   },
   title: {
     fontFamily: 'Hind Vadodara',
@@ -25,8 +27,19 @@ export default StyleSheet.create({
     marginVertical: 8,
     textAlign: 'center',
   },
-  submitBtn: {
-    marginTop: 8,
-    alignSelf: 'center',
+
+  editProfileTxtBtn: {
+    width: '100%',
+    height: 46,
+    borderRadius: 14,
+    marginTop: 14,
+    marginBottom: 14,
+    alignItems: 'center',
+    textAlign: 'center',
+    justifyContent: 'center',
   },
-})
+  editProfileTxt: {
+    fontSize: 16,
+    fontWeight: '500',
+  },
+});

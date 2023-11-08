@@ -1,7 +1,20 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, Text, Pressable} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Text,
+  Dimensions,
+  Pressable,
+} from 'react-native';
 import {TextInput} from 'react-native';
-import {COLOR_BORDER, COLOR_RED, themes} from '../constants/colors';
+
+import {
+  COLOR_BORDER,
+  COLOR_RED,
+  themes,
+} from '../constants/colors';
+
+const {width} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   iconWrap: {

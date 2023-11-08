@@ -12,7 +12,7 @@ import firestore from '@react-native-firebase/firestore';
 import {connect} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 
-import {HEADER_BAR_END, HEADER_BAR_START, themes} from '../../constants/colors';
+import {themes} from '../../constants/colors';
 import StatusBar from '../../containers/StatusBar';
 import SafeAreaView from '../../containers/SafeAreaView';
 import {withTheme} from '../../theme';
