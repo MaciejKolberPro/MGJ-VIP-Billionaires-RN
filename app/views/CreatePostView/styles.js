@@ -9,23 +9,25 @@ export default StyleSheet.create({
     borderColor: 'grey',
   },
   userContainer: {
-    margin: 12,
+    marginVertical: 20,
     flexDirection: 'row',
     alignItems: 'center',
+    paddingLeft:10
   },
   userImage: {
     width: 48,
     height: 48,
-    borderRadius: 24,
-    resizeMode: 'contain',
+    borderRadius: 24
   },
   userName: {
-    marginLeft: 8,
-    fontWeight: 'bold',
+    marginLeft: 15,
+    fontWeight: '600',
+    fontSize:16
   },
   roundInput: {
     borderWidth: StyleSheet.hairlineWidth,
     borderRadius: 16,
+    marginVertical:10
   },
   underlineInput: {
     marginHorizontal: 8,
@@ -43,12 +45,11 @@ export default StyleSheet.create({
   },
   textStyle: {
     height: 200,
-    textAlignVertical: 'top',
+    textAlignVertical: 'top'
   },
   inputContainer: {
-    flexGrow: 1,
-    paddingVertical: 8,
-    paddingHorizontal: 8,
+    // flexGrow: 1,
+    paddingVertical: 10
   },
   video: {
     width: '100%',
@@ -68,5 +69,16 @@ export default StyleSheet.create({
     justifyContent: 'center',
     width: '100%',
     height: 300,
+  },
+  button: {
+    height: 45,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 8,
+    marginTop: 20,
+  },
+  updateText: {
+    fontSize: 14,
+    fontWeight: '600',
   },
 });

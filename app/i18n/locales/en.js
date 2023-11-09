@@ -379,4 +379,5 @@ export default {
   good_content: 'A good content support',
   cancel_anytime: 'You can cancel anytime any month as needed',
   Continue: 'Continue',
+  whats_on_your_mind: '✍️  Whats on your mind',
 };

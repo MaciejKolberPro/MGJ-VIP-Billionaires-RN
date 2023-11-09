@@ -34,13 +34,11 @@ export default StyleSheet.create({
     marginVertical: 8,
     textAlign: 'center',
   },
-
   editProfileTxtBtn: {
     width: '100%',
     height: 46,
-    borderRadius: 14,
-    marginTop: 14,
-    marginBottom: 14,
+    borderRadius: 8,
+    marginVertical: 14,
     alignItems: 'center',
     textAlign: 'center',
     justifyContent: 'center',

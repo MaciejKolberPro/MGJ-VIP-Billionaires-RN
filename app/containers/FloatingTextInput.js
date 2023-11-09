@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   editText: {
+    // flex: 1,
     paddingHorizontal: 12,
     fontSize: 14,
     lineHeight: 16,
@@ -87,6 +88,7 @@ const FloatingTextInput = props => {
     multiline,
     value,
     onSubmit,
+    style,
     ...inputProps
   } = props;
 
@@ -141,7 +143,8 @@ const FloatingTextInput = props => {
               color: themes[theme].activeTintColor,
               textAlignVertical: multiline ? 'top' : 'center',
               padding: multiline ? 12 : 6,
-            },
+              height: 54
+            }
           ]}
           outlineColor={error ? COLOR_RED : outlineColor || COLOR_BORDER}
           activeOutlineColor={error ? COLOR_RED : themes[theme].textColor}

@@ -1093,6 +1093,7 @@ const PostDetailView = props => {
               returnKeyType="send"
               keyboardType="default"
               onChangeText={text => setState({...state, replyText: text})}
+              textLength={replyText.length}
               onSubmitEditing={onSendReply}
               theme={theme}
             />

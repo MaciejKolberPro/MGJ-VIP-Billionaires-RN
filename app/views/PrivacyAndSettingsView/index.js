@@ -31,8 +31,11 @@ const PrivacyAndSettingsView = props => {
   const {user, theme, navigation} = props;
   const [isShowAccountSettings, onShowAccountSettings] = useState(false);
   const [isShowPasswordSettings, onShowPasswordSettings] = useState(false);
-  const [isShowDeleteAccount, onShowDeleteAccount] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  // test
+  // const [name, setName] = useState('');
+  // const [username, setUsername] = useState('');
 
   useEffect(() => {
     navigation.setOptions({
@@ -167,7 +170,7 @@ const PrivacyAndSettingsView = props => {
         <SidebarItem
           text={I18n.t('Delete_Account')}
           textStyle={{color: COLOR_RED}}
-          onPress={() => onShowDeleteAccount(true)}
+          onPress={() => setShowDeleteModal(true)}
           theme={theme}
         />
       </ScrollView>
@@ -176,14 +179,16 @@ const PrivacyAndSettingsView = props => {
         isShow={isShowAccountSettings}
         theme={theme}
         onClose={() => onShowAccountSettings(false)}
+        // name={name}
+        // setName={setName}
+        // username={username}
+        // setUsername={setUsername}
       />
       <DeleteAccountModal
-        isShow={isShowDeleteAccount}
+        isShow={showDeleteModal}
         theme={theme}
-        onClose={() => onShowDeleteAccount(false)}
-        onSubmit={(password) => deleteAccount(password)}
-      />
-      {renderFooter()}
+        onClose={() => setShowDeleteModal(false)}/>
+
     </SafeAreaView>
   );
 };

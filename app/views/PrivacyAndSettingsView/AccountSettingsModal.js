@@ -34,12 +34,6 @@ const AccountSettingsModal = ({isShow, onClose, theme}) => {
           </Text>
 
           <FloatingTextInput
-            style={{
-              color: themes[theme].activeTintColor,
-              height: 56,
-              padding: 8,
-              radius: 8,
-            }}
             multiline
             returnKeyType="next"
             textContentType="oneTimeCode"
@@ -52,12 +46,6 @@ const AccountSettingsModal = ({isShow, onClose, theme}) => {
             }}
           />
           <FloatingTextInput
-            style={{
-              color: themes[theme].activeTintColor,
-              height: 56,
-              padding: 8,
-              radius: 8,
-            }}
             multiline
             inputRef={usernameInput}
             textContentType="oneTimeCode"
