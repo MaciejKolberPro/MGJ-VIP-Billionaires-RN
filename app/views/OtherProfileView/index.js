@@ -78,6 +78,30 @@ const OtherProfileView = props => {
 
   const init = () => {
     const {navigation} = props;
+    navigation.setOptions({
+      headerLeft: () => (
+        <View style={styles.headerView}>
+          <TouchableOpacity
+            style={styles.header}
+            onPress={() => navigation.goBack()}>
+            <VectorIcon
+              size={20}
+              name={'arrowleft'}
+              type={'AntDesign'}
+              color={themes[theme].activeTintColor}
+              style={{marginLeft: 18}}
+            />
+          </TouchableOpacity>
+          <Text style={[styles.headerText, {color: themes[theme].titleColor}]}>{I18n.t('Back')}</Text>
+        </View>
+      ),
+      title: null,
+      headerStyle: {
+        backgroundColor: themes[theme].backgroundColor,
+        shadowOpacity: 0,
+      },
+    });
+
     firebaseSdk
       .getUser(state.account.userId)
       .then(user => {
@@ -99,8 +123,6 @@ const OtherProfileView = props => {
         setSafeState({isLoading: false});
         showErrorAlert(I18n.t('user_not_found'), '', () => navigation.pop());
       });
-
-    console.log(state.posts);
   };
 
   const openLink = url => {
@@ -198,7 +220,12 @@ const OtherProfileView = props => {
     });
   };
 
-  const goToPosts = () => {};
+  const goToPosts = () => {
+    navigation.navigate('Posts', {
+      type: 'posts',
+      account: state.account,
+    });
+  };
 
   const onOpenPost = item => {
     props.navigation.push('PostDetail', {post: item});
@@ -316,24 +343,7 @@ const OtherProfileView = props => {
 
   return (
     <View style={{flex: 1}}>
-      <StatusBar />
-      <SafeAreaView style={styles.topRightButtons}>
-        <TouchableOpacity
-          style={{flexDirection: 'row'}}
-          onPress={() => navigation.goBack()}>
-          <VectorIcon
-            size={20}
-            name={'arrowleft'}
-            type={'AntDesign'}
-            color={themes[theme].activeTintColor}
-            style={{marginLeft: 18}}
-          />
-          <Text style={{color: themes[theme].activeTintColor, marginLeft: 5}}>
-            {I18n.t('back_to_page')}
-          </Text>
-        </TouchableOpacity>
-      </SafeAreaView>
-      <ScrollView {...scrollPersistTaps} style={{flex:1, marginTop:20}}>
+      <ScrollView {...scrollPersistTaps} style={{flex:1}}>
         {/* Display Avatar Detail */}
         <View
           style={[

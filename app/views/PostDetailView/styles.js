@@ -2,10 +2,25 @@ import {StyleSheet} from 'react-native';
 import {COLOR_YELLOW} from '../../constants/colors';
 
 export default StyleSheet.create({
+  headerView: {
+    flexDirection:'row',
+    alignItems:'center',
+    height: 50,
+    borderBottomWidth: 1,
+    borderBottomColor: '#555555'
+  },
+  header: {
+    flexDirection: 'row',
+    paddingRight:20
+  },
+  headerText: {
+    fontSize: 16,
+    fontWeight: 'bold'
+  },
   container: {
     flexGrow: 1,
-    paddingTop: 20,
     paddingHorizontal: 20,
+    paddingTop: 10,
   },
   owner: {
     marginBottom: 8,

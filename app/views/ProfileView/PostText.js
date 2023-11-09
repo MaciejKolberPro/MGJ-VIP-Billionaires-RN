@@ -7,7 +7,7 @@ import images from '../../assets/images';
 import {dateStringFromNowShort} from '../../utils/datetime';
 import PopupMenu from '../../containers/PopupMenu';
 import {getUserRepresentString} from '../../utils/const';
-import { VectorIcon } from '../../containers/VectorIcon';
+import {VectorIcon} from '../../containers/VectorIcon';
 
 const styles = StyleSheet.create({
   container: {
@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     borderWidth: 1,
     marginHorizontal: 16,
+    marginBottom: 8,
   },
   avatar: {
     width: 44,
@@ -133,13 +134,11 @@ const PostText = ({
         />
       </View>
       <View>
-        <View>
-          <TouchableOpacity onPress={onPress}>
-            <Text style={[styles.text, {color: themes[theme].activeTintColor}]}>
-              {item?.text}
-            </Text>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity onPress={onPress}>
+          <Text style={[styles.text, {color: themes[theme].activeTintColor}]}>
+            {item?.text}
+          </Text>
+        </TouchableOpacity>
         <View style={styles.userInfo}>
           <View style={styles.row}>
             <TouchableOpacity
@@ -167,11 +166,9 @@ const PostText = ({
               </Text>
             </TouchableOpacity>
           </View>
-          <View>
-            <TouchableOpacity onPress={onPressShare}>
-              <Image source={images.share} style={styles.toolIcon} />
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity onPress={onPressShare}>
+            <Image source={images.share} style={styles.toolIcon} />
+          </TouchableOpacity>
         </View>
       </View>
     </View>

@@ -3,6 +3,18 @@ import {Dimensions, StyleSheet} from 'react-native';
 const {width} = Dimensions.get('window');
 
 export default StyleSheet.create({
+  headerView: {
+    flexDirection:'row', 
+    alignItems:'center'
+  },
+  header: {
+    flexDirection: 'row',
+    paddingRight:20
+  },
+  headerText: {
+    fontSize: 16,
+    fontWeight: 'bold'
+  },
   logoContainer: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -58,7 +70,7 @@ export default StyleSheet.create({
   },
   avatarContainer: {
     borderRadius: 25,
-    marginTop: 75,
+    marginTop: 25,
     paddingHorizontal: 20,
     alignItems: 'center',
     flexDirection: 'row',

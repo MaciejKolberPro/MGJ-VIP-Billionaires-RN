@@ -409,56 +409,33 @@ const PostDetailView = props => {
   return (
     <View style={sharedStyles.container}>
       <StatusBar />
+      {
+        !photoMode && 
+        <View style={styles.headerView}>
+          <TouchableOpacity
+            style={styles.header}
+            onPress={() => navigation.goBack()}>
+            <VectorIcon
+              size={20}
+              name={'arrowleft'}
+              type={'AntDesign'}
+              color={themes[theme].activeTintColor}
+              style={{marginLeft: 18}}
+            />
+          </TouchableOpacity>
+          <Text style={[styles.headerText, {color: themes[theme].titleColor}]}>{I18n.t('back_to_home')}</Text>
+        </View>
+      }
       <KeyboardView
         contentContainerStyle={[
           sharedStyles.contentContainer,
           {
             backgroundColor: themes[theme].backgroundColor,
             height: '100%',
-            paddingTop: 50,
           },
         ]}
         keyboardVerticalOffset={128}>
         {/* Header Navigate Bar */}
-        <View
-          style={{
-            height: 40,
-            borderBottomWidth: 1,
-            flexDirection: 'row',
-            alignItems: 'center',
-            paddingHorizontal: 15,
-            borderBottomColor: themes[theme].separatorColor ,
-          }}>
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-            style={{
-              height: 40,
-              width: 40,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <Image
-              style={{
-                width: 18,
-                height: 14,
-                tintColor: themes[theme].activeTintColor,
-              }}
-              source={images.nav_back}
-            />
-          </TouchableOpacity>
-          <Text
-            style={[
-              styles.profileName,
-              {
-                color: themes[theme].activeTintColor,
-                fontSize: 14,
-                marginLeft: 10,
-              },
-            ]}>
-            {/* {I18n.t(post.type)} */}
-            {I18n.t('back_to_home')}
-          </Text>
-        </View>
         {isLoading && (
           <ActivityIndicator absolute theme={theme} size={'large'} />
         )}

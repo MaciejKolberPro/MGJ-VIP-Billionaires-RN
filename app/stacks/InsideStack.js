@@ -75,7 +75,6 @@ const TabStack = () => {
       <Tab.Screen
         name="Profile"
         component={ProfileView}
-        options={{headerShown: false}}
       />
       <Tab.Screen
         name="Message"
@@ -126,7 +125,6 @@ const InsideStack = () => {
       <Inside.Screen
         name="OtherProfile"
         component={OtherProfileView}
-        options={{headerShown: false}}
       />
       <Inside.Screen name="Follow" component={FollowView} />
       <Inside.Screen name="CreatePost" component={CreatePostView} />

@@ -33,7 +33,6 @@ import firebaseSdk, {
 } from '../../lib/firebaseSdk';
 import {showErrorAlert, showToast} from '../../lib/info';
 import {VectorIcon} from '../../containers/VectorIcon';
-import scrollPersistTaps from '../../utils/scrollPersistTaps';
 import I18n from '../../i18n';
 import {
   checkCameraPermission,
@@ -42,14 +41,8 @@ import {
 } from '../../utils/permissions';
 import {isValidURL} from '../../utils/validators';
 import {withActionSheet} from '../../containers/ActionSheet';
-import PostText from './PostText';
-import PopupMenu from '../../containers/PopupMenu';
-import {
-  POST_TYPE_PHOTO,
-  POST_TYPE_TEXT,
-  POST_TYPE_VIDEO,
-} from '../../constants/app';
-import {getUserRepresentString, onSharePost} from '../../utils/const';
+import {POST_TYPE_PHOTO, POST_TYPE_VIDEO} from '../../constants/app';
+import {onSharePost} from '../../utils/const';
 import Post from '../HomeView/Post';
 
 const ProfileView = props => {
@@ -68,6 +61,39 @@ const ProfileView = props => {
   const {account, posts, isLoading} = state;
 
   let unSubscribePost = '';
+
+  useEffect(() => {
+    const {navigation} = props;
+    navigation.setOptions({
+      header: () => (
+        <View style={styles.headerView}>
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            style={styles.headerIcon}>
+            <VectorIcon
+              name={'left'}
+              size={16}
+              color={COLOR_GRAY_DARK}
+              type={'AntDesign'}
+              style={{marginTop: 8, marginLeft: 8}}
+            />
+          </TouchableOpacity>
+          <Text
+            style={[
+              styles.headerText,
+              {color: themes[theme].deactiveTintColor},
+            ]}>
+            {I18n.t('AppTitle')}
+          </Text>
+        </View>
+      ),
+      title: null,
+      headerStyle: {
+        backgroundColor: themes[theme].backgroundColor,
+        shadowOpacity: 0,
+      },
+    });
+  }, []);
 
   useEffect(() => {
     if (!isEmpty(user)) init();
@@ -309,39 +335,12 @@ const ProfileView = props => {
 
   return (
     <View style={{flex: 1}}>
-      <SafeAreaView style={styles.topRightButtons}>
-        <View style={styles.topRightButtons}>
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-            style={styles.prevButton}>
-            <VectorIcon
-              name={'left'}
-              size={18}
-              color={COLOR_GRAY_DARK}
-              type={'AntDesign'}
-              style={{marginTop: 8, marginLeft: 8}}
-            />
-          </TouchableOpacity>
-          <Text
-            style={[styles.apptitle, {color: themes[theme].deactiveTintColor}]}>
-            {I18n.t('AppTitle')}
-          </Text>
-          <View style={styles.searchToolBox}>
-            {/* <VectorIcon
-            name={'search'}
-            size={18}
-            color={COLOR_GRAY_DARK}
-            type={'MaterialIcons'}
-          /> */}
-          </View>
-        </View>
-      </SafeAreaView>
       <ScrollView contentContainerStyle={{paddingBottom: 80}}>
         <View style={styles.logoContainer}>
           <TouchableOpacity
             onPress={() => onEditBackImage()}
             style={styles.backAction}>
-              {/* <VectorIcon
+            {/* <VectorIcon
               name={'camera-alt'}
               size={24}
               color={'white'}

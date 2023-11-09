@@ -32,7 +32,7 @@ const PremiumSubscription = props => {
         <View style={styles.headerView}>
           <TouchableOpacity
             style={styles.header}
-            onPress={() => navigation.goBack()}>
+            onPress={() => navigation.toggleDrawer()}>
             <VectorIcon
               size={20}
               name={'arrowleft'}
@@ -91,7 +91,7 @@ const PremiumSubscription = props => {
             ))}
           </View>
           <TouchableOpacity
-            onPress={() => console.log(username, name)}
+            onPress={() => {}}
             style={[
               styles.continueTxtBtn,
               {backgroundColor: COLOR_BTN_BACKGROUND},

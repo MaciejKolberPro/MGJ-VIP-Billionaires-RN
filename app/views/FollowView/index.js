@@ -43,6 +43,9 @@ const FollowView = props => {
     loading: true,
     updating: false,
   });
+  const {theme, user, setUser} = props;
+  const {type, refreshing, updating, account, loading} = state;
+
   const [data, setData] = useState([]);
   const [text, setText] = useState('');
 
@@ -50,14 +53,11 @@ const FollowView = props => {
     type === 'followers' ? true : false,
   );
 
-  const {theme, user, setUser} = props;
-  const {type, refreshing, updating, account, loading} = state;
-
   const isSelf = user.userId === account.userId;
 
   useEffect(() => {
     navigation.setOptions({
-      title: I18n.t('Followings'),
+      title: type === 'followings' ? I18n.t('Followings') : I18n.t('Followers'),
       headerLeft: () => (
         <TouchableOpacity
           style={{justifyContent: 'center'}}
@@ -72,14 +72,7 @@ const FollowView = props => {
         </TouchableOpacity>
       ),
     });
-
-    if (type) {
-      navigation.setOptions({
-        title:
-          type === 'followings' ? I18n.t('Followings') : I18n.t('Followers'),
-      });
-    }
-  }, []);
+  }, [type]);
 
   useEffect(() => {
     getData(text);
