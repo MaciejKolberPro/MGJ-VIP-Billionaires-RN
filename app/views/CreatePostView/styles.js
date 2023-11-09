@@ -9,18 +9,18 @@ export default StyleSheet.create({
     borderColor: 'grey',
   },
   userContainer: {
-    margin: 12,
+    marginVertical: 20,
     flexDirection: 'row',
     alignItems: 'center',
+    paddingLeft:10
   },
   userImage: {
     width: 48,
     height: 48,
-    borderRadius: 24,
-    resizeMode: 'contain',
+    borderRadius: 24
   },
   userName: {
-    marginLeft: 8,
+    marginLeft: 15,
     fontWeight: 'bold',
   },
   roundInput: {
@@ -46,7 +46,7 @@ export default StyleSheet.create({
     textAlignVertical: 'top',
   },
   inputContainer: {
-    flexGrow: 1,
+    // flexGrow: 1,
     paddingVertical: 8,
     paddingHorizontal: 8,
   },
@@ -68,5 +68,16 @@ export default StyleSheet.create({
     justifyContent: 'center',
     width: '100%',
     height: 300,
+  },
+  button: {
+    height: 45,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 8,
+    marginTop: 20,
+  },
+  updateText: {
+    fontSize: 14,
+    fontWeight: '600',
   },
 });

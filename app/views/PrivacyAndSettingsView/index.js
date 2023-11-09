@@ -38,11 +38,13 @@ import {Icon} from '../../containers/List';
 import SidebarItem from '../SidebarView/SidebarItem';
 import Modal from 'react-native-modal';
 import AccountSettingModal from './AccountSettingsModal';
+import DeleteAccountModal from './DeleteAccountModal';
 
 const PrivacyAndSettingsView = props => {
   const {user, theme, navigation} = props;
   const [isShowAccountSettings, onShowAccountSettings] = useState(false);
   const [isShowPasswordSettings, onShowPasswordSettings] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   // test
   // const [name, setName] = useState('');
@@ -136,7 +138,7 @@ const PrivacyAndSettingsView = props => {
         <SidebarItem
           text={'Delete Account'}
           textStyle={{color: COLOR_RED}}
-          onPress={() => onClick()}
+          onPress={() => setShowDeleteModal(true)}
           theme={theme}
         />
       </ScrollView>
@@ -149,8 +151,12 @@ const PrivacyAndSettingsView = props => {
         // setName={setName}
         // username={username}
         // setUsername={setUsername}
-
       />
+      <DeleteAccountModal
+        isShow={showDeleteModal}
+        theme={theme}
+        onClose={() => setShowDeleteModal(false)}/>
+
     </SafeAreaView>
   );
 };

@@ -27,7 +27,7 @@ import firebaseSdk, {DB_ACTION_ADD} from '../../lib/firebaseSdk';
 import I18n from '../../i18n';
 import {VectorIcon} from '../../containers/VectorIcon';
 import {GradientHeader} from '../../containers/GradientHeader';
-import {HEADER_BAR_END, HEADER_BAR_START, themes} from '../../constants/colors';
+import {COLOR_BTN_BACKGROUND, HEADER_BAR_START, themes} from '../../constants/colors';
 
 const CreatePostView = props => {
   const navigation = useNavigation();
@@ -46,19 +46,34 @@ const CreatePostView = props => {
 
   useEffect(() => {
     navigation.setOptions({
-      title: I18n.t('Create_post'),
-      headerRight: () => (
-        <HeaderButton.Publish
-          navigation={navigation}
-          onPress={onSubmit}
-          testID="rooms-list-view-create-channel"
-        />
+      headerLeft: () => (
+        <TouchableOpacity
+          style={{
+            paddingLeft: 15,
+          }}
+          onPress={() => navigation.goBack()}>
+          <VectorIcon
+            type={'AntDesign'}
+            name={'arrowleft'}
+            size={20}
+            color={theme === 'dark' ? 'white' : themes[theme].deactiveTintColor}
+          />
+        </TouchableOpacity>
       ),
+      title: I18n.t('Create_post'),
+      // headerRight: () => (
+      //   <HeaderButton.Publish
+      //     navigation={navigation}
+      //     onPress={onSubmit}
+      //     testID="rooms-list-view-create-channel"
+      //   />
+      // ),
     });
   }, [text]);
 
   useEffect(() => {
     init();
+    console.log(user.avatar)
   }, []);
 
   const init = async () => {
@@ -251,24 +266,35 @@ const CreatePostView = props => {
         <ScrollView
           contentContainerStyle={{
             flexGrow: 1,
-            paddingTop: 10,
-            paddingHorizontal: 10,
+            paddingHorizontal: 15,
           }}
           {...scrollPersistTaps}>
           {isLoading && (
             <ActivityIndicator absolute theme={theme} size={'large'} />
           )}
-          <View style={styles.userContainer}>
-            <Image
-              source={user.avatar ? {uri: user.avatar} : images.default_avatar}
-              style={styles.userImage}
-            />
-            <Text
-              style={[styles.userName, {color: themes[theme].activeTintColor}]}>
-              {user.displayName}
-            </Text>
+          <View style={{flex: 1}}>
+            <View style={styles.userContainer}>
+              <Image
+                source={user.avatar ? {uri: user.avatar} : images.default_avatar}
+                style={styles.userImage}
+              />
+              <Text
+                style={[styles.userName, {color: themes[theme].activeTintColor}]}>
+                {user.displayName}
+              </Text>
+            </View>
+
+            {renderForm()}
+
+            <TouchableOpacity
+              onPress={onSubmit}
+              style={[styles.button, {backgroundColor: COLOR_BTN_BACKGROUND}]}>
+              <Text style={[styles.updateText, {color: themes[theme].normalTextColor}]}>
+                {I18n.t('Publish')}
+              </Text>
+            </TouchableOpacity>
           </View>
-          {renderForm()}
+          
         </ScrollView>
       </KeyboardView>
     </SafeAreaView>
