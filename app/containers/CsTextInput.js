@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: isIOS ? 8 : 14,
     paddingVertical: isIOS ? 10 : 4,
     flexGrow: 1,
-    justifyContent: 'flex-start',
+    justifyContent: 'flex-start'
   },
   inputIconLeft: {
     paddingLeft: 54,
@@ -69,10 +69,16 @@ const styles = StyleSheet.create({
   icon: {
     color: '#2F343D',
   },
+  textLenght: {
+    position:'absolute', 
+    right:10, 
+    bottom: 10,
+    fontSize: 12
+  }
 })
 
 const CsTextInput = props => {
-  const [showPassword, setShowPassword] = useState(false)
+  const [showPassword, setShowPassword] = useState(false);
 
   const {
     label,
@@ -91,6 +97,7 @@ const CsTextInput = props => {
     testID,
     placeholder,
     theme,
+    textLength,
     ...inputProps
   } = props
 
@@ -163,6 +170,7 @@ const CsTextInput = props => {
               borderColor: dangerColor,
             },
             inputStyle,
+            {color: themes[theme].textColor}
           ]}
           ref={inputRef}
           autoCorrect={false}
@@ -173,10 +181,12 @@ const CsTextInput = props => {
           accessibilityLabel={placeholder}
           placeholder={placeholder}
           contentDescription={placeholder}
-          placeholderTextColor={themes[theme].auxiliaryText}
+          placeholderTextColor={themes[theme].subTextColor}
           theme={'light'}
+          maxLength={512}
           {...inputProps}
         />
+        <Text style={[styles.textLenght, {color: themes[theme].textColor}]}>{`${textLength || 0} / 512`}</Text>
         {iconLeft ? leftIcon() : null}
         {iconRight ? rightIcon() : null}
         {loading ? loading : null}

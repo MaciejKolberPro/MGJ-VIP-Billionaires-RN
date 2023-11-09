@@ -6,13 +6,18 @@ import styles from './styles';
 import Modal from 'react-native-modal';
 import {themes, COLOR_BTN_BACKGROUND} from '../../constants/colors';
 import FloatingTextInput from '../../containers/FloatingTextInput';
+import I18n from '../../i18n';
+import CheckBox from '../../containers/CheckBox';
+import { VectorIcon } from '../../containers/VectorIcon';
 
-const AccountSettingsModal = ({isShow, onClose, theme}) => {
-  const [name, setName] = useState('');
-  const [username, setUsername] = useState('');
-  const nameInput = useRef(null);
-  const usernameInput = useRef(null);
-  const onClick = item => {};
+const DeleteAccountModal = ({isShow, onClose, theme}) => {
+  const [password, setPassword] = useState('');
+  const passwordInput = useRef(null);
+  const [checked, setChecked] = useState(false);
+
+  const onSubmit = () => {
+    console.log(password)
+  };
 
   return (
     <KeyboardAvoidingView>
@@ -29,33 +34,34 @@ const AccountSettingsModal = ({isShow, onClose, theme}) => {
           ]}
           onPressOut={onClose}>
           <Text style={[styles.modalTitle, {color: themes[theme].titleColor}]}>
-            Account Setting
+            Delete Account
           </Text>
 
           <FloatingTextInput
-            multiline
+            style={{
+              color: themes[theme].activeTintColor,
+              height: 56,
+              padding: 8,
+              radius: 8,
+            }}
+            inputRef={passwordInput}
             returnKeyType="next"
             textContentType="oneTimeCode"
-            label={'Name'}
-            placeholder={'Enter Your Name'}
-            onChangeText={name => setName({name})}
+            label={'Password'}
+            secureTextEntry
+            placeholder={'Enter Your Password'}
+            onChangeText={text => setPassword(text)}
             theme={theme}
-            onSubmitEditing={() => {
-              usernameInput.current.focus();
-            }}
+            onSubmitEditing={onSubmit}
           />
-          <FloatingTextInput
-            multiline
-            inputRef={usernameInput}
-            textContentType="oneTimeCode"
-            label={'Username'}
-            placeholder={'Enter Your Username'}
-            onChangeText={username => setUsername({username})}
-            theme={theme}
+          <CheckBox
+            title={"Agree to delete account."}
+            checked={checked}
+            textStyle={{color: themes[theme].normalTextColor}}
+            onPress={()=>setChecked(!checked)}
           />
-
           <TouchableOpacity
-            onPress={() => console.log(username, name)}
+            onPress={onSubmit}
             style={[
               styles.editProfileTxtBtn,
               {backgroundColor: COLOR_BTN_BACKGROUND},
@@ -65,7 +71,7 @@ const AccountSettingsModal = ({isShow, onClose, theme}) => {
                 styles.editProfileTxt,
                 {color: themes[theme].normalTextColor},
               ]}>
-              Save
+              {I18n.t('submit')}
             </Text>
           </TouchableOpacity>
         </View>
@@ -81,4 +87,4 @@ const mapDispatchToProps = () => ({});
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(withTheme(AccountSettingsModal));
+)(withTheme(DeleteAccountModal));

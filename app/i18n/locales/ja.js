@@ -357,5 +357,6 @@ export default {
   instant_portfolio: 'Instant creative portfolio',
   sell_goods: 'Sell goods',
   good_content: 'A good content support',
-  cancel_anytime: 'You can cancel anytime any month as needed'
+  cancel_anytime: 'You can cancel anytime any month as needed',
+  whats_on_your_mind: '✍️  Whats on your mind',
 };

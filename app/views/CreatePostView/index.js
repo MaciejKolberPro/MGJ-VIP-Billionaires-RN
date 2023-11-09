@@ -27,7 +27,7 @@ import firebaseSdk, {DB_ACTION_ADD} from '../../lib/firebaseSdk';
 import I18n from '../../i18n';
 import {VectorIcon} from '../../containers/VectorIcon';
 import {GradientHeader} from '../../containers/GradientHeader';
-import {HEADER_BAR_END, HEADER_BAR_START, themes} from '../../constants/colors';
+import {COLOR_BTN_BACKGROUND, HEADER_BAR_START, themes} from '../../constants/colors';
 
 const CreatePostView = props => {
   const navigation = useNavigation();
@@ -46,14 +46,18 @@ const CreatePostView = props => {
 
   useEffect(() => {
     navigation.setOptions({
-      title: I18n.t('Create_post'),
-      headerRight: () => (
-        <HeaderButton.Publish
-          navigation={navigation}
-          onPress={onSubmit}
-          testID="rooms-list-view-create-channel"
-        />
+      headerLeft: () => (
+        <TouchableOpacity style={{paddingLeft: 15}}
+          onPress={() => navigation.goBack()}>
+          <VectorIcon
+            type={'AntDesign'}
+            name={'arrowleft'}
+            size={20}
+            color={theme === 'dark' ? 'white' : themes[theme].deactiveTintColor}
+          />
+        </TouchableOpacity>
       ),
+      title: I18n.t('Create_post')
     });
   }, [text]);
 
@@ -84,54 +88,55 @@ const CreatePostView = props => {
   };
 
   const onSubmit = () => {
-    if (isValid()) {
-      setState({...state, isLoading: true});
+    if (!isValid()) return;
 
-      let post = {
-        userId: user.userId,
-        likes: [],
-        comments: [],
-        type: type,
-        text: text.length > 0 ? text : null,
-        date: new Date(),
-      };
+    setState({...state, isLoading: true});
 
-      switch (type) {
-        case POST_TYPE_TEXT:
-          return savePost(post);
-        case POST_TYPE_PHOTO:
-          return firebaseSdk
-            .uploadMedia(firebaseSdk.STORAGE_TYPE_PHOTO, file_path)
-            .then(image_url => {
-              post.photo = image_url;
-              savePost(post);
-            })
-            .catch(err => {
-              showErrorAlert(I18n.t('Upload_Image_failed'));
-              setState({...state, isLoading: false});
-            });
-        case POST_TYPE_VIDEO:
-          return firebaseSdk
-            .uploadMedia(firebaseSdk.STORAGE_TYPE_PHOTO, file_path)
-            .then(video_url => {
-              post.video = video_url;
-              firebaseSdk
-                .uploadMedia(firebaseSdk.STORAGE_TYPE_PHOTO, thumbnail)
-                .then(image_url => {
-                  post.thumbnail = image_url;
-                  savePost(post);
-                })
-                .catch(err => {
-                  showErrorAlert(I18n.t('Uploading_thumbnail_failed'));
-                  setState({...state, isLoading: false});
-                });
-            })
-            .catch(err => {
-              showErrorAlert(I18n.t('Upload_Image_failed'));
-              setState({...state, isLoading: false});
-            });
-      }
+    let post = {
+      userId: user.userId,
+      likes: [],
+      comments: [],
+      type: type,
+      text: text.length > 0 ? text : null,
+      date: new Date(),
+    };
+
+    switch (type) {
+      case POST_TYPE_TEXT:
+        return savePost(post);
+      case POST_TYPE_PHOTO:
+        return firebaseSdk
+          .uploadMedia(firebaseSdk.STORAGE_TYPE_PHOTO, file_path)
+          .then(image_url => {
+            post.photo = image_url;
+            savePost(post);
+          })
+          .catch(err => {
+            showErrorAlert(I18n.t('Upload_Image_failed'));
+            setState({...state, isLoading: false});
+          });
+      case POST_TYPE_VIDEO:
+        return firebaseSdk
+          .uploadMedia(firebaseSdk.STORAGE_TYPE_PHOTO, file_path)
+          .then(video_url => {
+            post.video = video_url;
+            firebaseSdk
+              .uploadMedia(firebaseSdk.STORAGE_TYPE_PHOTO, thumbnail)
+              .then(image_url => {
+                post.thumbnail = image_url;
+                savePost(post);
+              })
+              .catch(err => {
+                showErrorAlert(I18n.t('Uploading_thumbnail_failed'));
+                setState({...state, isLoading: false});
+              });
+          })
+          .catch(err => {
+            showErrorAlert(I18n.t('Upload_Image_failed'));
+            setState({...state, isLoading: false});
+          });
     }
+  
   };
 
   const savePost = post => {
@@ -158,9 +163,11 @@ const CreatePostView = props => {
               containerStyle={styles.roundInput}
               inputStyle={styles.textStyle}
               wrapStyle={{alignItems: 'flex-start', paddingVertical: 12}}
+              placeholder={I18n.t('write_something_here')}
               returnKeyType="send"
               keyboardType="default"
               onChangeText={val => setText(val)}
+              textLength={text.length}
               multiline={true}
               theme={theme}
             />
@@ -171,16 +178,20 @@ const CreatePostView = props => {
           <View style={styles.inputContainer}>
             <CsTextInput
               inputRef={textInputRef}
-              containerStyle={styles.underlineInput}
+              containerStyle={styles.roundInput}
+              inputStyle={styles.textStyle}
+              wrapStyle={{alignItems: 'flex-start', paddingVertical: 12}}
               placeholder={I18n.t('Photo_post_placeholder')}
               returnKeyType="send"
               keyboardType="default"
               onChangeText={val => setText(val)}
+              textLength={text.length}
+              multiline={true}
               theme={theme}
             />
             <Image
               source={{uri: file_path}}
-              style={[styles.imageStyle, {borderRadius: 20}]}
+              style={[styles.imageStyle, {borderRadius: 20, marginTop:10}]}
               resizeMode="cover"
             />
           </View>
@@ -216,13 +227,17 @@ const CreatePostView = props => {
                 </TouchableOpacity>
               </View>
             )}
+            <View style={{height: 15}}/>
             <CsTextInput
               inputRef={textInputRef}
-              containerStyle={styles.underlineInput}
+              containerStyle={styles.roundInput}
+              inputStyle={styles.textStyle}
+              wrapStyle={{alignItems: 'flex-start', paddingVertical: 12}}
               placeholder={I18n.t('Video_post_placeholder')}
               returnKeyType="send"
               keyboardType="default"
               onChangeText={val => setText(val)}
+              textLength={text.length}
               multiline={true}
               theme={theme}
             />
@@ -251,24 +266,32 @@ const CreatePostView = props => {
         <ScrollView
           contentContainerStyle={{
             flexGrow: 1,
-            paddingTop: 10,
-            paddingHorizontal: 10,
+            paddingHorizontal: 15,
           }}
           {...scrollPersistTaps}>
           {isLoading && (
             <ActivityIndicator absolute theme={theme} size={'large'} />
           )}
-          <View style={styles.userContainer}>
-            <Image
-              source={user.avatar ? {uri: user.avatar} : images.default_avatar}
-              style={styles.userImage}
-            />
-            <Text
-              style={[styles.userName, {color: themes[theme].activeTintColor}]}>
-              {user.displayName}
-            </Text>
+          <View style={{flex: 1, marginTop: 10}}>
+            <View style={{flexDirection: 'row'}}>
+              <Text style={[styles.userName, {color: themes[theme].activeTintColor}]}>
+                {I18n.t('whats_on_your_mind')}
+              </Text>
+              <Text style={[styles.userName, {marginLeft: 5, color: themes[theme].websiteLink}]}>
+                {user?.displayName || ''}
+              </Text>
+            </View>
+
+            {renderForm()}
+
+            <TouchableOpacity style={[styles.button, {backgroundColor: COLOR_BTN_BACKGROUND}]}
+              onPress={onSubmit}>
+              <Text style={[styles.updateText, {color: themes[theme].normalTextColor}]}>
+                {I18n.t('Publish')}
+              </Text>
+            </TouchableOpacity>
           </View>
-          {renderForm()}
+          
         </ScrollView>
       </KeyboardView>
     </SafeAreaView>
