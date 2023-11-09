@@ -141,7 +141,7 @@ const FloatingTextInput = props => {
             {
               backgroundColor: backgroundColor ?? 'transparent',
               color: themes[theme].activeTintColor,
-              textAlignVertical: multiline ? 'top' : 'center',
+              textAlignVertical: 'center',
               padding: multiline ? 12 : 6,
               height: 54
             }
