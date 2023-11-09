@@ -21,11 +21,13 @@ export default StyleSheet.create({
   },
   userName: {
     marginLeft: 15,
-    fontWeight: 'bold',
+    fontWeight: '600',
+    fontSize:16
   },
   roundInput: {
     borderWidth: StyleSheet.hairlineWidth,
     borderRadius: 16,
+    marginVertical:10
   },
   underlineInput: {
     marginHorizontal: 8,
@@ -43,12 +45,11 @@ export default StyleSheet.create({
   },
   textStyle: {
     height: 200,
-    textAlignVertical: 'top',
+    textAlignVertical: 'top'
   },
   inputContainer: {
     // flexGrow: 1,
-    paddingVertical: 8,
-    paddingHorizontal: 8,
+    paddingVertical: 10
   },
   video: {
     width: '100%',

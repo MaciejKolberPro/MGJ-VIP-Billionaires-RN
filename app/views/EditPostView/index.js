@@ -135,36 +135,23 @@ const EditPostView = props => {
   const init = async () => {
     navigation.setOptions({
       headerTitleStyle: {
-        fontSize: 14,
-        fontWeight: '500',
+        fontSize: 16,
+        fontWeight: '600',
         fontFamily: 'Hind Vadodara',
-        color: themes[theme].activeTintColor,
-        marginTop: 10,
+        color: themes[theme].activeTintColor
       },
-      title: I18n.t('back_to_page'),
+      title: I18n.t('edit_post'),
       headerLeft: () => (
-        <TouchableOpacity
-          style={{
-            marginTop: 10,
-          }}
-          onPress={() => navigation.goBack()}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <VectorIcon
             size={20}
             name={'arrowleft'}
             type={'AntDesign'}
             color={themes[theme].activeTintColor}
-            style={{marginLeft: 18}}
+            style={{marginLeft: 15}}
           />
         </TouchableOpacity>
-      ),
-      headerRight: () => (
-        type === POST_TYPE_TEXT ?
-          <TouchableOpacity style={{marginTop:15, paddingRight:20}}
-            onPress={onSubmit}>
-            <Text style={{fontSize: 14, fontWeight: '600', color: themes[theme].textColor}}>{I18n.t('submit')}</Text>
-          </TouchableOpacity>
-        : null
-      ),
+      )
     });
 
     console.log('photo', state.photo);
@@ -285,8 +272,6 @@ const EditPostView = props => {
             .uploadMedia(firebaseSdk.STORAGE_TYPE_PHOTO, file_path)
             .then(image_url => {
               post.photo = image_url;
-              console.log('type_photo upload started!!!!');
-              console.log(image_url);
               savePost(post);
             })
             .catch(err => {
@@ -366,73 +351,45 @@ const EditPostView = props => {
               containerStyle={styles.roundInput}
               inputStyle={styles.textStyle}
               wrapStyle={{alignItems: 'flex-start', paddingVertical: 12}}
+              placeholder={I18n.t('write_something_here')}
               returnKeyType="send"
               keyboardType="default"
               onChangeText={text => setState({...state, text})}
+              textLength={text.length}
               multiline={true}
               theme={theme}
             />
+            <TouchableOpacity style={[styles.publishBtn, {backgroundColor: COLOR_BTN_BACKGROUND}]}
+              onPress={onSubmit}>
+              <Text style={[styles.publishBtnText, {color: themes[theme].activeTintColor}]}>
+                {I18n.t('Publish')}
+              </Text>
+            </TouchableOpacity>
           </View>
         );
       case POST_TYPE_PHOTO:
         return (
           <View style={styles.inputContainer}>
-            {/* <TouchableOpacity
-              onPress={onUpdatePhoto}
-              style={[styles.editIcon, { position: 'absolute' }]}
-              theme={theme}>
-              <VectorIcon
-                size={24}
-                name={'edit'}
-                type={'FontAwesome'}
-                color={themes[theme].activeTintColor}
-              />
-            </TouchableOpacity> */}
-            {/* <Image
-              source={{ uri: file_path ? file_path : photo }}
-              style={styles.imageStyle}
-            /> */}
-            {/* <CsTextInput
-              inputRef={textInputRef}
-              containerStyle={styles.underlineInput}
-              placeholder={I18n.t('Photo_post_placeholder')}
-              returnKeyType="send"
-              keyboardType="default"
-              onChangeText={text => setState({ ...state, text })}
-              theme={theme}
-            /> */}
-
             <View style={{flexDirection: 'row'}}>
-              <Text
-                style={[
-                  styles.commentHeader,
-                  {color: themes[theme].textColor},
-                ]}>
-                ✍️ Whats on your mind
-              </Text>
-              <Text
-                style={[
-                  styles.commentHeader,
-                  {color: themes[theme].websiteLink},
-                ]}>
+              <Text style={[styles.commentHeader, {color: themes[theme].textColor}]}>{I18n.t('whats_on_your_mind')}</Text>
+              <Text style={[styles.commentHeader, {color: themes[theme].websiteLink}]}>
                 {' ' + curUserName}
               </Text>
             </View>
-
-            <TextInput
-              multiline={true}
-              numberOfLines={8}
-              onChangeText={txt => setState({...state, text: txt})}
-              value={text}
+            
+            <CsTextInput
+              inputRef={textInputRef}
+              containerStyle={styles.roundInput}
+              inputStyle={styles.textStyle}
+              wrapStyle={{alignItems: 'flex-start', paddingVertical: 12}}
               placeholder={I18n.t('write_something_here')}
-              placeholderColor={COLOR_GRAY_DARK}
-              style={[
-                styles.commentBox,
-                {
-                  color: themes[theme].textColor,
-                  backgroundColor: themes[theme].disableButtonBackground,
-                },
-              ]}
+              returnKeyType="send"
+              keyboardType="default"
+              onChangeText={text => setState({...state, text})}
+              textLength={text.length}
+              value={text}
+              multiline={true}
+              theme={theme}
             />
 
             <View>
@@ -442,11 +399,7 @@ const EditPostView = props => {
               />
             </View>
 
-            <TouchableOpacity
-              style={[
-                styles.itemBoxContainer,
-                {backgroundColor: themes[theme].disableButtonBackground},
-              ]}
+            <TouchableOpacity style={[styles.itemBoxContainer, {backgroundColor: themes[theme].disableButtonBackground}]}
               onPress={onUpdatePhoto}>
               <View style={styles.itemBoxMark}>
                 <VectorIcon
@@ -455,11 +408,7 @@ const EditPostView = props => {
                   size={20}
                   color={themes[theme].activeTintColor}
                 />
-                <Text
-                  style={[
-                    styles.itemBoxText,
-                    {color: themes[theme].activeTintColor},
-                  ]}>
+                <Text style={[styles.itemBoxText, {color: themes[theme].activeTintColor}]}>
                   {I18n.t('Upload_photo')}
                 </Text>
               </View>
@@ -471,11 +420,7 @@ const EditPostView = props => {
               />
             </TouchableOpacity>
 
-            <TouchableOpacity
-              style={[
-                styles.itemBoxContainer,
-                {backgroundColor: themes[theme].disableButtonBackground},
-              ]}
+            <TouchableOpacity style={[styles.itemBoxContainer, {backgroundColor: themes[theme].disableButtonBackground}]}
               onPress={takePhoto}>
               <View style={styles.itemBoxMark}>
                 <VectorIcon
@@ -484,11 +429,7 @@ const EditPostView = props => {
                   size={20}
                   color={themes[theme].activeTintColor}
                 />
-                <Text
-                  style={[
-                    styles.itemBoxText,
-                    {color: themes[theme].activeTintColor},
-                  ]}>
+                <Text style={[styles.itemBoxText, {color: themes[theme].activeTintColor}]}>
                   {I18n.t('capture')}
                 </Text>
               </View>
@@ -500,11 +441,7 @@ const EditPostView = props => {
               />
             </TouchableOpacity>
 
-            <TouchableOpacity
-              style={[
-                styles.itemBoxContainer,
-                {backgroundColor: themes[theme].disableButtonBackground},
-              ]}
+            <TouchableOpacity style={[styles.itemBoxContainer, {backgroundColor: themes[theme].disableButtonBackground}]}
               onPress={takeVideo}>
               <View style={styles.itemBoxMark}>
                 <VectorIcon
@@ -513,11 +450,7 @@ const EditPostView = props => {
                   size={20}
                   color={themes[theme].activeTintColor}
                 />
-                <Text
-                  style={[
-                    styles.itemBoxText,
-                    {color: themes[theme].activeTintColor},
-                  ]}>
+                <Text style={[styles.itemBoxText, {color: themes[theme].activeTintColor}]}>
                   {I18n.t('video')}
                 </Text>
               </View>
@@ -529,17 +462,9 @@ const EditPostView = props => {
               />
             </TouchableOpacity>
 
-            <TouchableOpacity
-              style={[
-                styles.publishBtn,
-                {backgroundColor: COLOR_BTN_BACKGROUND},
-              ]}
+            <TouchableOpacity style={[styles.publishBtn, {backgroundColor: COLOR_BTN_BACKGROUND}]}
               onPress={onSubmit}>
-              <Text
-                style={[
-                  styles.publishBtnText,
-                  {color: themes[theme].activeTintColor},
-                ]}>
+              <Text style={[styles.publishBtnText, {color: themes[theme].activeTintColor}]}>
                 {I18n.t('Publish')}
               </Text>
             </TouchableOpacity>
@@ -588,11 +513,14 @@ const EditPostView = props => {
             )}
             <CsTextInput
               inputRef={textInputRef}
-              containerStyle={styles.underlineInput}
+              containerStyle={styles.roundInput}
+              inputStyle={styles.textStyle}
+              wrapStyle={{alignItems: 'flex-start', paddingVertical: 12}}
               placeholder={I18n.t('Video_post_placeholder')}
               returnKeyType="send"
               keyboardType="default"
-              onChangeText={text => setState({...state, text})}
+              onChangeText={val => setText(val)}
+              textLength={text.length}
               multiline={true}
               theme={theme}
             />

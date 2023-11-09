@@ -11,6 +11,7 @@ export default StyleSheet.create({
   roundInput: {
     borderWidth: StyleSheet.hairlineWidth,
     borderRadius: 16,
+    marginVertical:10
   },
   underlineInput: {
     marginHorizontal: 8,
@@ -33,7 +34,7 @@ export default StyleSheet.create({
   inputContainer: {
     flexGrow: 1,
     paddingBottom: 8,
-    paddingHorizontal: 18,
+    paddingHorizontal: 10,
     position: 'relative',
   },
   thumbnailContainer: {
