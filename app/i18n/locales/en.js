@@ -110,7 +110,7 @@ export default {
   Onboard_text: 'Influential and Affluent Achievers',
   Profile: 'Profile',
   Shop: 'Shop',
-  Vip_members: 'VIP Members',
+  Vip_members: 'VIP Member',
   Privacy_policy: 'Privacy Policy',
   Terms_of_use: 'Terms of Use',
   Privacy_and_settings: 'Privacy and settings',

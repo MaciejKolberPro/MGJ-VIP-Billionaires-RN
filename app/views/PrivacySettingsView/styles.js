@@ -3,7 +3,8 @@ import { StyleSheet } from 'react-native'
 export default StyleSheet.create({
   headerView: {
     flexDirection:'row', 
-    alignItems:'center'
+    alignItems:'center',
+    height: 60,
   },
   header: {
     flexDirection: 'row',

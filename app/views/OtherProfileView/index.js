@@ -92,7 +92,9 @@ const OtherProfileView = props => {
               style={{marginLeft: 18}}
             />
           </TouchableOpacity>
-          <Text style={[styles.headerText, {color: themes[theme].titleColor}]}>{I18n.t('Back')}</Text>
+          <Text style={[styles.headerText, {color: themes[theme].titleColor}]}>
+            {I18n.t('Back')}
+          </Text>
         </View>
       ),
       title: null,
@@ -343,7 +345,7 @@ const OtherProfileView = props => {
 
   return (
     <View style={{flex: 1}}>
-      <ScrollView {...scrollPersistTaps} style={{flex:1}}>
+      <ScrollView {...scrollPersistTaps} style={{flex: 1}}>
         {/* Display Avatar Detail */}
         <View
           style={[
@@ -369,6 +371,9 @@ const OtherProfileView = props => {
             </Text>
             <Text style={[styles.avatarjob, {color: themes[theme].textColor}]}>
               {account.role}
+            </Text>
+            <Text style={[styles.avatarjob, {color: themes[theme].textColor}]}>
+              {account.bio}
             </Text>
             <Text style={[styles.avatarwebsite, {color: COLOR_YELLOW}]}>
               {account.website}
@@ -437,7 +442,10 @@ const OtherProfileView = props => {
                 onPress={() => onToggleFollow(following)}
                 style={[
                   styles.followButton,
-                  {borderColor: themes[theme].borderColor},
+                  {
+                    backgroundColor: themes[theme].backgroundColor,
+                    borderColor: themes[theme].borderColor,
+                  },
                 ]}>
                 <Text
                   style={[styles.followText, {color: themes[theme].textColor}]}>
@@ -458,7 +466,7 @@ const OtherProfileView = props => {
                   style={[
                     styles.followText,
                     {
-                      color: themes[theme].activeTintColor,
+                      color: COLOR_YELLOW,
                     },
                   ]}>
                   {I18n.t('Following')}
@@ -550,6 +558,7 @@ const OtherProfileView = props => {
                 shadowOffset: {x: 2, y: 2},
                 elevation: 2,
                 padding: 5,
+                marginHorizontal: 16,
               }}>
               {chunk(
                 posts.filter(

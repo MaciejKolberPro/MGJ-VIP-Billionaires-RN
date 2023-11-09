@@ -228,12 +228,12 @@ export default StyleSheet.create({
     margin: 5,
   },
   tile2: {
-    width: width - 230,
+    width: width - 262,
     height: 95,
     margin: 5,
   },
   tile3: {
-    width: (width - 40) / 3,
+    width: (width - 72) / 3,
     height: 167,
     margin: 5,
   },

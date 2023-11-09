@@ -282,7 +282,7 @@ const FollowView = props => {
                 styles.tabItemText,
                 {color: themes[theme].activeTintColor},
               ]}>
-              {formatNumber(user.followers?.length) +
+              {formatNumber(account.followers?.length) +
                 '  ' +
                 I18n.t('followers_lower')}
             </Text>
@@ -302,7 +302,7 @@ const FollowView = props => {
                 styles.tabItemText,
                 {color: themes[theme].activeTintColor},
               ]}>
-              {formatNumber(user.followings?.length) +
+              {formatNumber(account.followings?.length) +
                 '  ' +
                 I18n.t('followings_lower')}
             </Text>

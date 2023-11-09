@@ -35,40 +35,35 @@ const BlockView = props => {
 
   useEffect(() => {
     navigation.setOptions({
-      headerTitle: props => (
-        <Text
-          {...props}
-          placeholder="Search"
-          placeholderTextColor="#FFFF"
-          style={{
-            fontSize: 16,
-            fontWeight: 'bold',
-            color: themes[theme].titleColor,
-          }}>
-          {I18n.t('Blocked')}
-        </Text>
+      header: () => (
+        <View style={styles.headerView}>
+          <TouchableOpacity
+            style={styles.header}
+            onPress={() => navigation.navigate('MenuStack', {screen: 'PrivacyAndSettings'})}>
+            <VectorIcon
+              size={20}
+              name={'arrowleft'}
+              type={'AntDesign'}
+              color={themes[theme].activeTintColor}
+              style={{marginLeft: 18}}
+            />
+          </TouchableOpacity>
+          <Text style={[styles.headerText, {color: themes[theme].titleColor}]}>{I18n.t('Back_to_Privacy_and_settings')}</Text>
+          <View
+            style={{
+              marginRight: 15,
+              marginLeft: 'auto'
+            }}>
+            <VectorIcon
+              type="MaterialCommunityIcons"
+              name="shield-lock"
+              color={themes[theme].titleColor}
+              size={20}
+            />
+          </View>
+        </View>
       ),
-      color: 'white',
-      headerLeft: () => (
-        <TouchableOpacity
-          style={styles.header}
-          onPress={() => navigation.goBack()}>
-          <VectorIcon
-            type="MaterialCommunityIcons"
-            name="arrow-left"
-            color={themes[theme].titleColor}
-            size={24}
-          />
-        </TouchableOpacity>
-      ),
-      headerRight: () => (
-        <HeaderButton.Complete
-          navigation={navigation}
-          onPress={onUnBlock}
-          color={themes[theme].titleColor}
-          testID="rooms-list-view-create-channel"
-        />
-      ),
+      title: null,
       headerStyle: {
         backgroundColor: themes[theme].backgroundColor,
         shadowOpacity: 0,
@@ -184,7 +179,7 @@ const BlockView = props => {
             flex: 1,
             overflow: 'hidden',
             paddingTop: 20,
-            paddingHorizontal: 10,
+            paddingHorizontal: 16,
             backgroundColor: themes[theme].backgroundColor,
           },
         ]}>
@@ -192,6 +187,12 @@ const BlockView = props => {
         {updating && (
           <ActivityIndicator absolute theme={theme} size={'large'} />
         )}
+        <Text style={[styles.headerText, {color: themes[theme].titleColor}]}>
+          {I18n.t('Blocked_Users')}
+        </Text>
+        <Text style={[styles.descText, {color: themes[theme].textColor}]}>
+          Lorem insum dolor sit amet, consectetur adipiscing elit. Bibendum vel egestas egestas cras.
+        </Text>
         <View style={styles.container}>
           {data.length > 0 && (
             <FlatList

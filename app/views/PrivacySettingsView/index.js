@@ -42,7 +42,7 @@ const PrivacySettingsView = props => {
   useEffect(() => {
     const {navigation} = props;
     navigation.setOptions({
-      headerLeft: () => (
+      header: () => (
         <View style={styles.headerView}>
           <TouchableOpacity
             style={styles.header}
@@ -56,6 +56,18 @@ const PrivacySettingsView = props => {
             />
           </TouchableOpacity>
           <Text style={[styles.headerText, {color: themes[theme].titleColor}]}>{I18n.t('Back_to_Privacy_and_settings')}</Text>
+          <View
+            style={{
+              marginRight: 15,
+              marginLeft: 'auto'
+            }}>
+            <VectorIcon
+              type="MaterialCommunityIcons"
+              name="shield-lock"
+              color={themes[theme].titleColor}
+              size={20}
+            />
+          </View>
         </View>
       ),
       title: null,

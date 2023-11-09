@@ -563,7 +563,7 @@ const ProfileView = props => {
           {isPostTab ? (
             posts.map((item, index) => (
               <Post
-                key={item.id}
+                key={index}
                 item={item}
                 onPress={() => onOpenPost(item)}
                 onPressUser={() => {}}
