@@ -78,6 +78,32 @@ const OtherProfileView = props => {
 
   const init = () => {
     const {navigation} = props;
+    navigation.setOptions({
+      headerLeft: () => (
+        <View style={styles.headerView}>
+          <TouchableOpacity
+            style={styles.header}
+            onPress={() => navigation.goBack()}>
+            <VectorIcon
+              size={20}
+              name={'arrowleft'}
+              type={'AntDesign'}
+              color={themes[theme].activeTintColor}
+              style={{marginLeft: 18}}
+            />
+          </TouchableOpacity>
+          <Text style={[styles.headerText, {color: themes[theme].titleColor}]}>
+            {I18n.t('Back')}
+          </Text>
+        </View>
+      ),
+      title: null,
+      headerStyle: {
+        backgroundColor: themes[theme].backgroundColor,
+        shadowOpacity: 0,
+      },
+    });
+
     firebaseSdk
       .getUser(state.account.userId)
       .then(user => {
@@ -99,8 +125,6 @@ const OtherProfileView = props => {
         setSafeState({isLoading: false});
         showErrorAlert(I18n.t('user_not_found'), '', () => navigation.pop());
       });
-
-    console.log(state.posts);
   };
 
   const openLink = url => {
@@ -198,7 +222,12 @@ const OtherProfileView = props => {
     });
   };
 
-  const goToPosts = () => {};
+  const goToPosts = () => {
+    navigation.navigate('Posts', {
+      type: 'posts',
+      account: state.account,
+    });
+  };
 
   const onOpenPost = item => {
     props.navigation.push('PostDetail', {post: item});
@@ -316,24 +345,7 @@ const OtherProfileView = props => {
 
   return (
     <View style={{flex: 1}}>
-      <StatusBar />
-      <SafeAreaView style={styles.topRightButtons}>
-        <TouchableOpacity
-          style={{flexDirection: 'row'}}
-          onPress={() => navigation.goBack()}>
-          <VectorIcon
-            size={20}
-            name={'arrowleft'}
-            type={'AntDesign'}
-            color={themes[theme].activeTintColor}
-            style={{marginLeft: 18}}
-          />
-          <Text style={{color: themes[theme].activeTintColor, marginLeft: 5}}>
-            {I18n.t('back_to_page')}
-          </Text>
-        </TouchableOpacity>
-      </SafeAreaView>
-      <ScrollView {...scrollPersistTaps} style={{flex:1, marginTop:20}}>
+      <ScrollView {...scrollPersistTaps} style={{flex: 1}}>
         {/* Display Avatar Detail */}
         <View
           style={[
@@ -359,6 +371,9 @@ const OtherProfileView = props => {
             </Text>
             <Text style={[styles.avatarjob, {color: themes[theme].textColor}]}>
               {account.role}
+            </Text>
+            <Text style={[styles.avatarjob, {color: themes[theme].textColor}]}>
+              {account.bio}
             </Text>
             <Text style={[styles.avatarwebsite, {color: COLOR_YELLOW}]}>
               {account.website}
@@ -427,7 +442,10 @@ const OtherProfileView = props => {
                 onPress={() => onToggleFollow(following)}
                 style={[
                   styles.followButton,
-                  {borderColor: themes[theme].borderColor},
+                  {
+                    backgroundColor: themes[theme].backgroundColor,
+                    borderColor: themes[theme].borderColor,
+                  },
                 ]}>
                 <Text
                   style={[styles.followText, {color: themes[theme].textColor}]}>
@@ -448,7 +466,7 @@ const OtherProfileView = props => {
                   style={[
                     styles.followText,
                     {
-                      color: themes[theme].activeTintColor,
+                      color: COLOR_YELLOW,
                     },
                   ]}>
                   {I18n.t('Following')}
@@ -540,6 +558,7 @@ const OtherProfileView = props => {
                 shadowOffset: {x: 2, y: 2},
                 elevation: 2,
                 padding: 5,
+                marginHorizontal: 16,
               }}>
               {chunk(
                 posts.filter(

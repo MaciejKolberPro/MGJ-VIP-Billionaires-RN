@@ -25,7 +25,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 16,
-    borderWidth: 0.25,
   },
   icon: {
     position: 'absolute',

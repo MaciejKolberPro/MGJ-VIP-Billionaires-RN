@@ -100,8 +100,8 @@ export const themes = {
     // popupBackColor: '#FFFFFF',
     // profileBackground: '#ffffff',
     // jobText: '#6C7A9C',
-    // profilePostBorder: '#3030308A',
-    // profileHandle: '#8E8E8E',
+    profilePostBorder: '#3030308A',
+    profileHandle: '#8E8E8E',
     // profileMore: '#898989',
     // messageButton: '#ffffff',
     //
@@ -216,8 +216,8 @@ export const themes = {
     // popupBackColor: '#202326',
     // profileBackground: '#131517',
     // jobText: '#A2A8B8',
-    // profilePostBorder: '#A2A8B861',
-    // profileHandle: '#A2A8B8',
+    profilePostBorder: '#555',
+    profileHandle: '#A2A8B8',
     // profileMore: '#A2A8B8',
     // messageButton: '#21242C',
     //

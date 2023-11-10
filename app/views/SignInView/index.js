@@ -67,7 +67,6 @@ const SignInView = (props) => {
   const onSubmit = () => {
     if (isValid()) {
       setIsLoading(true)
-
       firebaseSdk
         .signInWithEmail(email, password)
         .then(async user => {

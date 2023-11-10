@@ -9,7 +9,6 @@ export default StyleSheet.create({
   contentContainer: {
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
-    paddingTop: 10,
   },
   topLinearGradient: {
     height: 4,

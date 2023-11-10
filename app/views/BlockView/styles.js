@@ -2,11 +2,21 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   container: {},
+  headerView: {
+    flexDirection:'row', 
+    alignItems:'center',
+    height: 60,
+  },
   header: {
-    paddingHorizontal: 16,
-    flex: 1,
     flexDirection: 'row',
-    alignItems: 'flex-start',
+    paddingRight:20
+  },
+  headerText: {
+    fontSize: 16,
+  },
+  descText: {
+    fontSize: 12,
+    fontWeight: '400',
   },
   itemContainer: {
     flexDirection: 'row',

@@ -1,7 +1,6 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import {
   Image,
-  RefreshControl,
   Text,
   TouchableOpacity,
   View,
@@ -18,7 +17,7 @@ import styles from './styles';
 import sharedStyles from '../Styles';
 import {setUser as setUserAction} from '../../actions/login';
 import images from '../../assets/images';
-import {COLOR_YELLOW, themes} from '../../constants/colors';
+import {COLOR_BTN_BACKGROUND, COLOR_YELLOW, themes} from '../../constants/colors';
 import I18n from '../../i18n';
 import {VectorIcon} from '../../containers/VectorIcon';
 import scrollPersistTaps from '../../utils/scrollPersistTaps';
@@ -33,7 +32,7 @@ const PremiumSubscription = props => {
         <View style={styles.headerView}>
           <TouchableOpacity
             style={styles.header}
-            onPress={() => navigation.goBack()}>
+            onPress={() => navigation.toggleDrawer()}>
             <VectorIcon
               size={20}
               name={'arrowleft'}
@@ -42,7 +41,7 @@ const PremiumSubscription = props => {
               style={{marginLeft: 18}}
             />
           </TouchableOpacity>
-          <Text style={[styles.headerText, {color: themes[theme].titleColor}]}>{I18n.t('back')}</Text>
+          <Text style={[styles.headerText, {color: themes[theme].titleColor}]}>{I18n.t('Back_To_Menu')}</Text>
         </View>
       ),
       title: null,
@@ -52,6 +51,14 @@ const PremiumSubscription = props => {
       },
     });
   }, [theme])
+
+  const options = useMemo(() => [
+    "Upgraded Profile",
+    "Multi-shot & video",
+    "Instant creative portfolio",
+    "Sell goods",
+    "A good content support"
+  ], []);
 
   
   return (
@@ -70,9 +77,39 @@ const PremiumSubscription = props => {
           <Text style={[styles.detail, {color: themes[theme].textColor}]}>{I18n.t('premium_detail')}</Text>
           <Text style={[styles.moneyText, {color: themes[theme].activeTintColor}]}>{'$5000'}</Text>
           <Text style={[styles.detail, {color: themes[theme].textColor, marginTop: 0}]}>{I18n.t('per_month')}</Text>
+          <View style={[styles.optionsBox]}>
+            {options.map(option => (
+              <View style={styles.optionContainer}>
+                <VectorIcon
+                  type={'MaterialCommunityIcons'}
+                  name={'check-circle-outline'}
+                  color={themes[theme].activeTintColor}
+                  size={20}
+                />
+                <Text style={[styles.optionText, {color: themes[theme].textColor}]}>{option}</Text>
+              </View>
+            ))}
+          </View>
+          <TouchableOpacity
+            onPress={() => {}}
+            style={[
+              styles.continueTxtBtn,
+              {backgroundColor: COLOR_BTN_BACKGROUND},
+            ]}>
+            <Text
+              style={[
+                styles.editProfileTxt,
+                {color: themes[theme].normalTextColor},
+              ]}>
+              {I18n.t('Continue')}
+            </Text>
+          </TouchableOpacity>
+          <Text style={[styles.detail, {color: themes[theme].textColor}]}>
+            {I18n.t('cancel_anytime')}
+          </Text>
         </View>
+
       </ScrollView>
-      
     </SafeAreaView>
   )
 

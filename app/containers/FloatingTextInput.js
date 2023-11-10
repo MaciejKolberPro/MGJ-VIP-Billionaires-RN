@@ -2,22 +2,17 @@ import React, {useState} from 'react';
 import {
   View,
   StyleSheet,
-  Image,
   Text,
-  Platform,
   Dimensions,
+  Pressable,
 } from 'react-native';
 import {TextInput} from 'react-native';
 
 import {
   COLOR_BORDER,
-  COLOR_GRAY_DARK,
-  COLOR_LIGHT_DARK,
   COLOR_RED,
   themes,
 } from '../constants/colors';
-import images from '../assets/images';
-import Styles from '../views/Styles';
 
 const {width} = Dimensions.get('window');
 
@@ -31,11 +26,18 @@ const styles = StyleSheet.create({
     height: 20,
     resizeMode: 'contain',
   },
-  textInput: {
+  editText: {
     // flex: 1,
     paddingHorizontal: 12,
     fontSize: 14,
     lineHeight: 16,
+  },
+  textInput: {
+    paddingHorizontal: 12,
+    fontSize: 14,
+    lineHeight: 16,
+    flexGrow: 1,
+    justifyContent: 'flex-start',
   },
   error: {
     fontFamily: 'Raleway',
@@ -48,6 +50,7 @@ const styles = StyleSheet.create({
     width: '100%',
     borderRadius: 8,
     borderWidth: 1,
+    display: 'flex',
   },
   labelText: {
     fontFamily: 'Raleway',
@@ -55,6 +58,11 @@ const styles = StyleSheet.create({
     marginLeft: 0,
     fontSize: 14,
     lineHeight: 16,
+  },
+  wrap: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    position: 'relative',
   },
 });
 
@@ -66,6 +74,7 @@ const FloatingTextInput = props => {
     loading,
     secureTextEntry,
     containerStyle,
+    isEdit,
     inputRef,
     iconLeft,
     iconRight,
@@ -78,11 +87,38 @@ const FloatingTextInput = props => {
     backgroundColor,
     multiline,
     value,
+    onSubmit,
     style,
     ...inputProps
   } = props;
 
   const [showPassword, setShowPassword] = useState(!secureTextEntry);
+  const [readonly, setReadonly] = useState(isEdit === true ? true : false);
+
+  const handleEdit = () => {
+    if (!readonly) {
+      onSubmit();
+    }
+    setReadonly(!readonly);
+  };
+
+  const renderEdit = () => {
+    return (
+      <Pressable
+        onPress={handleEdit}>
+        <Text
+          style={[
+            styles.editText,
+            {
+              backgroundColor: backgroundColor ?? 'transparent',
+              color: themes[theme].activeTintColor,
+            },
+          ]}>
+          {readonly ? 'Edit' : 'Save'}
+        </Text>
+      </Pressable>
+    );
+  };
 
   return (
     <View style={{marginBottom: 16}}>
@@ -92,6 +128,7 @@ const FloatingTextInput = props => {
       <View
         style={[
           styles.container,
+          styles.wrap,
           {
             borderColor: error ? COLOR_RED : themes[theme].borderColor,
           },
@@ -104,7 +141,7 @@ const FloatingTextInput = props => {
             {
               backgroundColor: backgroundColor ?? 'transparent',
               color: themes[theme].activeTintColor,
-              textAlignVertical: multiline ? 'top' : 'center',
+              textAlignVertical: 'center',
               padding: multiline ? 12 : 6,
               height: 54
             }
@@ -119,8 +156,10 @@ const FloatingTextInput = props => {
           secureTextEntry={!showPassword}
           placeholder={placeholder}
           placeholderTextColor={themes[theme].subTextColor}
+          editable={!readonly}
           {...inputProps}
         />
+        {isEdit && renderEdit()}
       </View>
       {error ? <Text style={styles.error}>{error}</Text> : null}
     </View>

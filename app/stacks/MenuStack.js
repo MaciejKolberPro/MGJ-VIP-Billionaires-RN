@@ -6,6 +6,7 @@ import BlockView from '../views/BlockView';
 import HelpAndSupport from '../views/HelpAndSupport';
 import VipMembersClubView from '../views/VipMembersClubView';
 import PremiumSubscription from '../views/PremiumSubscription';
+import PrivacySettingsView from '../views/PrivacySettingsView';
 
 // Outside
 const Menu = createStackNavigator();
@@ -23,6 +24,7 @@ const MenuStack = () => {
         name="PrivacyAndSettings"
         component={PrivacyAndSettingsView}
       />
+      <Menu.Screen name="PrivacySettings" component={PrivacySettingsView} />
       <Menu.Screen name="HelpAndSupport" component={HelpAndSupport} />
       <Menu.Screen
         name="VipMembers"

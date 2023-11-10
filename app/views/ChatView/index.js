@@ -140,7 +140,7 @@ const ChatView = props => {
 
   useEffect(() => {
     navigation.setOptions({
-      title: '',
+      title: null,
       headerLeft: () => (
         <View
           style={{

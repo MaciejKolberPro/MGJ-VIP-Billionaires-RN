@@ -216,8 +216,6 @@ const Post = ({
       .getUser(id)
       .then(user => {
         avatar_url = user.avatar;
-        console.log('avatar_url');
-        console.log(user);
       })
       .catch(err => {
         if (err) {
