@@ -231,8 +231,8 @@ const firebaseSdk = {
             .currentUser.sendEmailVerification()
             .then(() => {
               // Email verification sent!
-              // ...
-            });
+              
+            })
 
           this.createUser(userInfo)
             .then(() => {

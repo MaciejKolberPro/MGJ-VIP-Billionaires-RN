@@ -43,6 +43,7 @@ const Root = () => {
 
     setTheme('dark')
     // setTheme('light')
+    // console.log("Current theme--", theme)
     // let timer = setInterval(() => {
     //   const hour = new Date().getHours()
     //   if (!theme) {
@@ -75,8 +76,8 @@ const Root = () => {
     // change theme state
     setState({...state, theme: newTheme});
     // subscribe to Appearance changes
-    subscribeTheme(theme);
-  };
+    subscribeTheme(theme)
+  }
 
   const setDimensions = ({width, height, scale, fontScale}) => {
     setState({
