@@ -8,7 +8,6 @@ import {
   Linking,
   SafeAreaView,
   Pressable,
-  Button,
 } from 'react-native';
 import {connect} from 'react-redux';
 import {openComposer} from 'react-native-email-link';
@@ -51,7 +50,7 @@ const SidebarView = props => {
     //   name: 'My connections',
     //   icon: 'account-multiple',
     //   route: 'VipMembers',
-    //   routes: ['MyConnetions'],
+    //   routes: ['MyConnections'],
     // },
     {
       id: 'privacy_and_settings',
@@ -151,9 +150,11 @@ const SidebarView = props => {
                 ]}>
                 {user.displayName}
               </Text>
-              <Text style={[styles.roleName, { color: COLOR_YELLOW }]}>
-                View Profile
-              </Text>
+              <Pressable onPress={() => onNavigate('Profile')}>
+                <Text style={[styles.roleName, {color: COLOR_YELLOW}]}>
+                  {I18n.t('View_Profile')}
+                </Text>
+              </Pressable>
             </View>
           </View>
           <Pressable onPress={() => navigation.closeDrawer()} style={styles.closeIconAndText}>
@@ -164,7 +165,7 @@ const SidebarView = props => {
               color={themes[theme].textColor}
               style={styles.closeIcon}
             />
-            <Text style={[{ color: themes[theme].textColor }]}>Clear</Text>
+            <Text style={[{ color: themes[theme].textColor }]}>{I18n.t('Clear')}</Text>
           </Pressable>
         </View>
         <ScrollView
@@ -186,6 +187,7 @@ const SidebarView = props => {
           <OptionCardBtn
             image={images.fast_email_sending}
             title="Invite to engage more people"
+            smallTitle
             smallText="Invite now"
             rightIcon
             rightIconName="share"

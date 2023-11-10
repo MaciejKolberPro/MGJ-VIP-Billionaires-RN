@@ -88,28 +88,40 @@ const PostView = props => {
   const init = async () => {
     const postUsers = [];
     const postSubscribe = await firestore().collection(firebaseSdk.TBL_POST);
-    postSubscribe.onSnapshot(async querySnapShot => {
-      const userSnaps = await firestore()
-        .collection(firebaseSdk.TBL_USER)
-        .get();
-      const users = [];
-      userSnaps.forEach(s => users.push(s.data()));
-
-      const list = [];
-      querySnapShot.forEach(doc => {
-        const post = doc.data();
-        if (!user.blocked || !user.blocked.includes(post.userId)) {
-          const owner = users.find(u => u.userId === post.userId);
-          if (!postUsers.find(postUser => postUser.userId === owner.userId)) {
-            postUsers.push(owner);
+    postSubscribe.onSnapshot(
+      async querySnapShot => {
+        const userSnaps = await firestore()
+          .collection(firebaseSdk.TBL_USER)
+          .get();
+        const users = [];
+        userSnaps.forEach(s => users.push(s.data()));
+        const list = [];
+        querySnapShot.forEach(doc => {
+          try {
+            const post = doc.data();
+            if (!user.blocked || !user.blocked.includes(post?.userId)) {
+              const owner = users.find(u => u?.userId === post?.userId);
+              if (
+                !postUsers.find(postUser => postUser?.userId === owner?.userId)
+              ) {
+                postUsers.push(owner);
+              }
+              list.push({id: doc.id, ...post, owner});
+            }
+          } catch (err) {
+            console.log(`error: ${err}`);
           }
-          list.push({id: doc.id, ...post, owner});
-        }
-      });
-      list.sort((a, b) => b.date - a.date);
-      setState({...state, data: list, refreshing: false, postUsers: postUsers});
-      // console.log('list', list, users);
-    });
+        });
+        list.sort((a, b) => b.date - a.date);
+        setState({
+          ...state,
+          data: list,
+          refreshing: false,
+          postUsers: postUsers,
+        });
+      },
+      err => console.log(err),
+    );
   };
 
   const onOpenPost = item => {
@@ -249,7 +261,7 @@ const PostView = props => {
       },
     ];
 
-    const isOwner = item.owner.userId === user.userId;
+    const isOwner = item.owner?.userId === user?.userId;
     return {options: isOwner ? ownerOptions : options};
     // showActionSheet({ options: isOwner ? ownerOptions : options });
   };

@@ -18,12 +18,6 @@ const VipMembersClubView = props => {
   const {theme} = props;
   const navigation = useNavigation();
 
-  // useEffect(() => {
-  //   navigation.setOptions({
-  //     title: I18n.t('Vip_members'),
-  //   });
-  // }, []);
-
   useEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
@@ -40,6 +34,29 @@ const VipMembersClubView = props => {
       ),
       title: I18n.t('Vip_members'),
       headerRight: () => <></>,
+      headerStyle: {
+        backgroundColor: themes[theme].backgroundColor,
+        shadowOpacity: 0,
+      },
+    });
+    navigation.setOptions({
+      headerLeft: () => (
+        <View style={styles.headerView}>
+          <TouchableOpacity
+            style={styles.header}
+            onPress={() => navigation.toggleDrawer()}>
+            <VectorIcon
+              size={20}
+              name={'arrowleft'}
+              type={'AntDesign'}
+              color={themes[theme].activeTintColor}
+              style={{marginLeft: 18}}
+            />
+          </TouchableOpacity>
+          <Text style={[styles.headerText, {color: themes[theme].titleColor}]}>{I18n.t('Back')}</Text>
+        </View>
+      ),
+      title: null,
       headerStyle: {
         backgroundColor: themes[theme].backgroundColor,
         shadowOpacity: 0,

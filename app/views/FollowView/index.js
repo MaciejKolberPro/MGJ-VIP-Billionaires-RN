@@ -12,7 +12,7 @@ import firestore from '@react-native-firebase/firestore';
 import {connect} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 
-import {HEADER_BAR_END, HEADER_BAR_START, themes} from '../../constants/colors';
+import {themes} from '../../constants/colors';
 import StatusBar from '../../containers/StatusBar';
 import SafeAreaView from '../../containers/SafeAreaView';
 import {withTheme} from '../../theme';
@@ -43,19 +43,21 @@ const FollowView = props => {
     loading: true,
     updating: false,
   });
+  const {theme, user, setUser} = props;
+  const {type, refreshing, updating, account, loading} = state;
+
   const [data, setData] = useState([]);
   const [text, setText] = useState('');
 
-  const [isFollowing, setIsFollowing] = useState();
-
-  const {theme, user, setUser} = props;
-  const {type, refreshing, updating, account, loading} = state;
+  const [isFollwersTab, setIsFollowersTab] = useState(
+    type === 'followers' ? true : false,
+  );
 
   const isSelf = user.userId === account.userId;
 
   useEffect(() => {
     navigation.setOptions({
-      title: I18n.t('Followings'),
+      title: type === 'followings' ? I18n.t('Followings') : I18n.t('Followers'),
       headerLeft: () => (
         <TouchableOpacity
           style={{justifyContent: 'center'}}
@@ -70,20 +72,11 @@ const FollowView = props => {
         </TouchableOpacity>
       ),
     });
-
-    if (type) {
-      navigation.setOptions({
-        title:
-          type === 'followings' ? I18n.t('Followings') : I18n.t('Followers'),
-      });
-
-      type === 'followings' ? setIsFollowing(true) : setIsFollowing(false);
-    }
-  }, []);
+  }, [type]);
 
   useEffect(() => {
     getData(text);
-  }, [text, user, isFollowing]);
+  }, [text, user, type]);
 
   const getData = useCallback(
     debounce(async searchText => {
@@ -104,7 +97,7 @@ const FollowView = props => {
           users.push({...userInfo, postCount: userPosts.length});
         }
         if (isSelf) {
-          if (isFollowing) {
+          if (type === 'followings') {
             if (user.followings.includes(userInfo.userId)) {
               friends.push({...userInfo, postCount: userPosts.length});
             }
@@ -114,7 +107,7 @@ const FollowView = props => {
             }
           }
         } else {
-          if (isFollowing) {
+          if (type === 'followings') {
             if (account.followings.includes(userInfo.userId)) {
               friends.push({...userInfo, postCount: userPosts.length});
             }
@@ -137,8 +130,8 @@ const FollowView = props => {
         setData(friends);
         setState({...state, loading: false, refreshing: false});
       }
-    }, 100),
-    [isFollowing],
+    }, 200),
+    [type, user, account, isSelf],
   );
 
   const onSearchChangeText = text => {
@@ -247,6 +240,16 @@ const FollowView = props => {
     getData('');
   };
 
+  const onTabClick = type => {
+    if (type === 'followers') {
+      setIsFollowersTab(true);
+      setState({...state, type: 'followers'});
+    } else {
+      setIsFollowersTab(false);
+      setState({...state, type: 'followings'});
+    }
+  };
+
   return (
     <View
       style={[
@@ -265,14 +268,11 @@ const FollowView = props => {
         <StatusBar />
         <View style={styles.tab}>
           <TouchableOpacity
-            onPress={() => {
-              setText('');
-              setIsFollowing(false);
-            }}
+            onPress={() => onTabClick('followers')}
             style={[
               styles.tabItem,
               {
-                borderBottomColor: isFollowing
+                borderBottomColor: !isFollwersTab
                   ? 'transparent'
                   : themes[theme].activeTintColor,
               },
@@ -282,20 +282,17 @@ const FollowView = props => {
                 styles.tabItemText,
                 {color: themes[theme].activeTintColor},
               ]}>
-              {formatNumber(user.followers?.length) +
+              {formatNumber(account.followers?.length) +
                 '  ' +
                 I18n.t('followers_lower')}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => {
-              setText('');
-              setIsFollowing(true);
-            }}
+            onPress={() => onTabClick('followings')}
             style={[
               styles.tabItem,
               {
-                borderBottomColor: !isFollowing
+                borderBottomColor: isFollwersTab
                   ? 'transparent'
                   : themes[theme].activeTintColor,
               },
@@ -305,7 +302,7 @@ const FollowView = props => {
                 styles.tabItemText,
                 {color: themes[theme].activeTintColor},
               ]}>
-              {formatNumber(user.followings?.length) +
+              {formatNumber(account.followings?.length) +
                 '  ' +
                 I18n.t('followings_lower')}
             </Text>

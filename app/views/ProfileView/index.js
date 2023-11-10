@@ -33,7 +33,6 @@ import firebaseSdk, {
 } from '../../lib/firebaseSdk';
 import {showErrorAlert, showToast} from '../../lib/info';
 import {VectorIcon} from '../../containers/VectorIcon';
-import scrollPersistTaps from '../../utils/scrollPersistTaps';
 import I18n from '../../i18n';
 import {
   checkCameraPermission,
@@ -42,14 +41,9 @@ import {
 } from '../../utils/permissions';
 import {isValidURL} from '../../utils/validators';
 import {withActionSheet} from '../../containers/ActionSheet';
-import PostText from './PostText';
-import PopupMenu from '../../containers/PopupMenu';
-import {
-  POST_TYPE_PHOTO,
-  POST_TYPE_TEXT,
-  POST_TYPE_VIDEO,
-} from '../../constants/app';
-import {getUserRepresentString, onSharePost} from '../../utils/const';
+import {POST_TYPE_PHOTO, POST_TYPE_VIDEO} from '../../constants/app';
+import {onSharePost} from '../../utils/const';
+import Post from '../HomeView/Post';
 
 const ProfileView = props => {
   const {navigation, user, theme} = props;
@@ -67,6 +61,39 @@ const ProfileView = props => {
   const {account, posts, isLoading} = state;
 
   let unSubscribePost = '';
+
+  useEffect(() => {
+    const {navigation} = props;
+    navigation.setOptions({
+      header: () => (
+        <View style={styles.headerView}>
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            style={styles.headerIcon}>
+            <VectorIcon
+              name={'left'}
+              size={16}
+              color={COLOR_GRAY_DARK}
+              type={'AntDesign'}
+              style={{marginTop: 8, marginLeft: 8}}
+            />
+          </TouchableOpacity>
+          <Text
+            style={[
+              styles.headerText,
+              {color: themes[theme].deactiveTintColor},
+            ]}>
+            {I18n.t('AppTitle')}
+          </Text>
+        </View>
+      ),
+      title: null,
+      headerStyle: {
+        backgroundColor: themes[theme].backgroundColor,
+        shadowOpacity: 0,
+      },
+    });
+  }, []);
 
   useEffect(() => {
     if (!isEmpty(user)) init();
@@ -93,7 +120,6 @@ const ProfileView = props => {
             posts.sort((a, b) => b.date - a.date);
             setSafeState({account: user, isLoading: false, posts});
           }
-          // console.log('profileview-posts', posts);
         });
       })
       .catch(err => {
@@ -102,18 +128,23 @@ const ProfileView = props => {
       });
   };
 
-  const goToFollowers = async () => {
-    const {navigation} = props;
+  const goToFollowers = () => {
     navigation.push('Follow', {
       type: 'followers',
       account: state.account,
     });
   };
 
-  const goToFollowings = async () => {
-    const {navigation} = props;
+  const goToFollowings = () => {
     navigation.push('Follow', {
       type: 'followings',
+      account: state.account,
+    });
+  };
+
+  const goToPosts = () => {
+    navigation.navigate('Posts', {
+      type: 'posts',
       account: state.account,
     });
   };
@@ -193,12 +224,8 @@ const ProfileView = props => {
       firebaseSdk
         .uploadMedia(firebaseSdk.STORAGE_TYPE_AVATAR, image_path)
         .then(image_url => {
-          console.log('image_url started');
-          // console.log(image_url);
-
           let userInfo = {
             id: user.id,
-            // back_image: image_url,
             avatar: image_url,
           };
 
@@ -308,43 +335,8 @@ const ProfileView = props => {
 
   return (
     <View style={{flex: 1}}>
-      {/* <StatusBar /> */}
-      <SafeAreaView style={styles.topRightButtons}>
-        <View style={styles.topRightButtons}>
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-            style={styles.prevButton}>
-            <VectorIcon
-              name={'left'}
-              size={18}
-              color={COLOR_GRAY_DARK}
-              type={'AntDesign'}
-              style={{marginTop: 8, marginLeft: 8}}
-            />
-          </TouchableOpacity>
-          <Text
-            style={[styles.apptitle, {color: themes[theme].deactiveTintColor}]}>
-            {I18n.t('AppTitle')}
-          </Text>
-          <View style={styles.searchToolBox}>
-            {/* <VectorIcon
-            name={'search'}
-            size={18}
-            color={COLOR_GRAY_DARK}
-            type={'MaterialIcons'}
-          /> */}
-          </View>
-        </View>
-      </SafeAreaView>
-      <ScrollView
-        contentContainerStyle={{
-          paddingBottom: 80,
-          // display: 'flex',
-          // flexDirection: 'column',
-          // justifyContent: 'flex-start',
-        }}>
+      <ScrollView contentContainerStyle={{paddingBottom: 80}}>
         <View style={styles.logoContainer}>
-          {/* <Image style={styles.backImage} source={{ uri: account.back_image }} /> */}
           <TouchableOpacity
             onPress={() => onEditBackImage()}
             style={styles.backAction}>
@@ -450,7 +442,7 @@ const ProfileView = props => {
               {borderColor: themes[theme].deactiveTintColor},
             ]}>
             <TouchableOpacity
-              onPress={() => goToFollowings()}
+              onPress={() => goToPosts()}
               style={[
                 styles.optionContainer,
                 {
@@ -535,7 +527,11 @@ const ProfileView = props => {
                 <Text
                   style={[
                     styles.tabItemText,
-                    {color: isPostTab ? themes[theme].normalTextColor : themes[theme].subTextColor},
+                    {
+                      color: isPostTab
+                        ? themes[theme].normalTextColor
+                        : themes[theme].subTextColor,
+                    },
                   ]}>
                   {I18n.t('Posts')}
                 </Text>
@@ -553,7 +549,11 @@ const ProfileView = props => {
                 <Text
                   style={[
                     styles.tabItemText,
-                    {color: !isPostTab ? themes[theme].normalTextColor : themes[theme].subTextColor},
+                    {
+                      color: !isPostTab
+                        ? themes[theme].normalTextColor
+                        : themes[theme].subTextColor,
+                    },
                   ]}>
                   {I18n.t('media')}
                 </Text>
@@ -561,25 +561,22 @@ const ProfileView = props => {
             </View>
           </View>
           {isPostTab ? (
-            posts.map(p => {
-              if (p.type === POST_TYPE_TEXT) {
-                return (
-                  <PostText
-                    key={p.id}
-                    item={p}
-                    onPress={() => onOpenPost(p)}
-                    onPressUser={() => {}}
-                    onPressShare={() => onSharePost(p)}
-                    onLike={isLiking => onToggleLike(p, isLiking)}
-                    isLiking={p.likes && p.likes.includes(user.userId)}
-                    onActions={onActionPost(p)}
-                    theme={theme}
-                  />
-                );
-              }
-            })
+            posts.map((item, index) => (
+              <Post
+                key={index}
+                item={item}
+                onPress={() => onOpenPost(item)}
+                onPressUser={() => {}}
+                onPressShare={() => onSharePost(item)}
+                onLike={isLiking => onToggleLike(item, isLiking)}
+                isLiking={item.likes && item.likes.includes(user.userId)}
+                onActions={onActionPost(item)}
+                theme={theme}
+                style={{marginTop: index === 0 ? 0 : 8}}
+              />
+            ))
           ) : (
-            <View>
+            <View style={{paddingHorizontal: 11}}>
               {chunk(
                 posts.filter(
                   p => p.type === POST_TYPE_PHOTO || p.type === POST_TYPE_VIDEO,

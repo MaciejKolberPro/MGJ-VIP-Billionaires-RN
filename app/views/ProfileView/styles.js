@@ -3,6 +3,31 @@ import {Dimensions, StyleSheet} from 'react-native';
 const {width} = Dimensions.get('window');
 
 export default StyleSheet.create({
+  headerView: {
+    flexDirection:'row', 
+    alignItems:'center',
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    paddingBottom: 10,
+    width: '100%',
+    position: 'relative'
+  },
+  headerIcon: {
+    position: 'absolute',
+    left: 20,
+    top: '50%',
+    flexDirection: 'row',
+    width: 36,
+    height: 36,
+    borderWidth: 1,
+    borderColor: 'rgba(133, 133, 133, 0.25)',
+    borderRadius: 8,
+  },
+  headerText: {
+    fontSize: 18,
+    fontWeight: 'bold'
+  },
   logoContainer: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -81,6 +106,7 @@ export default StyleSheet.create({
     flexGrow: 1,
     alignItems: 'center',
     marginVertical: 20,
+    paddingHorizontal: 16,
   },
   profileTitle: {
     flexDirection: 'row',
@@ -115,7 +141,7 @@ export default StyleSheet.create({
     resizeMode: 'contain',
   },
   editProfileTxtBtn: {
-    width: 357,
+    width: '100%',
     height: 46,
     borderRadius: 14,
     marginTop: 4,
@@ -208,20 +234,23 @@ export default StyleSheet.create({
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
+    paddingHorizontal: 16,
   },
   tab: {
     flexDirection: 'row',
     marginTop: 20,
     marginBottom: 15,
-    width: 360,
-    height: 49,
+    width: '100%',
+    height: 50,
     borderRadius: 14,
     justifyContent: 'center',
     alignItems: 'center',
+    paddingHorizontal: 5,
+    paddingVertical: 5,
   },
   tabItem: {
-    width: 175,
-    height: 40,
+    width: '50%',
+    height: '100%',
     borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',

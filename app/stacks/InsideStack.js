@@ -35,6 +35,7 @@ import PickLibraryView from '../views/PickLibraryView';
 import UpdateProfileAndBasicInfo from '../views/UpdateProfileAndBasicInfo';
 import {MainTabBar} from '../containers/MainScreen';
 import MenuStack from './MenuStack';
+import PrivacySettingsView from '../views/PrivacySettingsView'
 
 const Tab = createBottomTabNavigator();
 const Inside = createStackNavigator();
@@ -74,7 +75,6 @@ const TabStack = () => {
       <Tab.Screen
         name="Profile"
         component={ProfileView}
-        options={{headerShown: false}}
       />
       <Tab.Screen
         name="Message"
@@ -125,7 +125,6 @@ const InsideStack = () => {
       <Inside.Screen
         name="OtherProfile"
         component={OtherProfileView}
-        options={{headerShown: false}}
       />
       <Inside.Screen name="Follow" component={FollowView} />
       <Inside.Screen name="CreatePost" component={CreatePostView} />

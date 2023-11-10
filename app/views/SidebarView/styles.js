@@ -124,6 +124,7 @@ export default StyleSheet.create({
   bottomView: {
     flexDirection: 'row',
     marginTop: 20,
+    marginBottom: 30
   },
   privacyTermsEulaContainer: {
     flex: 2,

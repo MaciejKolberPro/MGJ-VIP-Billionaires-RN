@@ -6,6 +6,7 @@ import styles from './styles';
 import Modal from 'react-native-modal';
 import {themes, COLOR_BTN_BACKGROUND} from '../../constants/colors';
 import FloatingTextInput from '../../containers/FloatingTextInput';
+import I18n from 'i18n-js';
 
 const AccountSettingsModal = ({isShow, onClose, theme}) => {
   const [name, setName] = useState('');
@@ -36,8 +37,8 @@ const AccountSettingsModal = ({isShow, onClose, theme}) => {
             multiline
             returnKeyType="next"
             textContentType="oneTimeCode"
-            label={'Name'}
-            placeholder={'Enter Your Name'}
+            label={I18n.t('Name')}
+            placeholder={I18n.t('enter_name')}
             onChangeText={name => setName({name})}
             theme={theme}
             onSubmitEditing={() => {
@@ -48,8 +49,8 @@ const AccountSettingsModal = ({isShow, onClose, theme}) => {
             multiline
             inputRef={usernameInput}
             textContentType="oneTimeCode"
-            label={'Username'}
-            placeholder={'Enter Your Username'}
+            label={I18n.t('Username')}
+            placeholder={I18n.t('Enter_username')}
             onChangeText={username => setUsername({username})}
             theme={theme}
           />
@@ -65,7 +66,7 @@ const AccountSettingsModal = ({isShow, onClose, theme}) => {
                 styles.editProfileTxt,
                 {color: themes[theme].normalTextColor},
               ]}>
-              Save
+              {I18n.t('Save')}
             </Text>
           </TouchableOpacity>
         </View>
