@@ -19,6 +19,12 @@ export default StyleSheet.create({
     paddingVertical: 2,
     alignSelf: 'center',
   },
+  appleBtn: {
+    marginTop: 8,
+    width:'100%',
+    height:45,
+    borderRadius:8
+  },
   forgotContainer: {
     marginBottom: 10,
   },

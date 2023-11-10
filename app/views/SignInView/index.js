@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
 import { connect } from 'react-redux'
-import { Image, SafeAreaView, ScrollView, Text, View } from 'react-native'
+import { Image, SafeAreaView, ScrollView, Text, View, Platform } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { withTheme } from '../../theme'
@@ -20,6 +20,7 @@ import I18n from '../../i18n'
 import { COLOR_WHITE, COLOR_YELLOW, themes } from '../../constants/colors'
 import FloatingTextInput from '../../containers/FloatingTextInput'
 import KeyboardView from '../../containers/KeyboardView'
+import { AppleButton, appleAuth } from '@invertase/react-native-apple-authentication'
 
 const theme = 'light'
 
@@ -87,6 +88,19 @@ const SignInView = (props) => {
     }
   }
 
+  async function onAppleButtonPress() {
+    const appleAuthRequestResponse = await appleAuth.performRequest({
+      requestedOperation: appleAuth.Operation.LOGIN,
+      requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
+    });
+    
+    const credentialState = await appleAuth.getCredentialStateForUser(appleAuthRequestResponse.user);
+  
+    if (credentialState === appleAuth.State.AUTHORIZED) {
+      // user is authenticated
+    }
+  }
+
   return (
     <SafeAreaView style={{ flex: 1, flexDirection: 'column', backgroundColor: COLOR_WHITE }}>
       <StatusBar />
@@ -147,6 +161,14 @@ const SignInView = (props) => {
               loading={isLoading}
               theme={theme}
             />
+            {Platform.OS === 'ios' &&
+              <AppleButton
+                buttonStyle={AppleButton.Style.BLACK}
+                buttonType={AppleButton.Type.SIGN_IN}
+                style={styles.appleBtn}
+                onPress={onAppleButtonPress}
+              />
+            }
           </View>
         </ScrollView>
       </KeyboardView>
