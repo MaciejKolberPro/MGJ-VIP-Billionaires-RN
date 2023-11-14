@@ -45,6 +45,8 @@ import {VectorIcon} from '../../containers/VectorIcon';
 import {Badge} from 'react-native-paper';
 import AudioRecord from 'react-native-audio-record';
 import {Buffer} from 'buffer';
+import KeyboardView from '../../containers/KeyboardView';
+import sharedStyles from '../Styles';
 
 const scrollPersistTaps = {
   keyboardShouldPersistTaps: 'always',
@@ -501,18 +503,14 @@ const ChatView = props => {
 
       setAudioFile('');
       setIsRecording(true);
-
-      console.log('---');
     }
   };
 
   const renderTyping = () => {
     if (otherTyping) {
       return (
-        <Text
-          style={[styles.typing, {color: themes[theme].infoText}]}>{`${I18n.t(
-          'Typing',
-        )}...`}</Text>
+        <Text style={[styles.typing, {color: themes[theme].infoText}]}>
+          {`${I18n.t('Typing')}...`}</Text>
       );
     }
     return null;

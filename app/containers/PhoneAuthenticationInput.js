@@ -1,6 +1,7 @@
 import {View, StyleSheet, Text, Switch} from 'react-native';
 import PhoneInput from 'react-native-phone-input';
 import {COLOR_RED, themes} from '../constants/colors';
+import { useState } from 'react';
 
 const styles = StyleSheet.create({
   iconWrap: {
@@ -52,6 +53,10 @@ const styles = StyleSheet.create({
 
 const PhoneAuthenticationInput = props => {
   const {inputRef, label, theme, error, backgroundColor, value} = props;
+
+  const [isEnabled, setIsEnabled] = useState(false);
+  const toggleSwitch = () => setIsEnabled(prevState => !prevState);
+
   return (
     <View style={{marginBottom: 16}}>
       <Text style={[styles.labelText, {color: themes[theme].normalTextColor}]}>
@@ -79,7 +84,11 @@ const PhoneAuthenticationInput = props => {
             initialValue={value}
           />
         </View>
-        <Switch />
+        <Switch 
+          onValueChange={toggleSwitch}
+          ios_backgroundColor={'#3e3e3e'}
+          style={{transform: [{scaleX: .9}, {scaleY: .7}], marginRight:10}}
+          value={isEnabled}/>
       </View>
     </View>
   );

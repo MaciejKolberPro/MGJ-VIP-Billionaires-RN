@@ -8,6 +8,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  // StatusBar
 } from 'react-native';
 import {connect} from 'react-redux';
 import firestore from '@react-native-firebase/firestore';
@@ -21,6 +22,7 @@ import {
   themes,
 } from '../../constants/colors';
 import StatusBar from '../../containers/StatusBar';
+// import SafeAreaView from 'react-native-safe-area-context'
 import {withTheme} from '../../theme';
 import images from '../../assets/images';
 import styles from './styles';
@@ -75,14 +77,9 @@ const ProfileView = props => {
               size={16}
               color={COLOR_GRAY_DARK}
               type={'AntDesign'}
-              style={{marginTop: 8, marginLeft: 8}}
-            />
+              style={{marginTop: 8, marginLeft: 8}}/>
           </TouchableOpacity>
-          <Text
-            style={[
-              styles.headerText,
-              {color: themes[theme].deactiveTintColor},
-            ]}>
+          <Text style={[styles.headerText, {color: themes[theme].deactiveTintColor}]}>
             {I18n.t('AppTitle')}
           </Text>
         </View>
@@ -93,7 +90,7 @@ const ProfileView = props => {
         shadowOpacity: 0,
       },
     });
-  }, []);
+  }, [theme]);
 
   useEffect(() => {
     if (!isEmpty(user)) init();
@@ -229,8 +226,6 @@ const ProfileView = props => {
             avatar: image_url,
           };
 
-          console.log('userInfo', userInfo);
-
           firebaseSdk
             .setData(firebaseSdk.TBL_USER, DB_ACTION_UPDATE, userInfo)
             .then(() => {
@@ -334,7 +329,8 @@ const ProfileView = props => {
   };
 
   return (
-    <View style={{flex: 1}}>
+    <SafeAreaView style={{flex: 1}}>
+      <StatusBar/>
       <ScrollView contentContainerStyle={{paddingBottom: 80}}>
         <View style={styles.logoContainer}>
           <TouchableOpacity
@@ -667,7 +663,7 @@ const ProfileView = props => {
       {isLoading ? (
         <ActivityIndicator absolute size="large" theme={theme} />
       ) : null}
-    </View>
+    </SafeAreaView>
   );
 };
 

@@ -1,10 +1,11 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Platform } from 'react-native'
 
 export default StyleSheet.create({
   headerView: {
     flexDirection:'row', 
     alignItems:'center',
     height: 60,
+    marginTop:Platform.OS == 'ios' ? 50 : 0
   },
   header: {
     flexDirection: 'row',
@@ -86,7 +87,8 @@ export default StyleSheet.create({
   
   modalContent: {
     backgroundColor: 'red',
-    padding: 24,
+    paddingVertical: 24,
+    paddingHorizontal: 15,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
   },
