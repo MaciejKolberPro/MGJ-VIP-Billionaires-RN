@@ -34,8 +34,10 @@ export default StyleSheet.create({
     marginTop: 12,
   },
   imageStyle: {
-    width: '100%',
-    height: 300,
+    width: 92, 
+    height: 92, 
+    borderRadius: 8, 
+    marginTop:10,
     resizeMode: 'contain',
   },
   videoContainer: {

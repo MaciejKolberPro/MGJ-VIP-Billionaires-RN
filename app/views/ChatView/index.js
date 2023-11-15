@@ -519,104 +519,94 @@ const ChatView = props => {
   return (
     <SafeAreaView style={{backgroundColor: themes[theme].chatBackground}}>
       <StatusBar />
-      {sending && <ActivityIndicator absolute theme={theme} size={'large'} />}
-      <FlatList
-        style={{flex: 1}}
-        data={messages}
-        renderItem={({item, index}) =>
-          renderItem(item, messages[index + 1], index)
-        }
-        keyExtractor={item => item.id}
-        inverted
-        removeClippedSubviews={isIOS}
-        contentContainerStyle={{paddingTop: 4}}
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-            tintColor={themes[theme].actionColor}
+      <KeyboardView
+        contentContainerStyle={[sharedStyles.container, {backgroundColor: themes[theme].backgroundColor}]}
+        keyboardVerticalOffset={128}>
+
+        {sending && <ActivityIndicator absolute theme={theme} size={'large'} />}
+
+        <View style={sharedStyles.container}>
+          <FlatList
+            style={{flex: 1}}
+            data={messages}
+            renderItem={({item, index}) =>
+              renderItem(item, messages[index + 1], index)
+            }
+            keyExtractor={item => item.id}
+            inverted
+            removeClippedSubviews={isIOS}
+            contentContainerStyle={{paddingTop: 4}}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+                tintColor={themes[theme].actionColor}
+              />
+            }
+            ListHeaderComponent={renderTyping}
+            {...scrollPersistTaps}
           />
-        }
-        ListHeaderComponent={renderTyping}
-        {...scrollPersistTaps}
-      />
 
-      <Animated.View>
-        <RNSafeAreaView
-          style={{
-            backgroundColor: themes[theme].focusedBackground,
-            paddingVertical: 13,
-          }}>
-          <View
-            style={[
-              styles.inputContainer,
-              {
-                marginBottom: Platform.OS === 'android' ? 20 : 0,
-              },
-            ]}>
-            {leftButtons()}
-            <TextInput
-              ref={inputRef}
-              returnKeyType={'default'}
-              keyboardType="default"
-              multiline
-              blurOnSubmit={true}
-              placeholder={'Type Something'}
-              placeholderTextColor={themes[theme].subTextColor}
-              onChangeText={onChangeText}
-              onSubmitEditing={sendMessage}
-              style={[
-                styles.input,
-                {
-                  color: themes[theme].activeTintColor,
-                  borderLeftWidth: 1,
-                  borderColor: themes[theme].borderColor,
-                  paddingHorizontal: 12,
-                },
-              ]}
-            />
+          <Animated.View>
+            <RNSafeAreaView
+              style={{
+                backgroundColor: themes[theme].focusedBackground,
+                paddingVertical: 13,
+              }}>
+              <View style={[styles.inputContainer, {marginBottom: Platform.OS === 'android' ? 20 : 0}]}>
+                {leftButtons()}
+                <TextInput
+                  ref={inputRef}
+                  returnKeyType={'default'}
+                  keyboardType="default"
+                  multiline
+                  blurOnSubmit={true}
+                  placeholder={'Type Something'}
+                  placeholderTextColor={themes[theme].subTextColor}
+                  onChangeText={onChangeText}
+                  onSubmitEditing={sendMessage}
+                  style={[
+                    styles.input,
+                    {
+                      color: themes[theme].activeTintColor,
+                      borderLeftWidth: 1,
+                      borderColor: themes[theme].borderColor,
+                      paddingHorizontal: 12,
+                    },
+                  ]}
+                />
+                <TouchableOpacity style={[styles.btnRecord, {backgroundColor: themes[theme].borderColor}]}
+                  onPress={onVoiceRecord}>
+                  <Image
+                    source={
+                      theme === 'light' ? images.ic_record : images.ic_record_dark
+                    }
+                    style={[styles.recordBtn, {tintColor: themes[theme].activeTintColor}]}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.btnContainer} onPress={sendMessage}>
+                  <Image
+                    source={
+                      theme === 'light' ? images.ic_send : images.ic_send_dark
+                    }
+                    style={[styles.sendBtn, {tintColor: themes[theme].activeTintColor}]}
+                  />
+                </TouchableOpacity>
+              </View>
+            </RNSafeAreaView>
+          </Animated.View>
+
+          {showActiveImage && (
             <TouchableOpacity
-              style={[
-                styles.btnRecord,
-                {backgroundColor: themes[theme].borderColor},
-              ]}
-              onPress={onVoiceRecord}>
-              <Image
-                source={
-                  theme === 'light' ? images.ic_record : images.ic_record_dark
-                }
-                style={[
-                  styles.recordBtn,
-                  {
-                    tintColor: themes[theme].activeTintColor,
-                  },
-                ]}
-              />
+              style={styles.activeImageContainer}
+              onPress={() => setState({...state, showActiveImage: null})}>
+              <Image source={{uri: showActiveImage}} style={styles.activeImage} />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.btnContainer} onPress={sendMessage}>
-              <Image
-                source={
-                  theme === 'light' ? images.ic_send : images.ic_send_dark
-                }
-                style={[
-                  styles.sendBtn,
-                  {
-                    tintColor: themes[theme].activeTintColor,
-                  },
-                ]}
-              />
-            </TouchableOpacity>
-          </View>
-        </RNSafeAreaView>
-      </Animated.View>
+          )}
 
-      {showActiveImage && (
-        <TouchableOpacity
-          style={styles.activeImageContainer}
-          onPress={() => setState({...state, showActiveImage: null})}>
-          <Image source={{uri: showActiveImage}} style={styles.activeImage} />
-        </TouchableOpacity>
-      )}
+        </View>
+      </KeyboardView>
+      
     </SafeAreaView>
   );
 };

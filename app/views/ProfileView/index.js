@@ -140,10 +140,11 @@ const ProfileView = props => {
   };
 
   const goToPosts = () => {
-    navigation.navigate('Posts', {
-      type: 'posts',
-      account: state.account,
-    });
+    // navigation.navigate('Posts', {
+    //   type: 'posts',
+    //   account: state.account,
+    // });
+    props.navigation.push('Home');
   };
 
   const onOpenPost = item => {

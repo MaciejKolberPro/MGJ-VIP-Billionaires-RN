@@ -114,7 +114,6 @@ const PostDetailView = props => {
         likes_accounts,
         comment_accounts,
       };
-      // console.log('Post DetailView--1231-',post.comments)
       setSafeState({post, initializing: false});
     });
   };
@@ -760,7 +759,7 @@ const PostDetailView = props => {
                   multiline={true}
                   numberOfLines={2}
                   onChangeText={text => setState({...state, comment: text})}
-                  placeholder={I18n.t('search_here')}
+                  placeholder={I18n.t('write_something_here')}
                   placeholderColor={themes[theme].subTextColor}
                   style={{
                     marginLeft: 15,

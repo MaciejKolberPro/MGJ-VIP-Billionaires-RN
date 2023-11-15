@@ -17,6 +17,7 @@ import {
 import I18n from '../i18n';
 
 const imagePickerConfig = {
+  multiple: true,
   cropping: true,
   freeStyleCropEnabled: true,
   width: 1200,
@@ -26,6 +27,7 @@ const imagePickerConfig = {
   cropperChooseText: I18n.t('Choose'),
   cropperCancelText: I18n.t('Cancel'),
   mediaType: 'photo',
+  maxFiles: 3
 };
 
 const styles = StyleSheet.create({

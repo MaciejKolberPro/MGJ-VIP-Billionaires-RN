@@ -62,6 +62,7 @@ const CreatePostView = props => {
   }, [text]);
 
   useEffect(() => {
+    console.log('Create post view--', file_path)
     init();
   }, []);
 
@@ -189,11 +190,21 @@ const CreatePostView = props => {
               multiline={true}
               theme={theme}
             />
-            <Image
-              source={{uri: file_path}}
-              style={[styles.imageStyle, {borderRadius: 20, marginTop:10}]}
-              resizeMode="cover"
-            />
+            <View style={{flexDirection: 'row'}}>
+              { file_path && (
+                file_path.map((path, index) => {
+                  return (
+                    <Image
+                      key={index}
+                      source={{uri: path}}
+                      style={[styles.imageStyle, {marginLeft: !index ? 0 : 10}]}
+                      resizeMode="cover"
+                    />
+                  )
+                })
+              )}
+            </View>
+            
           </View>
         );
       case POST_TYPE_VIDEO:

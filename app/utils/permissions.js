@@ -7,6 +7,7 @@ import {
 } from 'react-native-permissions';
 import I18n from '../i18n';
 export const imagePickerConfig = {
+  multiple: true,
   cropping: true,
   freeStyleCropEnabled: true,
   width: 1200,
@@ -16,6 +17,7 @@ export const imagePickerConfig = {
   cropperChooseText: I18n.t('Choose'),
   cropperCancelText: I18n.t('Cancel'),
   mediaType: 'photo',
+  maxFiles: 3
 };
 
 export const backImagePickerConfig = {

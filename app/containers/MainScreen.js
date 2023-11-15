@@ -253,7 +253,7 @@ const VipScreen = React.memo(({ onClose, theme, width, navigation }) => {
     onClose()
     if (await checkCameraPermission()) {
       ImagePicker.openCamera(imagePickerConfig).then(image => {
-        console.log('image', image)
+        // console.log('image', images)
         navigation.push('CreatePost', {
           type: POST_TYPE_PHOTO,
           file_path: image.path,
@@ -278,8 +278,13 @@ const VipScreen = React.memo(({ onClose, theme, width, navigation }) => {
     onClose()
     // navigation.push('PickLibrary', { type: POST_TYPE_PHOTO });
     if (await checkPhotosPermission()) {
-      ImagePicker.openPicker(imagePickerConfig).then(image => {
-        navigation.push('CreatePost', { type: POST_TYPE_PHOTO, file_path: image.path })
+      ImagePicker.openPicker(imagePickerConfig).then(async images => {
+        const paths =  [];
+        for await (const image of images) {
+          paths.push(image.path)
+        }
+        console.log('images', paths)
+        navigation.push('CreatePost', { type: POST_TYPE_PHOTO, file_path: paths })
       })
     }
   }
