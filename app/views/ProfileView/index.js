@@ -234,8 +234,6 @@ const ProfileView = props => {
               const updateUser = {...user, ...userInfo};
               setUser(updateUser);
 
-              console.log('setUser', updateUser);
-
               init();
             })
             .catch(err => {
@@ -585,20 +583,20 @@ const ProfileView = props => {
                     <View style={{flexDirection: 'row'}} key={index}>
                       <TouchableOpacity onPress={() => onOpenPost(p[0])}>
                         <Image
-                          source={{uri: p[0]?.photo || p[0]?.thumbnail}}
+                          source={{uri: Array.isArray(p[0]?.photo) ? p[0]?.photo[0] : p[0]?.photo || p[0]?.thumbnail}}
                           style={[styles.tile1]}
                         />
                       </TouchableOpacity>
                       <View>
                         <TouchableOpacity onPress={() => onOpenPost(p[1])}>
                           <Image
-                            source={{uri: p[1]?.photo || p[1]?.thumbnail}}
+                            source={{uri: Array.isArray(p[1]?.photo) ? p[1]?.photo[0] : p[1]?.photo || p[1]?.thumbnail}}
                             style={[styles.tile2]}
                           />
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => onOpenPost(p[2])}>
                           <Image
-                            source={{uri: p[2]?.photo || p[2]?.thumbnail}}
+                            source={{uri: Array.isArray(p[2]?.photo) ? p[2]?.photo[0] : p[2]?.photo || p[2]?.thumbnail}}
                             style={styles.tile2}
                           />
                         </TouchableOpacity>
@@ -611,19 +609,19 @@ const ProfileView = props => {
                     <View style={{flexDirection: 'row'}} key={index}>
                       <TouchableOpacity onPress={() => onOpenPost(p[0])}>
                         <Image
-                          source={{uri: p[0]?.photo || p[0]?.thumbnail}}
+                          source={{uri: Array.isArray(p[0]?.photo) ? p[0]?.photo[0] : p[0]?.photo || p[0]?.thumbnail}}
                           style={styles.tile3}
                         />
                       </TouchableOpacity>
                       <TouchableOpacity onPress={() => onOpenPost(p[1])}>
                         <Image
-                          source={{uri: p[1]?.photo || p[1]?.thumbnail}}
+                          source={{uri: Array.isArray(p[1]?.photo) ? p[1]?.photo[0] : p[1]?.photo || p[1]?.thumbnail}}
                           style={styles.tile3}
                         />
                       </TouchableOpacity>
                       <TouchableOpacity onPress={() => onOpenPost(p[2])}>
                         <Image
-                          source={{uri: p[2]?.photo || p[2]?.thumbnail}}
+                          source={{uri: Array.isArray(p[2]?.photo) ? p[2]?.photo[0] : p[2]?.photo || p[2]?.thumbnail}}
                           style={styles.tile3}
                         />
                       </TouchableOpacity>
@@ -636,20 +634,20 @@ const ProfileView = props => {
                       <View>
                         <TouchableOpacity onPress={() => onOpenPost(p[0])}>
                           <Image
-                            source={{uri: p[0]?.photo || p[0]?.thumbnail}}
+                            source={{uri: Array.isArray(p[0]?.photo) ? p[0]?.photo[0] : p[0]?.photo || p[0]?.thumbnail}}
                             style={styles.tile2}
                           />
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => onOpenPost(p[1])}>
                           <Image
-                            source={{uri: p[1]?.photo || p[1]?.thumbnail}}
+                            source={{uri: Array.isArray(p[1]?.photo) ? p[1]?.photo[0] : p[1]?.photo || p[1]?.thumbnail}}
                             style={styles.tile2}
                           />
                         </TouchableOpacity>
                       </View>
                       <TouchableOpacity onPress={() => onOpenPost(p[2])}>
                         <Image
-                          source={{uri: p[2]?.photo || p[2]?.thumbnail}}
+                          source={{uri: Array.isArray(p[2]?.photo) ? p[2]?.photo[0] : p[2]?.photo || p[2]?.thumbnail}}
                           style={styles.tile1}
                         />
                       </TouchableOpacity>

@@ -9,14 +9,16 @@ import {
   Share,
   ScrollView,
   Dimensions,
+  Platform
 } from 'react-native';
 import {connect} from 'react-redux';
 import firestore from '@react-native-firebase/firestore';
 import Video from 'react-native-video';
 import {useNavigation} from '@react-navigation/native';
 // Geo
-// import ScrollView from 'react-native-nested-scroll-view';
+// import {ScrollView} from 'react-native-nested-scroll-view';
 
+// import { ScrollView } from 'react-native-gesture-handler';
 import {withTheme} from '../../theme';
 import KeyboardView from '../../containers/KeyboardView';
 import sharedStyles from '../Styles';
@@ -47,9 +49,8 @@ import I18n from '../../i18n';
 import PopupMenu from '../../containers/PopupMenu';
 import {showErrorAlert, showToast} from '../../lib/info';
 import {getUserRepresentString, onSharePost} from '../../utils/const';
-
 import {dateStringFromNowShort} from '../../utils/datetime';
-
+import { SwiperFlatListWithGestureHandler } from 'react-native-swiper-flatlist/WithGestureHandler';
 
 const PostDetailView = props => {
   const navigation = useNavigation();
@@ -68,6 +69,7 @@ const PostDetailView = props => {
   const [photoMode, setPhotoMode] = useState(false);
   const textInput = useRef(null);
   const {user, theme} = props;
+  const [selectImage, setSelectImage] = useState(null);
   const {post, comment, playing, initializing, replyText} = state;
 
   useEffect(() => {
@@ -401,8 +403,30 @@ const PostDetailView = props => {
     };
 
     updateComment(update);
-}
+  } 
 
+  const renderImages = (url, index) => {
+    return (
+      <TouchableOpacity key={index} opacity={0.9}
+        style={{
+          width:Dimensions.get('window').width - 40,
+          height:300,
+          borderRadius: 20,
+          overflow: 'hidden',
+          backgroundColor: themes[theme].modalBackground
+        }}
+        onPress={() => {
+          setSelectImage(url);
+          setPhotoMode(true);
+        }}>
+        <Image
+          source={{uri: url}}
+          style={styles.photoImage}
+          resizeMode="cover"
+        />
+      </TouchableOpacity>
+    )
+  }
 
   const isLiking = post.likes && post.likes.includes(user.userId);
   return (
@@ -438,7 +462,9 @@ const PostDetailView = props => {
         {isLoading && (
           <ActivityIndicator absolute theme={theme} size={'large'} />
         )}
-        <ScrollView>
+        <ScrollView 
+          style={{marginTop: 10, flex: 1}} 
+          nestedScrollEnabled={true}>
           <View style={styles.container} {...scrollPersistTaps}>
             <View style={styles.owner}>
               <View style={styles.avatarContainer}>
@@ -492,28 +518,47 @@ const PostDetailView = props => {
                 </Text>
               )}
               {post.type === POST_TYPE_PHOTO && (
-                <>
-                  <Text
-                    style={[
-                      styles.titleText,
-                      {color: themes[theme].textColor},
-                    ]}>
+                <View>
+                  <Text style={[styles.titleText,{color: themes[theme].textColor}]}>
                     {post.text}
                   </Text>
-                  <TouchableOpacity
-                    style={{
-                      borderRadius: 20,
-                      overflow: 'hidden',
-                      backgroundColor: themes[theme].modalBackground,
-                    }}
-                    onPress={() => setPhotoMode(true)}>
-                    <Image
-                      source={{uri: post.photo}}
-                      style={styles.photoImage}
-                      resizeMode="cover"
-                    />
-                  </TouchableOpacity>
-                </>
+
+                  { Array.isArray(post.photo) ?
+                    <ScrollView
+                      horizontal={true}
+                      pagingEnabled={true}
+                      showsHorizontalScrollIndicator={false}
+                      decelerationRate="fast"
+                      disableIntervalMomentum
+                      scrollEventThrottle={200}
+                      snapToAlignment={"center"}>
+                      {
+                          post.photo.map((item, key) => {
+                              return renderImages(item, key)
+                          })
+                      }
+                    </ScrollView>
+                    :
+                    <TouchableOpacity opacity={0.9}
+                      style={{
+                        width:Dimensions.get('window').width - 40,
+                        height:300,
+                        borderRadius: 20,
+                        overflow: 'hidden',
+                        backgroundColor: themes[theme].modalBackground
+                      }}
+                      onPress={() => {
+                        setSelectImage(post.photo);
+                        setPhotoMode(true);
+                      }}>
+                      <Image
+                        source={{uri: post.photo}}
+                        style={styles.photoImage}
+                        resizeMode="cover"
+                      />
+                    </TouchableOpacity>
+                  }
+                </View>
               )}
               {post.type === POST_TYPE_VIDEO && (
                 <>
@@ -1100,15 +1145,15 @@ const PostDetailView = props => {
               backgroundColor: '#000000E0',
             }}>
             <Image
-              source={{uri: post.photo}}
-              style={{width: '100%', height: '100%' /*resizeMode: 'contain'*/}}
+              source={{uri: selectImage}}
+              style={{width: '100%', height: '100%'}}
             />
             <View
               style={{
                 position: 'absolute',
                 left: 0,
                 right: 0,
-                top: 40,
+                top: Platform.OS == 'ios' ? 40 : 10,
                 bottom: 0,
                 justifyContent: 'space-between',
               }}>
@@ -1119,8 +1164,7 @@ const PostDetailView = props => {
                   paddingHorizontal: 20,
                   marginTop: 10,
                 }}>
-                <TouchableOpacity
-                  onPress={() => setPhotoMode(false)}
+                <TouchableOpacity onPress={() => setPhotoMode(false)}
                   style={{
                     height: 40,
                     justifyContent: 'center',
@@ -1133,14 +1177,13 @@ const PostDetailView = props => {
                     size={18}
                     color={themes[theme].activeTintColor}
                   />
-                  <Text
-                    style={{
+                  <Text style={{
                       fontSize: 14,
                       fontWeight: '500',
                       color: COLOR_WHITE,
                       marginLeft: 15,
                     }}>
-                    Back to Home
+                    {I18n.t('back')}
                   </Text>
                 </TouchableOpacity>
                 {/* <PopupMenu

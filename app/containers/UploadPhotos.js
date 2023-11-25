@@ -13,22 +13,9 @@ import images from '../assets/images';
 import {
   checkCameraPermission,
   checkPhotosPermission,
+  imagePickerConfig,
 } from '../utils/permissions';
 import I18n from '../i18n';
-
-const imagePickerConfig = {
-  multiple: true,
-  cropping: true,
-  freeStyleCropEnabled: true,
-  width: 1200,
-  height: 1500,
-  enableRotationGesture: true,
-  avoidEmptySpaceAroundImage: false,
-  cropperChooseText: I18n.t('Choose'),
-  cropperCancelText: I18n.t('Cancel'),
-  mediaType: 'photo',
-  maxFiles: 3
-};
 
 const styles = StyleSheet.create({
   container: {

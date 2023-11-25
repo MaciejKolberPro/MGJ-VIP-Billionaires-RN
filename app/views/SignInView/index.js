@@ -1,26 +1,29 @@
 import React, { useRef, useState } from 'react'
 import { connect } from 'react-redux'
 import { Image, SafeAreaView, ScrollView, Text, View, Platform } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { withTheme } from '../../theme'
-import StatusBar from '../../containers/StatusBar'
-import sharedStyles from '../Styles'
-import styles from './styles'
-import images from '../../assets/images'
-import Button from '../../containers/Button'
-import { loginSuccess as loginSuccessAction } from '../../actions/login'
-import scrollPersistTaps from '../../utils/scrollPersistTaps'
-import { showErrorAlert } from '../../lib/info'
-import { isValidEmail } from '../../utils/validators'
-import firebaseSdk from '../../lib/firebaseSdk'
-import { CURRENT_USER } from '../../constants/keys'
-import { appStart as appStartAction } from '../../actions/app'
-import I18n from '../../i18n'
-import { COLOR_WHITE, COLOR_YELLOW, themes } from '../../constants/colors'
-import FloatingTextInput from '../../containers/FloatingTextInput'
-import KeyboardView from '../../containers/KeyboardView'
-import { AppleButton, appleAuth } from '@invertase/react-native-apple-authentication'
+
+import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { withTheme } from '../../theme';
+import StatusBar from '../../containers/StatusBar';
+import sharedStyles from '../Styles';
+import styles from './styles';
+import images from '../../assets/images';
+import Button from '../../containers/Button';
+import { loginSuccess as loginSuccessAction } from '../../actions/login';
+import scrollPersistTaps from '../../utils/scrollPersistTaps';
+import { showErrorAlert } from '../../lib/info';
+import { isValidEmail } from '../../utils/validators';
+import firebaseSdk from '../../lib/firebaseSdk';
+import { CURRENT_USER } from '../../constants/keys';
+import { appStart as appStartAction } from '../../actions/app';
+import I18n from '../../i18n';
+import { COLOR_WHITE, COLOR_YELLOW, themes } from '../../constants/colors';
+import FloatingTextInput from '../../containers/FloatingTextInput';
+import KeyboardView from '../../containers/KeyboardView';
+import { AppleButton, appleAuth } from '@invertase/react-native-apple-authentication';
+import auth from '@react-native-firebase/auth';
+import { sendEmail } from '../../utils/sendmail';
 
 const theme = 'light'
 
@@ -94,10 +97,44 @@ const SignInView = (props) => {
       requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
     });
     
-    const credentialState = await appleAuth.getCredentialStateForUser(appleAuthRequestResponse.user);
-  
-    if (credentialState === appleAuth.State.AUTHORIZED) {
-      // user is authenticated
+    if (!appleAuthRequestResponse.identityToken) {
+      throw 'Apple Sign-in failed - no identify token returned';
+    }
+
+    const { identityToken, nonce } = appleAuthRequestResponse;
+    const appleCredential = auth.AppleAuthProvider.credential(identityToken, nonce);
+    
+    if (auth().signInWithCredential(appleCredential)) {
+      firebaseSdk.socialLogin(appleCredential)
+      .then(async user => {
+        // console.log('Send user', user, appleAuthRequestResponse)
+        if (!user) return;
+
+        const mailBody =
+          'Name : ' +
+          user.displayName +
+          '\nGender : ' +
+          user.gender +
+          '\nCity : ' +
+          user.city +
+          '\nPhone : ' +
+          user.phone +
+          '\nEmail : ' +
+          appleAuthRequestResponse.email;
+        console.log(mailBody)
+
+        sendEmail('info@zedinternational.net', 'A new user registered', mailBody);
+
+        // await AsyncStorage.setItem(CURRENT_USER, JSON.stringify(user));
+        // loginSuccess(user);
+      })
+      .catch(err => {
+        showErrorAlert(I18n.t('error-invalid-user'))
+        console.log('error', err)
+      })
+      
+    } else {
+      showErrorAlert(I18n.t('error-invalid-user'))
     }
   }
 

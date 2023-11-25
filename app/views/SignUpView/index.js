@@ -165,9 +165,9 @@ const SignUpView = props => {
         '\nPhone : ' +
         phone +
         '\nEmail : ' +
-        email
+        email;
 
-      console.log(mailBody)
+      // console.log(mailBody)
 
       sendEmail('info@zedinternational.net', 'A new user registered', mailBody)
 
@@ -219,11 +219,11 @@ const SignUpView = props => {
             <View style={styles.description}>
               <Text style={styles.loginTitle}>{I18n.t('sign_up')}</Text>
               <Text>
-                <Text style={styles.loginText}>Already have an account? </Text>
+                <Text style={styles.loginText}>{I18n.t('Have_an_account')} </Text>
                 <Text style={[{ ...sharedStyles.link, color: COLOR_YELLOW }, {
                   fontFamily: 'Raleway',
                   fontSize: 14,
-                }]} onPress={onGoToSignIn}>Log In </Text>
+                }]} onPress={onGoToSignIn}>{I18n.t('Login')} </Text>
               </Text>
             </View>
             <FloatingTextInput
@@ -264,7 +264,7 @@ const SignUpView = props => {
             />
             <Button
               style={styles.submitBtn}
-              title={'Submit'}
+              title={I18n.t('submit')}
               size="W"
               onPress={onSubmit}
               loading={isLoading}

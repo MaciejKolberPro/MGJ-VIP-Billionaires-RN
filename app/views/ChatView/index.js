@@ -31,8 +31,7 @@ import {showErrorAlert} from '../../lib/info';
 import Message from './Message';
 import {
   checkCameraPermission,
-  checkPhotosPermission,
-  imagePickerConfig,
+  checkPhotosPermission
 } from '../../utils/permissions';
 import ActivityIndicator from '../../containers/ActivityIndicator';
 import {isIOS} from '../../utils/deviceInfo';
@@ -47,6 +46,18 @@ import AudioRecord from 'react-native-audio-record';
 import {Buffer} from 'buffer';
 import KeyboardView from '../../containers/KeyboardView';
 import sharedStyles from '../Styles';
+
+const imagePickerConfig = {
+  cropping: true,
+  freeStyleCropEnabled: true,
+  width: 1200,
+  height: 1500,
+  enableRotationGesture: true,
+  avoidEmptySpaceAroundImage: false,
+  cropperChooseText: I18n.t('Choose'),
+  cropperCancelText: I18n.t('Cancel'),
+  mediaType: 'photo',
+};
 
 const scrollPersistTaps = {
   keyboardShouldPersistTaps: 'always',

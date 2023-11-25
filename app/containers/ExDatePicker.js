@@ -121,8 +121,7 @@ const styles = StyleSheet.create({
   },
   labelText: {
     fontFamily: 'Raleway',
-    marginBottom: 8,
-    color: '#C4C4C4',
+    marginBottom: 8
   },
 });
 
@@ -170,13 +169,13 @@ const ExDatePicker = props => {
 
   return (
     <>
-      {label && <Text style={styles.labelText}>{label}</Text>}
+      {label && <Text style={[styles.labelText, {color: themes[theme].textColor}]}>{label}</Text>}
       <TouchableOpacity
         style={[
           styles.container,
           containerStyle,
           {
-            borderColor: themes[theme].disableButtonBackground,
+            borderColor: themes[theme].messageOtherBackground,
             color: themes[theme].activeTintColor,
           },
         ]}

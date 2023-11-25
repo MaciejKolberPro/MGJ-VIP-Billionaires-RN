@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Image, ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import {Image, ScrollView, Text, TouchableOpacity, View, Alert} from 'react-native';
 import {connect} from 'react-redux';
 import {createThumbnail} from 'react-native-create-thumbnail';
 import Video from 'react-native-video';
@@ -28,6 +28,14 @@ import I18n from '../../i18n';
 import {VectorIcon} from '../../containers/VectorIcon';
 import {GradientHeader} from '../../containers/GradientHeader';
 import {COLOR_BTN_BACKGROUND, HEADER_BAR_START, themes} from '../../constants/colors';
+import ImagePicker from 'react-native-image-crop-picker';
+import {
+  checkCameraPermission,
+  checkPhotosPermission,
+  imagePickerConfig,
+  libraryVideoPickerConfig,
+  videoPickerConfig,
+} from '../../utils/permissions';
 
 const CreatePostView = props => {
   const navigation = useNavigation();
@@ -62,7 +70,6 @@ const CreatePostView = props => {
   }, [text]);
 
   useEffect(() => {
-    console.log('Create post view--', file_path)
     init();
   }, []);
 
@@ -106,16 +113,26 @@ const CreatePostView = props => {
       case POST_TYPE_TEXT:
         return savePost(post);
       case POST_TYPE_PHOTO:
+        // return firebaseSdk
+        //   .uploadMedia(firebaseSdk.STORAGE_TYPE_PHOTO, file_path)
+        //   .then(image_url => {
+        //     post.photo = image_url;
+        //     savePost(post);
+        //   })
+        //   .catch(err => {
+        //     showErrorAlert(I18n.t('Upload_Image_failed'));
+        //     setState({...state, isLoading: false});
+        //   });
         return firebaseSdk
-          .uploadMedia(firebaseSdk.STORAGE_TYPE_PHOTO, file_path)
-          .then(image_url => {
-            post.photo = image_url;
+          .uploadMultipleImages(firebaseSdk.STORAGE_TYPE_PHOTO, file_path)
+          .then(urls => {
+            post.photo = urls;
             savePost(post);
           })
           .catch(err => {
             showErrorAlert(I18n.t('Upload_Image_failed'));
             setState({...state, isLoading: false});
-          });
+          })
       case POST_TYPE_VIDEO:
         return firebaseSdk
           .uploadMedia(firebaseSdk.STORAGE_TYPE_PHOTO, file_path)
@@ -137,7 +154,6 @@ const CreatePostView = props => {
             setState({...state, isLoading: false});
           });
     }
-  
   };
 
   const savePost = post => {
@@ -152,6 +168,57 @@ const CreatePostView = props => {
         showErrorAlert(I18n.t('Publish_post_failed'));
         setState({...state, isLoading: false});
       });
+  };
+
+  const takePhoto = async () => {
+    if (file_path.length > 2) {
+      showToast(I18n.t('max_image_length'));
+      return;
+    }
+
+    if (await checkCameraPermission()) {
+      ImagePicker.openCamera(imagePickerConfig).then(image => {
+        setState({...state, file_path: [...file_path, image.path]});
+      });
+    }
+  };
+
+  const choosePhoto = async () => {
+    if (file_path.length > 2) {
+      showToast(I18n.t('max_image_length'));
+      return;
+    }
+
+    if (await checkPhotosPermission()) {
+      let paths = [];
+      ImagePicker.openPicker(imagePickerConfig).then(images => {
+        images.slice(0, 3).map(g => {
+          paths.push(g.path);
+        })
+        setState({...state, file_path: paths});
+      });
+    }
+  };
+
+  const onUpdatePhoto = () => {
+    Alert.alert('', I18n.t('Upload_photo'), [
+      {
+        text: I18n.t('Cancel'),
+        onPress: () => {},
+      },
+      {
+        text: I18n.t('Take_a_photo'),
+        onPress: () => {
+          takePhoto();
+        },
+      },
+      {
+        text: I18n.t('Choose_a_photo'),
+        onPress: () => {
+          choosePhoto();
+        },
+      },
+    ]);
   };
 
   const renderForm = () => {
@@ -192,19 +259,64 @@ const CreatePostView = props => {
             />
             <View style={{flexDirection: 'row'}}>
               { file_path && (
-                file_path.map((path, index) => {
+                file_path.slice(0, 3).map((path, index) => {
                   return (
                     <Image
                       key={index}
                       source={{uri: path}}
                       style={[styles.imageStyle, {marginLeft: !index ? 0 : 10}]}
                       resizeMode="cover"
-                    />
-                  )
+                    />)
                 })
               )}
             </View>
-            
+
+            <TouchableOpacity style={[styles.itemBoxContainer, {backgroundColor: themes[theme].disableButtonBackground, marginTop: 20}]}
+              onPress={onUpdatePhoto}>
+              <View style={styles.itemBoxMark}>
+                <VectorIcon
+                  type="Entypo"
+                  name="images"
+                  size={20}
+                  color={themes[theme].activeTintColor}
+                />
+                <Text style={[styles.itemBoxText, {color: themes[theme].activeTintColor}]}>
+                  {I18n.t('Upload_photo')}
+                </Text>
+              </View>
+              <VectorIcon
+                type="AntDesign"
+                name="right"
+                size={18}
+                color={themes[theme].activeTintColor}
+              />
+            </TouchableOpacity>
+
+            <TouchableOpacity style={[styles.itemBoxContainer, {backgroundColor: themes[theme].disableButtonBackground}]}
+              onPress={takePhoto}>
+              <View style={styles.itemBoxMark}>
+                <VectorIcon
+                  type="FontAwesome"
+                  name="camera"
+                  size={20}
+                  color={themes[theme].activeTintColor}
+                />
+                <Text style={[styles.itemBoxText, {color: themes[theme].activeTintColor}]}>
+                  {I18n.t('capture')}
+                </Text>
+              </View>
+              <VectorIcon
+                type="AntDesign"
+                name="right"
+                size={18}
+                color={themes[theme].activeTintColor}
+              />
+            </TouchableOpacity>
+
+            { file_path.length > 3 && (
+                showErrorAlert(I18n.t('max_image_length'))
+              )
+            }
           </View>
         );
       case POST_TYPE_VIDEO:

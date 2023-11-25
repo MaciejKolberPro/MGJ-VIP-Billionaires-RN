@@ -41,24 +41,24 @@ const Root = () => {
     // if (colorTheme === 'dark') setTheme('dark');
     // else setTheme('light');
 
-    setTheme('dark')
+    // setTheme('dark')
     // setTheme('light')
     // console.log("Current theme--", theme)
-    // let timer = setInterval(() => {
-    //   const hour = new Date().getHours()
-    //   if (!theme) {
-    //     setTheme('light')
-    //   } else if (theme === 'dark' && hour >= 6 && hour <= 17) {
-    //     setTheme('light')
-    //   } else if (theme === 'light' && (hour < 6 || hour >= 18)) {
-    //     setTheme('dark')
-    //   }
-    // }, 1000)
-    // return () => {
-    //   if (timer) {
-    //     clearInterval(timer)
-    //   }
-    // }
+    let timer = setInterval(() => {
+      const hour = new Date().getHours()
+      if (!theme) {
+        setTheme('light')
+      } else if (theme === 'dark' && hour >= 6 && hour <= 17) {
+        setTheme('light')
+      } else if (theme === 'light' && (hour < 6 || hour >= 18)) {
+        setTheme('dark')
+      }
+    }, 1000)
+    return () => {
+      if (timer) {
+        clearInterval(timer)
+      }
+    }
   }, [theme]);
 
   const onDimensionsChange = debounce(

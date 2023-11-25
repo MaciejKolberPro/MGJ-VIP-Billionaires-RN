@@ -13,19 +13,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     alignSelf: 'center',
-    paddingLeft: 10,
     borderRadius: 8,
-    paddingHorizontal: 10,
+    paddingRight: 10,
     justifyContent: 'space-between',
     height: 56,
-    borderColor: '#4A4A4A',
     marginBottom: 15,
   },
   label: {
-    marginLeft: 15,
     fontFamily: 'Raleway',
     fontWeight: '400',
-    color: '#4A4A4A',
     marginBottom: 5,
     fontSize: 14,
   },
@@ -48,15 +44,15 @@ const CsAutocompleteSelect = ({
         type={'Entypo'}
         name={show ? 'chevron-thin-up' : 'chevron-thin-right'}
         color={themes[theme].activeTintColor}
-        size={18}
+        size={14}
       />
     )
   }
 
   return (
     <>
-      {label && <Text style={styles.label}>City</Text>}
-      <View style={styles.container}>
+      {label && <Text style={[styles.label, {color:themes[theme].textColor}]}>{label}</Text>}
+      <View style={[styles.container, {borderColor: themes[theme].messageOtherBackground}]}>
         <AutocompleteDropdown
           clearOnFocus={false}
           closeOnBlur={true}

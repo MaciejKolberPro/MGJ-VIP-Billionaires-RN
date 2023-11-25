@@ -66,7 +66,7 @@ const EditPostView = props => {
   const [state, setState] = useState({
     postId: props.route.params?.postId,
     type: POST_TYPE_TEXT,
-    file_path: null,
+    file_path: [],
     thumbnail: null,
     photo: null,
     video: null,
@@ -153,14 +153,17 @@ const EditPostView = props => {
         </TouchableOpacity>
       )
     });
-
-    console.log('photo', state.photo);
   };
 
   const takePhoto = async () => {
+    if (file_path.length > 2) {
+      showToast(I18n.t('max_image_length'));
+      return;
+    }
+
     if (await checkCameraPermission()) {
       ImagePicker.openCamera(imagePickerConfig).then(image => {
-        setState({...state, file_path: image.path});
+        setState({...state, file_path: [...file_path, image.path]});
       });
     }
   };
@@ -175,9 +178,18 @@ const EditPostView = props => {
   };
 
   const choosePhoto = async () => {
+    if (file_path.length > 2) {
+      showToast(I18n.t('max_image_length'));
+      return;
+    }
+
     if (await checkPhotosPermission()) {
-      ImagePicker.openPicker(imagePickerConfig).then(image => {
-        setState({...state, file_path: image.path});
+      let paths = [];
+      ImagePicker.openPicker(imagePickerConfig).then(images => {
+        images.slice(0, 3).map(g => {
+          paths.push(g.path);
+        })
+        setState({...state, file_path: paths});
       });
     }
   };
@@ -268,16 +280,26 @@ const EditPostView = props => {
 
       switch (type) {
         case POST_TYPE_PHOTO:
+          // return firebaseSdk
+            // .uploadMedia(firebaseSdk.STORAGE_TYPE_PHOTO, file_path)
+            // .then(image_url => {
+            //   post.photo = image_url;
+            //   savePost(post);
+            // })
+            // .catch(err => {
+            //   showErrorAlert(I18n.t('Upload_Image_failed'));
+            //   setState({...state, isLoading: false});
+            // });
           return firebaseSdk
-            .uploadMedia(firebaseSdk.STORAGE_TYPE_PHOTO, file_path)
-            .then(image_url => {
-              post.photo = image_url;
+            .uploadMultipleImages(firebaseSdk.STORAGE_TYPE_PHOTO, file_path)
+            .then(urls => {
+              post.photo = urls;
               savePost(post);
             })
             .catch(err => {
               showErrorAlert(I18n.t('Upload_Image_failed'));
               setState({...state, isLoading: false});
-            });
+            })
         case POST_TYPE_VIDEO:
           return firebaseSdk
             .uploadMedia(firebaseSdk.STORAGE_TYPE_PHOTO, file_path)
@@ -341,6 +363,18 @@ const EditPostView = props => {
       });
   };
 
+  const renderImages = (url, index) => {
+    return (
+      // <View key={index} style={{width: 100, height: 100}}>
+        <Image
+          key={index}
+          source={{uri: url}}
+          style={[styles.previewImage, {marginLeft: index ? 10 : 0}]}
+        />
+      // </View>
+    )
+  }
+
   const renderForm = () => {
     switch (type) {
       case POST_TYPE_TEXT:
@@ -391,12 +425,17 @@ const EditPostView = props => {
               multiline={true}
               theme={theme}
             />
-
-            <View>
-              <Image
-                source={{uri: !file_path ? state.photo : file_path}}
-                style={styles.previewImage}
-              />
+             
+            <View style={{flexDirection:'row'}}>
+            { file_path.length > 0 ?
+              file_path.map((item, key) => {
+                return renderImages(item, key);
+              })
+              :
+              state.photo.map((item, key) => {
+                return renderImages(item, key);
+              })
+            }
             </View>
 
             <TouchableOpacity style={[styles.itemBoxContainer, {backgroundColor: themes[theme].disableButtonBackground}]}

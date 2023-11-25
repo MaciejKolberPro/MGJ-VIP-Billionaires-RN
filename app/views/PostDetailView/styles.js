@@ -1,4 +1,4 @@
-import {StyleSheet, Platform} from 'react-native';
+import {StyleSheet, Platform, Dimensions} from 'react-native';
 import {COLOR_YELLOW} from '../../constants/colors';
 
 export default StyleSheet.create({
@@ -62,7 +62,7 @@ export default StyleSheet.create({
     flex: 1,
     width: '100%',
     height: 300,
-    resizeMode: 'contain',
+    resizeMode: 'contain'
   },
   likingImage: {
     position: 'absolute',

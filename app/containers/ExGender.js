@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     alignItems: 'center',
     borderWidth: 1,
-    borderRadius: 8,
+    borderRadius: 8
   },
   checkbox: {
     width: 20,
@@ -184,7 +184,7 @@ const ExGender = props => {
 
   return (
     <View style={[styles.container, containerStyle]}>
-      <Text style={[styles.labelText, {color: themes[theme].normalTextColor}]}>
+      <Text style={[styles.labelText, {color: themes[theme].textColor}]}>
         {label}
       </Text>
       {/* <TextInput
@@ -250,7 +250,7 @@ const ExGender = props => {
         <TouchableOpacity
           style={[
             styles.genderBoxContainer,
-            {borderColor: themes[theme].disableButtonBackground},
+            {borderColor: themes[theme].messageOtherBackground},
           ]}
           onPress={() => {
             setShow(false);
@@ -290,7 +290,7 @@ const ExGender = props => {
           style={[
             styles.genderBoxContainer,
             {
-              borderColor: themes[theme].disableButtonBackground,
+              borderColor: themes[theme].messageOtherBackground,
               marginLeft: 13,
             },
           ]}

@@ -19,14 +19,11 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingHorizontal: 10,
     justifyContent: 'space-between',
-    height: 56,
-    borderColor: '#4A4A4A'
+    height: 56
   },
   label: {
-    marginLeft: 15,
     fontFamily: 'Raleway',
     fontWeight: '400',
-    color: '#4A4A4A',
     marginBottom: 5,
     fontSize: 14
   },
@@ -66,23 +63,24 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     maxHeight: height * 0.6,
     paddingTop: 40,
-    borderRadius: 8
+    paddingBottom: 30,
+    borderRadius: 10
   },
   closeIcon: {
     position: 'absolute',
-    top: 10,
-    right: 10,
+    top: 12,
+    right: 12,
     zIndex: 9999
   },
   itemContainer:{
-      borderWidth: 1,
-      width: '80%',
-      alignSelf: 'center',
-      marginVertical: 10,
-      height: 40,
-      justifyContent: 'center',
-      alignItems: 'center',
-      borderRadius: 6
+    borderWidth: 1,
+    width: '80%',
+    alignSelf: 'center',
+    marginVertical: 10,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 6
   }
 })
 
@@ -113,16 +111,16 @@ export const CsSelect = React.memo(
 
     return (
       <>
-        {label && <Text style={styles.label}>{label}</Text>}
+        {label && <Text style={[styles.label, {color:themes[theme].textColor}]}>{label}</Text>}
         <TouchableOpacity
-          style={[styles.container]}
+          style={[styles.container, {borderColor: themes[theme].messageOtherBackground}]}
           onPress={() => setShowItems(!showItems)}>
           <Text style={[ { color: selected ? '#000000' : '#C4C4C4' } ]}>{!selected ? placeholder : value}</Text>
           <VectorIcon
             type={'Entypo'}
             name={selected ? 'chevron-thin-right' : 'chevron-thin-down'}
             color={themes[theme].activeTintColor}
-            size={20}
+            size={14}
             style={styles.iconStyle}
           />
         </TouchableOpacity>

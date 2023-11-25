@@ -16,11 +16,22 @@ import {VectorIcon} from '../../containers/VectorIcon';
 import Button from '../../containers/Button';
 import {
   checkCameraPermission,
-  checkPhotosPermission,
-  imagePickerConfig,
+  checkPhotosPermission
 } from '../../utils/permissions';
 import BasicInfoModal from './BasicInfoModal';
 import AddExperienceModal from './AddExperienceModal';
+
+const imagePickerConfig = {
+  cropping: true,
+  freeStyleCropEnabled: true,
+  width: 1200,
+  height: 1500,
+  enableRotationGesture: true,
+  avoidEmptySpaceAroundImage: false,
+  cropperChooseText: I18n.t('Choose'),
+  cropperCancelText: I18n.t('Cancel'),
+  mediaType: 'photo',
+};
 
 const theme = 'light';
 
@@ -84,10 +95,14 @@ const UpdateProfileAndBasicInfo = () => {
       <StatusBar />
 
       {/* Basic info modal */}
-      <BasicInfoModal isVisible={basicInfoModalOpen} onBackdropPress={()=>setBasicInfoModalOpen(!basicInfoModalOpen)} />
+      <BasicInfoModal 
+        isVisible={basicInfoModalOpen} 
+        onBackdropPress={()=>setBasicInfoModalOpen(!basicInfoModalOpen)} />
 
       {/* Experience modal */}
-      <AddExperienceModal isVisible={experienceModalOpen} onBackdropPress={()=>setExperienceModalOpen(!experienceModalOpen)} />
+      <AddExperienceModal 
+        isVisible={experienceModalOpen} 
+        onBackdropPress={()=>setExperienceModalOpen(!experienceModalOpen)} />
 
       <ScrollView
         style={{flex: 1, backgroundColor: COLOR_WHITE, height: '100%'}}
@@ -117,14 +132,14 @@ const UpdateProfileAndBasicInfo = () => {
               size={18}
             />
             <Text style={styles.uploadProfileImageText}>
-              Upload profile image
+              {I18n.t('upload_profile_image')}
             </Text>
             <Text
               style={[
                 styles.uploadNowText,
                 {color: themes[theme].actionColor},
               ]}>
-              Upload now
+              {I18n.t('upload_now')}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.optionButton} onPress={()=>setBasicInfoModalOpen(!basicInfoModalOpen)}>
@@ -135,14 +150,14 @@ const UpdateProfileAndBasicInfo = () => {
                 size={18}
               />
               <Text style={styles.uploadProfileImageText}>
-                Upload Basic information
+                {I18n.t('update_basic_information')}
               </Text>
               <Text
                 style={[
                   styles.uploadNowText,
                   {color: themes[theme].actionColor},
                 ]}>
-                Upload now
+                {I18n.t('upload_now')}
               </Text>
             </TouchableOpacity>
         </View>
@@ -156,15 +171,15 @@ const UpdateProfileAndBasicInfo = () => {
                 styles.addExperienceTxt,
                 {color: themes[theme].otherAuxiliaryText},
               ]}>
-              Add Experience
+              {I18n.t('add_experience')}
             </Text>
           </TouchableOpacity>
         </View>
 
         {/* Other container */}
         <View style={styles.othersContainer}>
-          <Text style={styles.othersText}>Others</Text>
-          <TouchableOpacity style={styles.basicSubscriptionBtn}>
+          <Text style={styles.updateExperienceTxt}>{I18n.t('others')}</Text>
+          {/* <TouchableOpacity style={styles.basicSubscriptionBtn}>
             <Image source={images.reward_badge} style={styles.reward_badge} />
             <View style={styles.basicSubscriptionAndUpgradePlanContainer}>
               <Text style={styles.basicSubscriptionText}>
@@ -184,7 +199,7 @@ const UpdateProfileAndBasicInfo = () => {
               </Text>
               <Text style={styles.inviteDescription}>Invite now</Text>
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </ScrollView>
 
@@ -194,13 +209,13 @@ const UpdateProfileAndBasicInfo = () => {
           <RadioButton.Android
             status={radioButtonChecked ? 'checked' : 'unchecked'}
             onPress={() => setRadioButtonChecked(!radioButtonChecked)}
-            style={styles.radioButton}
+            // style={styles.radioButton}
             color="#DBAA2E"
           />
           <Text style={styles.termsAndConditionsPrivacyPolicy}>
             I agree with the{' '}
             <Text style={styles.termsAndConditions}>Terms and Conditions</Text>{' '}
-            and <Text style={styles.privacyPolicy}>Privacy Policy.</Text>
+            and {'\n'}<Text style={styles.privacyPolicy}>Privacy Policy.</Text>
           </Text>
         </View>
         <Button
