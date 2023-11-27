@@ -44,29 +44,22 @@ const PrivacySettingsView = props => {
     navigation.setOptions({
       header: () => (
         <View style={styles.headerView}>
-          <TouchableOpacity
-            style={styles.header}
+          <TouchableOpacity style={styles.header}
             onPress={() => navigation.navigate('MenuStack', {screen: 'PrivacyAndSettings'})}>
             <VectorIcon
               size={20}
               name={'arrowleft'}
               type={'AntDesign'}
               color={themes[theme].activeTintColor}
-              style={{marginLeft: 18}}
-            />
+              style={{marginLeft: 18}}/>
           </TouchableOpacity>
           <Text style={[styles.headerText, {color: themes[theme].titleColor}]}>{I18n.t('Back_to_Privacy_and_settings')}</Text>
-          <View
-            style={{
-              marginRight: 15,
-              marginLeft: 'auto'
-            }}>
+          <View style={{marginRight: 15, marginLeft: 'auto'}}>
             <VectorIcon
               type="MaterialCommunityIcons"
               name="shield-lock"
               color={themes[theme].titleColor}
-              size={20}
-            />
+              size={20}/>
           </View>
         </View>
       ),
@@ -155,17 +148,12 @@ const PrivacySettingsView = props => {
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Bibendum
             vel egestas egestas cras.
           </Text>
-          <PhoneInput inputRef={phoneInput} theme={theme} value={state.phone} />
-          <TouchableOpacity
-            onPress={() => {
-              setShowChangePwdModal(true);
-            }}
-            style={[
-              styles.container,
-              {
-                backgroundColor: themes[theme].buttonBackground,
-              },
-            ]}>
+          <PhoneInput 
+            inputRef={phoneInput} 
+            theme={theme} 
+            value={state.phone}/>
+          <TouchableOpacity style={[styles.container, {backgroundColor: themes[theme].buttonBackground}]}
+            onPress={() => {setShowChangePwdModal(true)}}>
             <View style={styles.item}>
               <View style={styles.itemCenter}>
                 <Text

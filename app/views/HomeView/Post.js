@@ -227,8 +227,7 @@ const Post = ({
   };
 
   return (
-    <View
-      key={key}
+    <View key={key}
       style={[
         styles.container,
         {
@@ -300,8 +299,7 @@ const Post = ({
         )}
 
         {item.type === POST_TYPE_PHOTO && (
-          <TouchableOpacity
-            onPress={onPress}
+          <TouchableOpacity onPress={onPress}
             style={[styles.content, {paddingHorizontal: 11}]}>
             {item.text && (
               <Text
@@ -318,7 +316,7 @@ const Post = ({
                 {item?.text}
               </Text>
             )}
-            <Image source={{uri: item?.photo}} style={styles.photoImage} />
+            <Image source={{uri: item?.photo[0]}} style={styles.photoImage} />
           </TouchableOpacity>
         )}
 

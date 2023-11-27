@@ -12,19 +12,21 @@ import {
   ROOT_SPLASH,
   ROOT_THANK_YOU,
   ROOT_VERIFY_EMAIL,
+  ROOT_ADD_INFO,
   setRoute,
 } from './actions/app'
 
 // Stacks
-import AuthLoadingView from './views/AuthLoadingView'
-import IntroView from './views/IntroView'
-import OutsideStack from './stacks/OutsideStack'
-import { ThemeContext } from './theme'
-import InsideStack from './stacks/InsideStack'
-import ThankYouView from './views/ThankYouView'
-import store from './lib/createStore'
-import VerifyEmailView from './views/VerifyEmailView'
-import SplashView from './views/SplashView'
+import AuthLoadingView from './views/AuthLoadingView';
+import IntroView from './views/IntroView';
+import OutsideStack from './stacks/OutsideStack';
+import { ThemeContext } from './theme';
+import InsideStack from './stacks/InsideStack';
+import ThankYouView from './views/ThankYouView';
+import store from './lib/createStore';
+import VerifyEmailView from './views/VerifyEmailView';
+import SplashView from './views/SplashView';
+import UpdateProfileAndBasicInfo from './views/UpdateProfileAndBasicInfo'
 
 // App
 const Stack = createStackNavigator()
@@ -64,6 +66,7 @@ const App = React.memo(({ root, isMasterDetail }) => {
           {root === ROOT_INSIDE ? <Stack.Screen name="InsideStack" component={InsideStack} /> : null}
           {root === ROOT_VERIFY_EMAIL ? <Stack.Screen name="VerifyEmail" component={VerifyEmailView} /> : null}
           {root === ROOT_THANK_YOU ? <Stack.Screen name="ThankYou" component={ThankYouView} /> : null}
+          {root === ROOT_ADD_INFO ? <Stack.Screen name="UpdateProfileAndBasicInfo" component={UpdateProfileAndBasicInfo} /> : null}
         </>
       </Stack.Navigator>
     </NavigationContainer>

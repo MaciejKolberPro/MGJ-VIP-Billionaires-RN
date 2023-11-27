@@ -12,6 +12,7 @@ const styles = StyleSheet.create({
     height: height * 0.88,
     position: 'absolute',
     bottom: -40,
+    paddingHorizontal: 15
   },
   title: {
     fontFamily: 'Hind Vadodara',
@@ -30,7 +31,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20
   },
   submitBtn: {
-    marginTop: 8,
+    marginTop: 15,
     paddingVertical: 2,
     alignSelf: 'center',
     height: 45,

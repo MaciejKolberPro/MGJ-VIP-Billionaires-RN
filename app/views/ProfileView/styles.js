@@ -1,4 +1,4 @@
-import {Dimensions, StyleSheet} from 'react-native';
+import {Dimensions, StyleSheet, Platform} from 'react-native';
 
 const {width} = Dimensions.get('window');
 
@@ -11,7 +11,8 @@ export default StyleSheet.create({
     paddingTop: 20,
     paddingBottom: 10,
     width: '100%',
-    position: 'relative'
+    position: 'relative',
+    marginTop:Platform.OS == 'ios' ? 50 : 0
   },
   headerIcon: {
     position: 'absolute',

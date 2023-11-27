@@ -20,6 +20,10 @@
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>FirebaseDynamicLinksCustomDomains</key>
+	<array>
+		<string>https://vipbbillionaires.page.link/vyfY</string>
+	</array>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>

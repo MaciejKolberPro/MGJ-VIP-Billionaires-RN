@@ -7,6 +7,7 @@ export const ROOT_INSIDE = 'inside'
 export const ROOT_LOADING = 'loading'
 export const ROOT_THANK_YOU = 'thank_you'
 export const ROOT_VERIFY_EMAIL = 'verify_email'
+export const ROOT_ADD_INFO = 'add_info'
 
 export function appStart({ root, ...args }) {
   return {

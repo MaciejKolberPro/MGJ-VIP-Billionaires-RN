@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingLeft: 8,
     marginVertical: 5,
-    backgroundColor: '#B1B1B11A',
+    backgroundColor: '#ECEBEB',
     opacity: 5,
     alignSelf: 'center',
   },
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingLeft: 8,
     marginVertical: 5,
-    backgroundColor: '#B1B1B11A',
+    backgroundColor: '#ECEBEB',
     opacity: 5,
     alignSelf: 'center',
   },
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
   },
   updateExperienceTxt: {
     fontFamily: 'Raleway',
-    color: '#858585',
+    color: '#2F3131',
     fontSize: 12,
     fontWeight: '500',
     marginBottom: 15,
@@ -148,26 +148,30 @@ const styles = StyleSheet.create({
   bottomSheet: {
     width,
     alignSelf: 'center',
-    backgroundColor: '#B1B1B11A',
-    opacity: 5,
+    backgroundColor: '#F8F8F8',
     position: 'absolute',
     bottom: 0,
-    height: height * 0.18,
+    height: height * 0.2,
     borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
     alignItems: 'center',
-    paddingHorizontal: 24,
+    paddingHorizontal: 18,
     paddingTop: 5,
   },
   termsAndConditions: {
     color: '#DBAA2E',
-    fontSize: 14
+    fontSize: 14,
+    lineHeight: 15
   },
   privacyPolicy: {
     color: '#DBAA2E',
   },
   termsAndConditionsPrivacyPolicy: {
     fontFamily: 'Raleway',
-    fontSize: 12
+    fontSize: 14,
+    marginTop: 5,
+    marginLeft:5,
+    lineHeight: 20
   },
   headerContainer: {
     marginTop: 0,
@@ -178,7 +182,8 @@ const styles = StyleSheet.create({
   confirmBtn: {
     height: 45,
     alignSelf: 'center',
-    width: '90%'
+    width: '100%',
+    marginTop:18
   },
   radioButton: {
     position: 'absolute',
@@ -186,8 +191,8 @@ const styles = StyleSheet.create({
   },
   radioButtonAndText: {
     flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 5
+    width:'100%',
+    marginTop: 10
   }
 });
 

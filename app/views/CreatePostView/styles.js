@@ -34,8 +34,10 @@ export default StyleSheet.create({
     marginTop: 12,
   },
   imageStyle: {
-    width: '100%',
-    height: 300,
+    width: 92, 
+    height: 92, 
+    borderRadius: 8, 
+    marginTop:10,
     resizeMode: 'contain',
   },
   videoContainer: {
@@ -80,5 +82,24 @@ export default StyleSheet.create({
   updateText: {
     fontSize: 14,
     fontWeight: '600',
+  },
+  itemBoxContainer: {
+    width: '100%',
+    height: 50,
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 6,
+    paddingHorizontal: 10,
+    paddingVertical: 15,
+    marginVertical: 9,
+  },
+  itemBoxText: {
+    fontSize: 14,
+    fontWeight: '600',
+    marginLeft: 23,
+  },
+  itemBoxMark: {
+    flexDirection: 'row',
   },
 });

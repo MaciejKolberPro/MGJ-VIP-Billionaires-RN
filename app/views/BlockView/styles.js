@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 
 export default StyleSheet.create({
   container: {},
@@ -6,6 +6,7 @@ export default StyleSheet.create({
     flexDirection:'row', 
     alignItems:'center',
     height: 60,
+    marginTop:Platform.OS == 'ios' ? 50 : 0
   },
   header: {
     flexDirection: 'row',

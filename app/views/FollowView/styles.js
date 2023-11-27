@@ -62,7 +62,7 @@ export default StyleSheet.create({
     marginBottom: 20,
   },
   tabItem: {
-    width: 115,
+    width: 130,
     height: 30,
     justifyContent: 'center',
     alignItems: 'center',

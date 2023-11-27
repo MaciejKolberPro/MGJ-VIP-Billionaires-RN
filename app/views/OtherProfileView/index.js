@@ -223,10 +223,7 @@ const OtherProfileView = props => {
   };
 
   const goToPosts = () => {
-    navigation.navigate('Posts', {
-      type: 'posts',
-      account: state.account,
-    });
+    props.navigation.push('Home');
   };
 
   const onOpenPost = item => {
@@ -342,7 +339,6 @@ const OtherProfileView = props => {
   };
 
   const following = user && user.followings.includes(account.userId);
-
   return (
     <View style={{flex: 1}}>
       <ScrollView {...scrollPersistTaps} style={{flex: 1}}>
@@ -358,7 +354,7 @@ const OtherProfileView = props => {
             }
             style={styles.avatar}
           />
-          <View style={{marginLeft: 25}}>
+          <View style={{marginLeft: 20}}>
             <Text
               style={[
                 styles.avatarName,
@@ -388,43 +384,28 @@ const OtherProfileView = props => {
           ]}>
           {/* Posts/Followings/Followers */}
           <View style={styles.followWrap}>
-            <TouchableOpacity
-              onPress={() => goToPosts()}
-              style={styles.optionContainer}>
-              <Text
-                style={[
-                  styles.optionValue,
-                  {color: themes[theme].activeTintColor},
-                ]}>
-                {account.followings?.length ?? 0}
+            <TouchableOpacity style={styles.optionContainer}
+              onPress={() => goToPosts()}>
+              <Text style={[styles.optionValue, {color: themes[theme].activeTintColor}]}>
+                {posts?.length || 0}
               </Text>
               <Text style={[styles.optionTitle, {color: COLOR_GRAY_DARK}]}>
                 {I18n.t('Posts')}
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => goToFollowings()}
-              style={styles.optionContainer}>
-              <Text
-                style={[
-                  styles.optionValue,
-                  {color: themes[theme].activeTintColor},
-                ]}>
-                {account.followings?.length ?? 0}
+            <TouchableOpacity style={styles.optionContainer}
+              onPress={() => goToFollowings()}>
+              <Text style={[styles.optionValue, {color: themes[theme].activeTintColor}]}>
+                {account.followings?.length || 0}
               </Text>
               <Text style={[styles.optionTitle, {color: COLOR_GRAY_DARK}]}>
                 {I18n.t('Followings')}
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => goToFollowers()}
-              style={[styles.optionContainer]}>
-              <Text
-                style={[
-                  styles.optionValue,
-                  {color: themes[theme].activeTintColor},
-                ]}>
-                {account.followers?.length ?? 0}
+            <TouchableOpacity style={[styles.optionContainer]}
+              onPress={() => goToFollowers()}>
+              <Text style={[styles.optionValue, {color: themes[theme].activeTintColor}]}>
+                {account.followers?.length || 0}
               </Text>
               <Text style={[styles.optionTitle, {color: COLOR_GRAY_DARK}]}>
                 {I18n.t('Followers')}
@@ -447,8 +428,7 @@ const OtherProfileView = props => {
                     borderColor: themes[theme].borderColor,
                   },
                 ]}>
-                <Text
-                  style={[styles.followText, {color: themes[theme].textColor}]}>
+                <Text style={[styles.followText, {color: themes[theme].textColor}]}>
                   {I18n.t('Follow')}
                 </Text>
               </TouchableOpacity>

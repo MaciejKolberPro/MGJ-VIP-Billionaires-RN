@@ -8,6 +8,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  // StatusBar
 } from 'react-native';
 import {connect} from 'react-redux';
 import firestore from '@react-native-firebase/firestore';
@@ -21,6 +22,7 @@ import {
   themes,
 } from '../../constants/colors';
 import StatusBar from '../../containers/StatusBar';
+// import SafeAreaView from 'react-native-safe-area-context'
 import {withTheme} from '../../theme';
 import images from '../../assets/images';
 import styles from './styles';
@@ -75,14 +77,9 @@ const ProfileView = props => {
               size={16}
               color={COLOR_GRAY_DARK}
               type={'AntDesign'}
-              style={{marginTop: 8, marginLeft: 8}}
-            />
+              style={{marginTop: 8, marginLeft: 8}}/>
           </TouchableOpacity>
-          <Text
-            style={[
-              styles.headerText,
-              {color: themes[theme].deactiveTintColor},
-            ]}>
+          <Text style={[styles.headerText, {color: themes[theme].deactiveTintColor}]}>
             {I18n.t('AppTitle')}
           </Text>
         </View>
@@ -93,7 +90,7 @@ const ProfileView = props => {
         shadowOpacity: 0,
       },
     });
-  }, []);
+  }, [theme]);
 
   useEffect(() => {
     if (!isEmpty(user)) init();
@@ -143,10 +140,11 @@ const ProfileView = props => {
   };
 
   const goToPosts = () => {
-    navigation.navigate('Posts', {
-      type: 'posts',
-      account: state.account,
-    });
+    // navigation.navigate('Posts', {
+    //   type: 'posts',
+    //   account: state.account,
+    // });
+    props.navigation.push('Home');
   };
 
   const onOpenPost = item => {
@@ -229,16 +227,12 @@ const ProfileView = props => {
             avatar: image_url,
           };
 
-          console.log('userInfo', userInfo);
-
           firebaseSdk
             .setData(firebaseSdk.TBL_USER, DB_ACTION_UPDATE, userInfo)
             .then(() => {
               setState({...state, isLoading: false});
               const updateUser = {...user, ...userInfo};
               setUser(updateUser);
-
-              console.log('setUser', updateUser);
 
               init();
             })
@@ -334,7 +328,8 @@ const ProfileView = props => {
   };
 
   return (
-    <View style={{flex: 1}}>
+    <SafeAreaView style={{flex: 1}}>
+      <StatusBar/>
       <ScrollView contentContainerStyle={{paddingBottom: 80}}>
         <View style={styles.logoContainer}>
           <TouchableOpacity
@@ -588,20 +583,20 @@ const ProfileView = props => {
                     <View style={{flexDirection: 'row'}} key={index}>
                       <TouchableOpacity onPress={() => onOpenPost(p[0])}>
                         <Image
-                          source={{uri: p[0]?.photo || p[0]?.thumbnail}}
+                          source={{uri: Array.isArray(p[0]?.photo) ? p[0]?.photo[0] : p[0]?.photo || p[0]?.thumbnail}}
                           style={[styles.tile1]}
                         />
                       </TouchableOpacity>
                       <View>
                         <TouchableOpacity onPress={() => onOpenPost(p[1])}>
                           <Image
-                            source={{uri: p[1]?.photo || p[1]?.thumbnail}}
+                            source={{uri: Array.isArray(p[1]?.photo) ? p[1]?.photo[0] : p[1]?.photo || p[1]?.thumbnail}}
                             style={[styles.tile2]}
                           />
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => onOpenPost(p[2])}>
                           <Image
-                            source={{uri: p[2]?.photo || p[2]?.thumbnail}}
+                            source={{uri: Array.isArray(p[2]?.photo) ? p[2]?.photo[0] : p[2]?.photo || p[2]?.thumbnail}}
                             style={styles.tile2}
                           />
                         </TouchableOpacity>
@@ -614,19 +609,19 @@ const ProfileView = props => {
                     <View style={{flexDirection: 'row'}} key={index}>
                       <TouchableOpacity onPress={() => onOpenPost(p[0])}>
                         <Image
-                          source={{uri: p[0]?.photo || p[0]?.thumbnail}}
+                          source={{uri: Array.isArray(p[0]?.photo) ? p[0]?.photo[0] : p[0]?.photo || p[0]?.thumbnail}}
                           style={styles.tile3}
                         />
                       </TouchableOpacity>
                       <TouchableOpacity onPress={() => onOpenPost(p[1])}>
                         <Image
-                          source={{uri: p[1]?.photo || p[1]?.thumbnail}}
+                          source={{uri: Array.isArray(p[1]?.photo) ? p[1]?.photo[0] : p[1]?.photo || p[1]?.thumbnail}}
                           style={styles.tile3}
                         />
                       </TouchableOpacity>
                       <TouchableOpacity onPress={() => onOpenPost(p[2])}>
                         <Image
-                          source={{uri: p[2]?.photo || p[2]?.thumbnail}}
+                          source={{uri: Array.isArray(p[2]?.photo) ? p[2]?.photo[0] : p[2]?.photo || p[2]?.thumbnail}}
                           style={styles.tile3}
                         />
                       </TouchableOpacity>
@@ -639,20 +634,20 @@ const ProfileView = props => {
                       <View>
                         <TouchableOpacity onPress={() => onOpenPost(p[0])}>
                           <Image
-                            source={{uri: p[0]?.photo || p[0]?.thumbnail}}
+                            source={{uri: Array.isArray(p[0]?.photo) ? p[0]?.photo[0] : p[0]?.photo || p[0]?.thumbnail}}
                             style={styles.tile2}
                           />
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => onOpenPost(p[1])}>
                           <Image
-                            source={{uri: p[1]?.photo || p[1]?.thumbnail}}
+                            source={{uri: Array.isArray(p[1]?.photo) ? p[1]?.photo[0] : p[1]?.photo || p[1]?.thumbnail}}
                             style={styles.tile2}
                           />
                         </TouchableOpacity>
                       </View>
                       <TouchableOpacity onPress={() => onOpenPost(p[2])}>
                         <Image
-                          source={{uri: p[2]?.photo || p[2]?.thumbnail}}
+                          source={{uri: Array.isArray(p[2]?.photo) ? p[2]?.photo[0] : p[2]?.photo || p[2]?.thumbnail}}
                           style={styles.tile1}
                         />
                       </TouchableOpacity>
@@ -667,7 +662,7 @@ const ProfileView = props => {
       {isLoading ? (
         <ActivityIndicator absolute size="large" theme={theme} />
       ) : null}
-    </View>
+    </SafeAreaView>
   );
 };
 

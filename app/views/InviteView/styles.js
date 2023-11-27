@@ -1,4 +1,5 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
+const deviceHeight = Dimensions.get('window').height;
 
 export default StyleSheet.create({
   container: {
@@ -10,9 +11,9 @@ export default StyleSheet.create({
   modal_view: {        
     borderTopLeftRadius:16,
     borderTopRightRadius:16,  
-    paddingTop:40,
-    paddingBottom:60,
-    paddingHorizontal:15     
+    paddingTop:35,
+    paddingHorizontal:15,
+    height:deviceHeight * 0.85
   },
   headerText: {
     fontFamily: 'Raleway',

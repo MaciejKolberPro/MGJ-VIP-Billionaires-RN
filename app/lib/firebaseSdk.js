@@ -495,6 +495,12 @@ const firebaseSdk = {
     });
   },
 
+  async uploadMultipleImages(type, paths) {
+    const downloadUrls = await Promise.all(paths.map(p => this.uploadMedia(type, p)));
+
+    return downloadUrls;
+  },
+
   async saveMessage(roomId, message, sender, receiver) {
     const statusRef = database().ref(
       'rooms/' + roomId + '/status/' + message.receiver,

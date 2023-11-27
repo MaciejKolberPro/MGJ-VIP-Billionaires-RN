@@ -92,33 +92,35 @@ const PostText = ({
         styles.container,
         {borderColor: themes[theme].profilePostBorder},
       ]}>
-      <View style={styles.row}>
-        <TouchableOpacity onPress={onPressUser}>
-          <Image
-            source={
-              item?.owner?.avatar
-                ? {uri: item?.owner?.avatar}
-                : images.default_avatar
-            }
-            style={styles.avatar}
-          />
-        </TouchableOpacity>
-        <View style={[styles.column, {marginLeft: 7}]}>
-          <View style={styles.row}>
-            <Text style={[styles.name, {color: themes[theme].activeTintColor}]}>
-              {item?.owner?.displayName}
-            </Text>
-            <Text
-              style={[
-                styles.handle,
-                {color: themes[theme].profileHandle, marginLeft: 7},
-              ]}>
-              {getUserRepresentString(item?.owner)}
+      <View style={[styles.row, {justifyContent:'space-between'}]}>
+        <View style={{flexDirection:'row', alignItems:'center'}}>
+          <TouchableOpacity onPress={onPressUser}>
+            <Image
+              source={
+                item?.owner?.avatar
+                  ? {uri: item?.owner?.avatar}
+                  : images.default_avatar
+              }
+              style={styles.avatar}
+            />
+          </TouchableOpacity>
+          <View style={[styles.column, {marginLeft: 10}]}>
+            <View style={styles.row}>
+              <Text style={[styles.name, {color: themes[theme].activeTintColor}]}>
+                {item?.owner?.displayName}
+              </Text>
+              <Text
+                style={[
+                  styles.handle,
+                  {color: themes[theme].profileHandle, marginLeft: 7},
+                ]}>
+                {getUserRepresentString(item?.owner)}
+              </Text>
+            </View>
+            <Text style={[styles.handle, {color: themes[theme].profileHandle, marginTop: 5}]}>
+              {item?.date ? dateStringFromNowShort(item?.date) : null}
             </Text>
           </View>
-          <Text style={[styles.handle, {color: themes[theme].profileHandle}]}>
-            {item?.date ? dateStringFromNowShort(item?.date) : null}
-          </Text>
         </View>
         <PopupMenu
           theme={theme}
@@ -133,7 +135,7 @@ const PostText = ({
           )}
         />
       </View>
-      <View>
+      <View style={{marginTop: 10}}>
         <TouchableOpacity onPress={onPress}>
           <Text style={[styles.text, {color: themes[theme].activeTintColor}]}>
             {item?.text}
@@ -145,13 +147,8 @@ const PostText = ({
               style={styles.row}
               onPress={() => onLike(isLiking)}>
               <Image
+                style={[styles.toolIcon, {tintColor: isLiking ? '#EF1E1E' : '#898989'}]}
                 source={images.heart}
-                style={[
-                  styles.toolIcon,
-                  {
-                    tintColor: isLiking ? '#EF1E1E' : '#898989',
-                  },
-                ]}
               />
               <Text
                 style={[styles.count, {color: themes[theme].activeTintColor}]}>
