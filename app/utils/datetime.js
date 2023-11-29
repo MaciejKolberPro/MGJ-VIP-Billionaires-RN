@@ -77,27 +77,27 @@ export const dateStringFromNowShort = date => {
   let interval = seconds / 31536000
 
   if (interval > 1) {
-    return Math.floor(interval) + ' years ago'
+    return Math.floor(interval) + ` ${I18n.t('years_ago')}`
   }
 
   interval = seconds / 2592000
   if (interval > 1) {
-    return Math.floor(interval) + ' months ago'
+    return Math.floor(interval) + ` ${I18n.t('months_ago')}`
   }
 
   interval = seconds / 86400
   if (interval > 1) {
-    return Math.floor(interval) + ' days ago'
+    return Math.floor(interval) + ` ${I18n.t('days_ago')}`
   }
 
   interval = seconds / 3600
   if (interval > 1) {
-    return Math.floor(interval) + ' hours ago'
+    return Math.floor(interval) + ` ${I18n.t('hours_ago')}`
   }
 
   interval = seconds / 60
   if (interval > 1) {
-    return Math.floor(interval) + ' mins ago'
+    return Math.floor(interval) + ` ${I18n.t('mins_ago')}`
   }
 
   return 'just now'

@@ -69,19 +69,19 @@ const UpdateProfileAndBasicInfo = () => {
   };
 
   const toggleAction = () => {
-    Alert.alert('', I18n.t('Upload_profile_photo'), [
+    Alert.alert('', I18n.t('Upload_Profile_Picture').toUpperCase(), [
       {
         text: I18n.t('Cancel'),
         onPress: () => {},
       },
       {
-        text: I18n.t('Take_a_photo'),
+        text: I18n.t('Snap_Photo'),
         onPress: () => {
           takePhoto();
         },
       },
       {
-        text: I18n.t('Choose_a_photo'),
+        text: I18n.t('Select_Photo'),
         onPress: () => {
           chooseFromLibrary();
         },
@@ -118,7 +118,7 @@ const UpdateProfileAndBasicInfo = () => {
             {I18n.t('Onboard_text_welcome')}
           </Text>
           <Text style={styles.completeStepsText}>
-            {I18n.t('please_complete_these_steps_to_confirm')}
+            {I18n.t('please_complete_these_steps_for_verification')}
           </Text>
         </View>
 
@@ -132,14 +132,14 @@ const UpdateProfileAndBasicInfo = () => {
               size={18}
             />
             <Text style={styles.uploadProfileImageText}>
-              {I18n.t('upload_profile_image')}
+              {I18n.t('Upload_Profile_Picture')}
             </Text>
             <Text
               style={[
                 styles.uploadNowText,
                 {color: themes[theme].actionColor},
               ]}>
-              {I18n.t('upload_now')}
+              {I18n.t('Upload_Now')}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.optionButton} onPress={()=>setBasicInfoModalOpen(!basicInfoModalOpen)}>
@@ -150,35 +150,35 @@ const UpdateProfileAndBasicInfo = () => {
                 size={18}
               />
               <Text style={styles.uploadProfileImageText}>
-                {I18n.t('update_basic_information')}
+                {I18n.t('Refresh_Basic_Information')}
               </Text>
               <Text
                 style={[
                   styles.uploadNowText,
                   {color: themes[theme].actionColor},
                 ]}>
-                {I18n.t('upload_now')}
+                {I18n.t('Upload_Now')}
               </Text>
             </TouchableOpacity>
         </View>
 
         {/* Add experience container */}
         <View style={styles.addExperienceContainer}>
-          <Text style={styles.updateExperienceTxt}>Update Experience</Text>
+          <Text style={styles.updateExperienceTxt}>{I18n.t('Refresh_Your_Experience')}</Text>
           <TouchableOpacity style={styles.addExperienceBtn} onPress={()=>setExperienceModalOpen(!experienceModalOpen)}>
             <Text
               style={[
                 styles.addExperienceTxt,
                 {color: themes[theme].otherAuxiliaryText},
               ]}>
-              {I18n.t('add_experience')}
+              {I18n.t('Add_New_Experience')}
             </Text>
           </TouchableOpacity>
         </View>
 
         {/* Other container */}
         <View style={styles.othersContainer}>
-          <Text style={styles.updateExperienceTxt}>{I18n.t('others')}</Text>
+          <Text style={styles.updateExperienceTxt}>{I18n.t('Other_Options')}</Text>
           {/* <TouchableOpacity style={styles.basicSubscriptionBtn}>
             <Image source={images.reward_badge} style={styles.reward_badge} />
             <View style={styles.basicSubscriptionAndUpgradePlanContainer}>
@@ -213,13 +213,13 @@ const UpdateProfileAndBasicInfo = () => {
             color="#DBAA2E"
           />
           <Text style={styles.termsAndConditionsPrivacyPolicy}>
-            I agree with the{' '}
-            <Text style={styles.termsAndConditions}>Terms and Conditions</Text>{' '}
-            and {'\n'}<Text style={styles.privacyPolicy}>Privacy Policy.</Text>
+            {I18n.t('Accept_Terms_text_1')}
+            <Text style={styles.termsAndConditions}>{I18n.t('Terms_and_Conditions')}</Text>{' '}
+            {I18n.t('And')} {'\n'}<Text style={styles.privacyPolicy}>{I18n.t('Privacy_Policy')}</Text>
           </Text>
         </View>
         <Button
-          title="Confirm & Create an Account"
+          title={I18n.t('Confirm_And_Register_Account')}
           theme={theme}
           size="W"
           style={styles.confirmBtn}

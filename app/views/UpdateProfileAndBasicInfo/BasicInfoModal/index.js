@@ -60,8 +60,8 @@ const BasicInfoModal = ({isVisible, onBackdropPress}) => {
       onBackdropPress={onBackdropPress}>
       <View style={styles.container}>
         <KeyboardView keyboardVerticalOffset={128}>
-          <Text style={styles.title}>{I18n.t('update_basic_information')}</Text>
-          <Text style={styles.descriptionText}>{I18n.t('premium_detail')}</Text>
+          <Text style={styles.title}>{I18n.t('Refresh_Basic_Information')}</Text>
+          <Text style={styles.descriptionText}>{I18n.t('Thanks_Registering')}</Text>
           <View style={{height: 20}}/>
           <FloatingTextInput
             inputRef={nameRef}
@@ -69,8 +69,8 @@ const BasicInfoModal = ({isVisible, onBackdropPress}) => {
             returnKeyType="next"
             keyboardType="default"
             textContentType="oneTimeCode"
-            label={I18n.t('Name')}
-            placeholder={I18n.t('enter_name')}
+            label={I18n.t('Full_Name')}
+            placeholder={I18n.t('Enter_Full_Name')}
             onChangeText={name => setName(name)}
             theme={theme}
             onSubmitEditing={() => {
@@ -105,8 +105,8 @@ const BasicInfoModal = ({isVisible, onBackdropPress}) => {
             returnKeyType="next"
             keyboardType="default"
             textContentType="oneTimeCode"
-            label={I18n.t('City')}
-            placeholder={I18n.t('select_city')}
+            label={I18n.t('Hometown')}
+            placeholder={I18n.t('Choose_Your_City')}
             onChangeText={value => setCity(value)}
             theme={theme}
             onSubmitEditing={() => {
@@ -119,8 +119,8 @@ const BasicInfoModal = ({isVisible, onBackdropPress}) => {
             returnKeyType="next"
             keyboardType="phone-pad"
             textContentType="oneTimeCode"
-            label={I18n.t('Phone_number')}
-            placeholder={'Type phone number'}
+            label={I18n.t('Contact_Number')}
+            placeholder={I18n.t('Enter_Contact_Number')}
             onChangeText={phone => setPhone(phone)}
             theme={theme}
             onSubmitEditing={() => {
@@ -129,7 +129,7 @@ const BasicInfoModal = ({isVisible, onBackdropPress}) => {
           />
           <ExDatePicker
             theme={theme}
-            placeholder={I18n.t('select_birthday')}
+            placeholder={I18n.t('Choose_Your_Birthdate')}
             value={birthday}
             topScrollEnable={topScrollEnable}
             toggleShow={show => {
@@ -141,11 +141,11 @@ const BasicInfoModal = ({isVisible, onBackdropPress}) => {
               }
               setBirthday(value);
             }}
-            label={I18n.t('Birthday')}
+            label={I18n.t('Birthdate')}
           />
           <Button
             style={styles.submitBtn}
-            title={I18n.t('update')}
+            title={I18n.t('Update')}
             size="W"
             onPress={onSubmit}
             testID="login-submit"

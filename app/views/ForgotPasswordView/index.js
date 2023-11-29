@@ -71,9 +71,9 @@ const ForgotPasswordView = (props) => {
           </View>
           <View style={styles.formContainer}>
             <View style={styles.description}>
-              <Text style={styles.loginTitle}>{I18n.t('Forgot_Password')}</Text>
-              <Text style={styles.loginText}>Don't worry! It happens.</Text>
-              <Text style={styles.loginText}>Please enter the address associated with your account.</Text>
+              <Text style={styles.loginTitle}>{I18n.t('Forgot_Your_Password')}</Text>
+              <Text style={styles.loginText}>{I18n.t('Forgot_Password_text_1')}</Text>
+              <Text style={styles.loginText}>{I18n.t('Forgot_Password_text_2')}</Text>
             </View>
             <FloatingTextInput
               inputRef={emailInput}
@@ -81,8 +81,8 @@ const ForgotPasswordView = (props) => {
               returnKeyType="next"
               keyboardType="email-address"
               textContentType="oneTimeCode"
-              label={I18n.t('Email')}
-              placeholder={'Enter your email'}
+              label={I18n.t('Email_Address')}
+              placeholder={I18n.t('Email_Address_placeholder')}
               onChangeText={val => setEmail(val)}
               theme={theme}
               outlineColor={COLOR_BORDER}
@@ -90,7 +90,7 @@ const ForgotPasswordView = (props) => {
             />
             <Button
               style={styles.submitBtn}
-              title="Send Recover Link"
+              title={I18n.t('Send_Recovery_Link')}
               size="W"
               onPress={onSubmit}
               loading={isLoading}
@@ -101,11 +101,11 @@ const ForgotPasswordView = (props) => {
         </ScrollView>
       </KeyboardView>
       <View style={styles.bottomContainer}>
-        <Text style={styles.dontText}>Remember Password? Go To &nbsp;</Text>
+        <Text style={styles.dontText}>{I18n.t('Forgot_Password_return_text')} &nbsp;</Text>
         <Text
           style={[{ ...sharedStyles.link, color: COLOR_YELLOW }, { fontFamily: 'Raleway', fontSize: 14 }]}
           onPress={onGoToSignIn}>
-          Log In
+          {I18n.t('Sign_In')}
         </Text>
       </View>
     </SafeAreaView>

@@ -331,8 +331,8 @@ const ProfileEditView = props => {
               returnKeyType="next"
               keyboardType="default"
               textContentType="oneTimeCode"
-              label={I18n.t('Name')}
-              placeholder={I18n.t('enter_name')}
+              label={I18n.t('Profile_Name')}
+              placeholder={I18n.t('Enter_Profile_Name')}
               onChangeText={name => setState({...state, displayName: name})}
               theme={theme}
               onSubmitEditing={() => {
@@ -345,7 +345,7 @@ const ProfileEditView = props => {
               returnKeyType="next"
               keyboardType="default"
               textContentType="oneTimeCode"
-              label={I18n.t('Bio')}
+              label={I18n.t('About_You')}
               placeholder={I18n.t('enter_headline_experience')}
               onChangeText={_bio => setState({...state, bio: _bio})}
               theme={theme}
@@ -374,8 +374,8 @@ const ProfileEditView = props => {
               returnKeyType="next"
               keyboardType="default"
               textContentType="oneTimeCode"
-              label={I18n.t('City')}
-              placeholder={I18n.t('select_city')}
+              label={I18n.t('Hometown')}
+              placeholder={I18n.t('Choose_Your_City')}
               onChangeText={value => setState({...state, city: value})}
               theme={theme}
               onSubmitEditing={() => {
@@ -388,7 +388,7 @@ const ProfileEditView = props => {
               returnKeyType="next"
               keyboardType="phone-pad"
               textContentType="oneTimeCode"
-              label={I18n.t('Phone')}
+              label={I18n.t('Telephone')}
               placeholder={I18n.t('type_phone_number')}
               onChangeText={phone => setState({...state, phone})}
               theme={theme}
@@ -419,7 +419,7 @@ const ProfileEditView = props => {
               returnKeyType="next"
               keyboardType="default"
               textContentType="oneTimeCode"
-              label={I18n.t('url')}
+              label={I18n.t('Website')}
               placeholder={I18n.t('enter_url')}
               onChangeText={website => setState({...state, website})}
               theme={theme}
@@ -438,7 +438,7 @@ const ProfileEditView = props => {
                   styles.updateText,
                   {color: themes[theme].normalTextColor},
                 ]}>
-                {I18n.t('update')}
+                {I18n.t('Update')}
               </Text>
             </TouchableOpacity>
           </View>

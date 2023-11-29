@@ -217,13 +217,13 @@ const SignUpView = props => {
           </View>
           <View style={styles.formContainer}>
             <View style={styles.description}>
-              <Text style={styles.loginTitle}>{I18n.t('sign_up')}</Text>
+              <Text style={styles.loginTitle}>{I18n.t('Sign_Up')}</Text>
               <Text>
                 <Text style={styles.loginText}>{I18n.t('Have_an_account')} </Text>
                 <Text style={[{ ...sharedStyles.link, color: COLOR_YELLOW }, {
                   fontFamily: 'Raleway',
                   fontSize: 14,
-                }]} onPress={onGoToSignIn}>{I18n.t('Login')} </Text>
+                }]} onPress={onGoToSignIn}>{I18n.t('Sign_In')} </Text>
               </Text>
             </View>
             <FloatingTextInput
@@ -231,8 +231,8 @@ const SignUpView = props => {
               returnKeyType="next"
               keyboardType="email-address"
               textContentType="oneTimeCode"
-              label={I18n.t('Email')}
-              placeholder={'Enter Your email'}
+              label={I18n.t('Email_Address')}
+              placeholder={I18n.t('Email_Address_placeholder')}
               onChangeText={email => setState({ ...state, email })}
               theme={theme}
               onSubmitEditing={() => {
@@ -244,8 +244,8 @@ const SignUpView = props => {
               returnKeyType="next"
               secureTextEntry
               textContentType="oneTimeCode"
-              label={'Create Password'}
-              placeholder={'Enter Your Password'}
+              label={I18n.t('Enter_Your_Password')}
+              placeholder={I18n.t('Password_placeholder')}
               onChangeText={value => setState({ ...state, password: value })}
               theme={theme}
               onSubmitEditing={() => {
@@ -257,8 +257,8 @@ const SignUpView = props => {
               returnKeyType="next"
               secureTextEntry
               textContentType="oneTimeCode"
-              label={'Submit New Password'}
-              placeholder={'Submit Your Password'}
+              label={I18n.t('Confirm_Your_Password')}
+              placeholder={I18n.t('Password_placeholder')}
               onChangeText={value => setState({ ...state, confirm_password: value })}
               theme={theme}
             />

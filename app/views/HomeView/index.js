@@ -245,7 +245,7 @@ const HomeView = props => {
     };
     const ownerOptions = [
       {
-        title: I18n.t('edit_post'),
+        title: I18n.t('Modify_Post'),
         onPress: onEdit,
       },
       {
@@ -299,7 +299,7 @@ const HomeView = props => {
               styles.suggestBoxHeader,
               {color: themes[theme].textColor},
             ]}>
-            {I18n.t('suggested_posts')}
+            {I18n.t('Recommended_Posts')}
           </Text>
           <FlatList
             style={{width}}
@@ -335,8 +335,8 @@ const HomeView = props => {
 
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
-    {key: 'first', title: 'For You'},
-    {key: 'second', title: 'Followings'},
+    {key: 'first', title: I18n.t('Recommended_For_Your')},
+    {key: 'second', title: I18n.t('Your_Network')},
   ]);
 
   const renderScene = SceneMap({

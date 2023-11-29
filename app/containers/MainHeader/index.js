@@ -15,6 +15,7 @@ import images from '../../assets/images';
 import {VectorIcon} from '../VectorIcon';
 import {useNavigation} from '@react-navigation/native';
 import {themes} from '../../constants/colors';
+import I18n from 'i18n-js';
 
 const MainHeader = ({
   avatarImage,
@@ -60,7 +61,7 @@ const MainHeader = ({
             color="#828282"
             size={24}
           />
-          <Text style={styles.searchHereText}>Search Here</Text>
+          <Text style={styles.searchHereText}>{I18n.t('Start_Searching')}</Text>
         </Pressable>
       ) : (
         <>
