@@ -162,7 +162,7 @@ const PrivacyAndSettingsView = props => {
           </Text>
         </View>
         <SidebarItem
-          text={I18n.t('Blocked_Users')}
+          text={I18n.t('Blocked_Profiles')}
           onPress={() => navigation.navigate('Block')}
           theme={theme}
           hasRight

@@ -34,7 +34,7 @@ const DeleteAccountModal = ({isShow, onClose, theme}) => {
           ]}
           onPressOut={onClose}>
           <Text style={[styles.modalTitle, {color: themes[theme].titleColor}]}>
-            Delete Account
+            {I18n.t('del_account_title')}
           </Text>
 
           <FloatingTextInput
@@ -47,9 +47,9 @@ const DeleteAccountModal = ({isShow, onClose, theme}) => {
             inputRef={passwordInput}
             returnKeyType="next"
             textContentType="oneTimeCode"
-            label={'Password'}
+            label={I18n.t('Password')}
             secureTextEntry
-            placeholder={'Enter Your Password'}
+            placeholder={I18n.t('Enter_Your_Password')}
             onChangeText={text => setPassword(text)}
             theme={theme}
             onSubmitEditing={onSubmit}

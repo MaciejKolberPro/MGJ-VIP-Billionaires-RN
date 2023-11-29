@@ -381,6 +381,7 @@ export default {
   Upload_Now: '今すぐアップロード',
   Add_New_Experience: '新しい経験を追加してください',
   Other_Options: '他のオプション',
+  Blocked_Profiles: 'ブロックされたプロファイル',
   enter_company: 'Type Company Name',
   type_role: 'Type Role Name',
   select: 'Select',
@@ -429,5 +430,10 @@ export default {
   About_You: 'あなたについて',
   Telephone: '電話',
   Express_Yourself: '自己表現する',
-  Next: '次へ'
+  Next: '次へ',
+  Followings: 'フォロー中',
+  Followers: 'フォロワー',
+  Posts: '投稿',
+  Username: 'Username',
+  Enter_username: 'Enter Your Username',
 };

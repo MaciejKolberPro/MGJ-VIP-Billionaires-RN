@@ -53,13 +53,12 @@ export default StyleSheet.create({
   unBlockText: {
     color: '#efc455',
     paddingVertical: 4,
-    width: 100,
+    paddingHorizontal: 12,
     borderColor: '#efc455',
     borderWidth: 1,
     textAlign: 'center',
   },
   blockText: {
-    width: 100,
     paddingVertical: 4,
     paddingHorizontal: 12,
     color: 'black',

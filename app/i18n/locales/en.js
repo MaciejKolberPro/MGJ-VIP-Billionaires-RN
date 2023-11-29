@@ -354,7 +354,7 @@ export default {
   Account_Settings: 'Account Settings',
   Privacy_Settings: 'Privacy Settings',
   Other_Settings: 'Other Settings',
-  Blocked_Users: 'Blocked Users',
+  Blocked_Profiles: 'Blocked Profiles',
   View_Profile: 'View Profile',
   Clear: 'Clear',
   Back_To_Menu: 'Back to Menu',
@@ -441,4 +441,7 @@ export default {
   About_You: 'About You',
   Express_Yourself: 'Express Yourself',
   Next: 'Next',
+  Followings: 'Followings',
+  Followers: 'Follows',
+  Posts: 'Posts',
 };
