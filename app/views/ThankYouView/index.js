@@ -67,21 +67,12 @@ const ThankYouView = ({ user, logout, navigation }) => {
           {I18n.t('Thank_you_title_1')}
         </Text>
         <Text style={[styles.subText, {color: themes[theme].activeTintColor}]}>
-          Your application will be examined and within a few hours you will be
-          notified of the result.
+          {I18n.t('Notify_text')}
         </Text>
         <Text style={[styles.subText, {color: themes[theme].activeTintColor}]}>
-          * There might be cases your application might not be approved. In that
-          case, the payment will be fully refunded.
+          {I18n.t('Refund_text')}
         </Text>
-        <Text style={[styles.subText, {color: themes[theme].activeTintColor}]}>
-          このたびは入会のご申請をいただきありがとうございます。これより入会審査の後数時間で結果をお知らせさせていただきます。
-        </Text>
-        <Text style={[styles.subText, {color: themes[theme].activeTintColor}]}>
-          ※審査の結果、入会のご希望に添えない場合もございます。
-          その場合にはいただいた代金は返金させていただきます。
-        </Text>
-        <Text style={styles.submittedApplicationText}>Your submitted applicationn</Text>
+        <Text style={styles.submittedApplicationText}>{I18n.t('Your_submitted_application')}</Text>
         <Avatar.Image size={56} source={user.avatar ? user.avatar:images.default_avatar} style={styles.avatar} />
         <BasicInfoUploaded name={displayName} gender={gender} dob={birthday} phone={phone} location={ location && location.length > 0 ? location : city} />
         <ExperienceUploaded salary={salary} jobTitle={job} companyName={company} numberOfYears={years_of_service} />

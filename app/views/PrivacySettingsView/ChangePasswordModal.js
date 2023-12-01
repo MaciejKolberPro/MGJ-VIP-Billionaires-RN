@@ -75,13 +75,13 @@ const ChangePasswordModal = ({isShow, onClose, theme, user, setUser}) => {
         ]}
         onPressOut={onClose}>
         <Text style={[styles.modalTitle, {color: themes[theme].titleColor}]}>
-          Change Password
+          {I18n.t('Change_password')}
         </Text>
         <FloatingTextInput
           inputRef={oldPasswordInput}
           returnKeyType="next"
-          label={I18n.t('old_password')}
-          placeholder={I18n.t('enter_old_password')}
+          label={I18n.t('Old_Password')}
+          placeholder={I18n.t('Enter_Old_Password')}
           onChangeText={pwd => setOldPassword(pwd)}
           theme={theme}
           onSubmitEditing={() => {
@@ -91,16 +91,16 @@ const ChangePasswordModal = ({isShow, onClose, theme, user, setUser}) => {
 
         <FloatingTextInput
           inputRef={newPasswordInput}
-          label={I18n.t('new_password')}
-          placeholder={I18n.t('enter_new_password')}
+          label={I18n.t('New_Password')}
+          placeholder={I18n.t('Enter_New_Password')}
           onChangeText={pwd => setNewPassword(pwd)}
           theme={theme}
         />
 
         <FloatingTextInput
           inputRef={confirmPasswordInput}
-          label={I18n.t('confirm_password')}
-          placeholder={I18n.t('confirm_new_password')}
+          label={I18n.t('Confirm_Password')}
+          placeholder={I18n.t('Confirm_New_Password')}
           onChangeText={pwd => setConfirmPassword(pwd)}
           theme={theme}
         />

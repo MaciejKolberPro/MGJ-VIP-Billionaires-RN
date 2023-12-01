@@ -158,7 +158,7 @@ const PrivacySettingsView = props => {
               <View style={styles.itemCenter}>
                 <Text
                   style={[styles.itemText, {color: themes[theme].titleColor}]}>
-                  Change Password
+                  {I18n.t('Change_Password')}
                 </Text>
               </View>
             </View>
@@ -174,7 +174,7 @@ const PrivacySettingsView = props => {
               styles.subTitle,
               {color: themes[theme].titleColor, marginTop: 16},
             ]}>
-            You logged in using
+            {I18n.t('You_logged_in_using')}
           </Text>
           <View style={[styles.container, {marginTop: 8}]}>
             <View style={styles.imageView}>

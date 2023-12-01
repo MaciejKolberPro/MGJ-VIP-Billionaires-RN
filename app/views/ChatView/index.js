@@ -215,7 +215,7 @@ const ChatView = props => {
                       : themes[theme].focusedBackground,
                   },
                 ]}>
-                {isOnline ? 'Online Now' : 'Offline Now'}
+                {isOnline ? I18n.t('Online_Now') : I18n.t('Offline_Now')}
               </Text>
             </View>
           </TouchableOpacity>
@@ -572,7 +572,7 @@ const ChatView = props => {
                   keyboardType="default"
                   multiline
                   blurOnSubmit={true}
-                  placeholder={'Type Something'}
+                  placeholder={I18n.t('Type_Something')}
                   placeholderTextColor={themes[theme].subTextColor}
                   onChangeText={onChangeText}
                   onSubmitEditing={sendMessage}

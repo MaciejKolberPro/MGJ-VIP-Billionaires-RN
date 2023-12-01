@@ -30,7 +30,7 @@ const AccountSettingsModal = ({isShow, onClose, theme}) => {
           ]}
           onPressOut={onClose}>
           <Text style={[styles.modalTitle, {color: themes[theme].titleColor}]}>
-            Account Setting
+            {I18n.t('Account_Settings')}
           </Text>
 
           <FloatingTextInput

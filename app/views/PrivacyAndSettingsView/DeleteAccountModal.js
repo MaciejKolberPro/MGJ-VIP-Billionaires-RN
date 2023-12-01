@@ -55,7 +55,7 @@ const DeleteAccountModal = ({isShow, onClose, theme}) => {
             onSubmitEditing={onSubmit}
           />
           <CheckBox
-            title={"Agree to delete account."}
+            title={I18n.t('Agree_to_delete')}
             checked={checked}
             textStyle={{color: themes[theme].normalTextColor}}
             onPress={()=>setChecked(!checked)}

@@ -178,17 +178,17 @@ const SidebarView = props => {
           <OptionCardBtn
             subTextColor={{ color: COLOR_YELLOW }}
             image={images.reward_badge}
-            title="Premium Subscription"
-            smallText="Upgrade plan"
+            title={I18n.t('Premium_Membership')}
+            smallText={I18n.t('Upgrade_plan')}
             onPressEvent={() => {
               return onNavigate('MenuStack', {screen: 'PremiumSubscription'});
             }}
           />
           <OptionCardBtn
             image={images.fast_email_sending}
-            title="Invite to engage more people"
+            title={I18n.t('Invite_to_engage_more_people')}
             smallTitle
-            smallText="Invite now"
+            smallText={I18n.t('Invite_now')}
             rightIcon
             rightIconName="share"
             onPressEvent={() => {
@@ -232,13 +232,13 @@ const SidebarView = props => {
         </TouchableOpacity>
         <View style={styles.bottomView}>
           <View style={styles.privacyTermsEulaContainer}>
-            <Text style={[styles.text, { color: themes[theme].textColor }]} onPress={() => {onNavigate('About', { type: 1 })}}>Privacy policy</Text>
-            <Text style={[{ color: themes[theme].textColor }]}>.</Text>
-            <Text style={[styles.text, { color: themes[theme].textColor }]} onPress={() => {onNavigate('About', { type: 0 })}}>
-              Terms of services
-            </Text>
-            <Text style={[{ color: themes[theme].textColor }]}>.</Text>
-            <Text style={[styles.text, { color: themes[theme].textColor }]} onPress={() => {onNavigate('About', { type: 2 })}}>Eula</Text>
+            <View style={{display: 'flex', flexWrap: 'wrap'}}>
+              <Text style={[styles.text, { color: themes[theme].textColor }]} onPress={() => {onNavigate('About', { type: 1 })}}>{I18n.t('Privacy_Policy')}</Text>
+              <Text style={[styles.text, { color: themes[theme].textColor }]} onPress={() => {onNavigate('About', { type: 0 })}}>
+                {I18n.t('Terms_of_services')}
+              </Text>
+              <Text style={[styles.text, { color: themes[theme].textColor }]} onPress={() => {onNavigate('About', { type: 2 })}}>{I18n.t('Eula')}</Text>
+            </View>
           </View>
           <View style={styles.languageContainer}>
             <Image source={images.en_language} />
