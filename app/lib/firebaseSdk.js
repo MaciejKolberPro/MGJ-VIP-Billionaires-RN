@@ -231,8 +231,7 @@ const firebaseSdk = {
             .currentUser.sendEmailVerification()
             .then(() => {
               // Email verification sent!
-              
-            })
+            });
 
           this.createUser(userInfo)
             .then(() => {
@@ -309,6 +308,20 @@ const firebaseSdk = {
             }
           });
           resolve('no exist');
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  },
+  updateUser(userInfo) {
+    return new Promise((resolve, reject) => {
+      firestore()
+        .collection(this.TBL_USER)
+        .doc(userInfo.id)
+        .set(userInfo)
+        .then(() => {
+          resolve();
         })
         .catch(err => {
           reject(err);
@@ -496,7 +509,9 @@ const firebaseSdk = {
   },
 
   async uploadMultipleImages(type, paths) {
-    const downloadUrls = await Promise.all(paths.map(p => this.uploadMedia(type, p)));
+    const downloadUrls = await Promise.all(
+      paths.map(p => this.uploadMedia(type, p)),
+    );
 
     return downloadUrls;
   },
