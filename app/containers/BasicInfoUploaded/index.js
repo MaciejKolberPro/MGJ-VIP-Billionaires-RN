@@ -1,21 +1,29 @@
-import React from 'react'
-import { View, Text, Image } from 'react-native'
+import React from 'react';
+import {View, Text, Image} from 'react-native';
 
-import styles from './style'
-import { VectorIcon } from '../VectorIcon'
-import images from '../../assets/images'
-import { themes } from '../../constants/colors'
-import { useTheme } from '../../theme'
+import styles from './style';
+import {VectorIcon} from '../VectorIcon';
+import images from '../../assets/images';
+import {themes} from '../../constants/colors';
+import {useTheme} from '../../theme';
 
-const BasicInfoUploaded = ({ name, gender, dob, phone, location, showCloseIcon }) => {
-
-  const { theme } = useTheme()
+const BasicInfoUploaded = ({
+  name,
+  gender,
+  dob,
+  phone,
+  location,
+  showCloseIcon,
+}) => {
+  const {theme} = useTheme();
 
   return (
     <View style={styles.container}>
       <View>
-        <Text style={[styles.name, { color: themes[theme].titleColor }]}>{name}</Text>
-        <Text style={[styles.genderAndDob, { color: themes[theme].titleColor }]}>
+        <Text style={[styles.name, {color: themes[theme].titleColor}]}>
+          {name}
+        </Text>
+        <Text style={[styles.genderAndDob, {color: themes[theme].titleColor}]}>
           {gender} | {dob}
         </Text>
         <View style={styles.iconAndText}>
@@ -25,14 +33,18 @@ const BasicInfoUploaded = ({ name, gender, dob, phone, location, showCloseIcon }
             color="#F5BF4D"
             size={18}
           />
-          <Text style={[styles.phone, { color: themes[theme].titleColor }]}>{phone}</Text>
+          <Text style={[styles.phone, {color: themes[theme].titleColor}]}>
+            {phone}
+          </Text>
         </View>
         <View style={styles.iconAndText}>
           <Image
             source={images.location_home}
             style={styles.locationHomeImage}
           />
-          <Text style={[styles.location, { color: themes[theme].titleColor }]}>{location}</Text>
+          <Text style={[styles.location, {color: themes[theme].titleColor}]}>
+            {location}
+          </Text>
         </View>
       </View>
       {showCloseIcon && (
@@ -46,6 +58,6 @@ const BasicInfoUploaded = ({ name, gender, dob, phone, location, showCloseIcon }
       )}
     </View>
   );
-}
+};
 
-export default BasicInfoUploaded
+export default BasicInfoUploaded;

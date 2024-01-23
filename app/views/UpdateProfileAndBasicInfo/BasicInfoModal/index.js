@@ -16,8 +16,7 @@ import {showErrorAlert, showToast} from '../../../lib/info';
 
 const theme = 'light';
 
-const BasicInfoModal = ({isVisible, onBackdropPress}) => {
-
+const BasicInfoModal = ({isVisible, onBackdropPress, onUpdate}) => {
   const [name, setName] = useState('');
   const [gender, setGender] = useState('');
   const [birthday, setBirthday] = useState('');
@@ -49,20 +48,28 @@ const BasicInfoModal = ({isVisible, onBackdropPress}) => {
   };
 
   const onSubmit = () => {
-    console.log(name)
-    
-    isValid();
+    if (isValid) {
+      onUpdate({
+        displayName: name,
+        phone: phone,
+        city: city,
+        birthday: birthday,
+        gender: gender,
+      });
+    }
   };
 
   return (
-    <Modal 
-      isVisible={isVisible} 
-      onBackdropPress={onBackdropPress}>
+    <Modal isVisible={isVisible} onBackdropPress={onBackdropPress}>
       <View style={styles.container}>
         <KeyboardView keyboardVerticalOffset={128}>
-          <Text style={styles.title}>{I18n.t('Refresh_Basic_Information')}</Text>
-          <Text style={styles.descriptionText}>{I18n.t('Thanks_Registering')}</Text>
-          <View style={{height: 20}}/>
+          <Text style={styles.title}>
+            {I18n.t('Refresh_Basic_Information')}
+          </Text>
+          <Text style={styles.descriptionText}>
+            {I18n.t('Thanks_Registering')}
+          </Text>
+          <View style={{height: 20}} />
           <FloatingTextInput
             inputRef={nameRef}
             value={name}
@@ -81,9 +88,9 @@ const BasicInfoModal = ({isVisible, onBackdropPress}) => {
             containerStyle={styles.selectStyle}
             label={I18n.t('Select_Your_Gender')}
             value={gender}
-            topScrollEnable={()=>setTopScrollEnable(topScrollEnable)}
+            topScrollEnable={() => setTopScrollEnable(topScrollEnable)}
             toggleShow={show => {
-              setTopScrollEnable(!show)
+              setTopScrollEnable(!show);
             }}
             action={({value}) => {
               if (!value) {
@@ -133,7 +140,7 @@ const BasicInfoModal = ({isVisible, onBackdropPress}) => {
             value={birthday}
             topScrollEnable={topScrollEnable}
             toggleShow={show => {
-              setTopScrollEnable(!show)
+              setTopScrollEnable(!show);
             }}
             action={({value}) => {
               if (!value) {
@@ -153,8 +160,8 @@ const BasicInfoModal = ({isVisible, onBackdropPress}) => {
             theme={theme}
             pressingHighlight
           />
-          </KeyboardView>
-        </View>
+        </KeyboardView>
+      </View>
     </Modal>
   );
 };

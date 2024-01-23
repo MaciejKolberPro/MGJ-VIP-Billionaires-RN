@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View, Text, SafeAreaView, ScrollView, Image, Alert} from 'react-native';
 import {RadioButton} from 'react-native-paper';
 import ImagePicker from 'react-native-image-crop-picker';
-import Modal from "react-native-modal";
+import Modal from 'react-native-modal';
 
 import styles from './style';
 import images from '../../assets/images';
@@ -16,10 +16,15 @@ import {VectorIcon} from '../../containers/VectorIcon';
 import Button from '../../containers/Button';
 import {
   checkCameraPermission,
-  checkPhotosPermission
+  checkPhotosPermission,
 } from '../../utils/permissions';
 import BasicInfoModal from './BasicInfoModal';
 import AddExperienceModal from './AddExperienceModal';
+import firebaseSdk from '../../lib/firebaseSdk';
+import {showToast} from '../../lib/info';
+import {loginSuccess as loginSuccessAction} from '../../actions/login';
+import {appStart as appStartAction} from '../../actions/app';
+import {connect} from 'react-redux';
 
 const imagePickerConfig = {
   cropping: true,
@@ -35,7 +40,7 @@ const imagePickerConfig = {
 
 const theme = 'light';
 
-const UpdateProfileAndBasicInfo = () => {
+const UpdateProfileAndBasicInfo = ({loginSuccess, user, dispatch}) => {
   const [profileImageUpdated, setProfileImageUpdated] = useState(false);
   const [basicInfoUpdated, setBasicInfoUpdated] = useState(false);
   const [radioButtonChecked, setRadioButtonChecked] = useState(false);
@@ -44,12 +49,30 @@ const UpdateProfileAndBasicInfo = () => {
   // modal states
   const [basicInfoModalOpen, setBasicInfoModalOpen] = useState(true);
   const [experienceModalOpen, setExperienceModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [image, setImage] = useState({
     image_path: '',
     image_name: 'Image name.png',
   });
-
+  const [userInfo, setUserInfo] = useState({
+    displayName: '',
+    gender: 'male',
+    city: '',
+    phone: '',
+    birthday: '',
+    job: '',
+    company: '',
+    role: '',
+    years_of_service: '',
+    salary: '',
+  });
+  const onUserInfoUpdated = update => {
+    console.log(update);
+    setUserInfo(userInfo => {
+      return {...userInfo, ...update};
+    });
+  };
   // open camera
   const takePhoto = async () => {
     if (await checkCameraPermission()) {
@@ -89,20 +112,49 @@ const UpdateProfileAndBasicInfo = () => {
     ]);
   };
 
+  const onSubmit = () => {
+    if (!userInfo) {
+      showToast(I18n.t('please_complete_these_steps_to_confirm'));
+      return;
+    }
+
+    if (!radioButtonChecked) {
+      showToast(I18n.t('you_should_agree_with_terms'));
+      return;
+    }
+
+    setIsLoading(true);
+    const user_ = {...user, ...userInfo};
+    firebaseSdk
+      .updateUser(user_)
+      .then(async () => {
+        showToast(I18n.t('Register_complete'));
+        loginSuccess({...user_, emailVerified: true});
+      })
+      .catch(err => {
+        showErrorAlert(I18n.t('Register_fail'));
+      })
+      .finally(() => setIsLoading(false));
+    console.log('user', user_);
+  };
   return (
     <SafeAreaView
       style={{flex: 1, flexDirection: 'column', backgroundColor: COLOR_WHITE}}>
       <StatusBar />
 
       {/* Basic info modal */}
-      <BasicInfoModal 
-        isVisible={basicInfoModalOpen} 
-        onBackdropPress={()=>setBasicInfoModalOpen(!basicInfoModalOpen)} />
+      <BasicInfoModal
+        isVisible={basicInfoModalOpen}
+        onBackdropPress={() => setBasicInfoModalOpen(!basicInfoModalOpen)}
+        onUpdate={onUserInfoUpdated}
+      />
 
       {/* Experience modal */}
-      <AddExperienceModal 
-        isVisible={experienceModalOpen} 
-        onBackdropPress={()=>setExperienceModalOpen(!experienceModalOpen)} />
+      <AddExperienceModal
+        isVisible={experienceModalOpen}
+        onBackdropPress={() => setExperienceModalOpen(!experienceModalOpen)}
+        onUpdate={onUserInfoUpdated}
+      />
 
       <ScrollView
         style={{flex: 1, backgroundColor: COLOR_WHITE, height: '100%'}}
@@ -142,30 +194,36 @@ const UpdateProfileAndBasicInfo = () => {
               {I18n.t('Upload_Now')}
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.optionButton} onPress={()=>setBasicInfoModalOpen(!basicInfoModalOpen)}>
+          <TouchableOpacity
+            style={styles.optionButton}
+            onPress={() => setBasicInfoModalOpen(!basicInfoModalOpen)}>
             <VectorIcon
               type="AntDesign"
               name="checkcircleo"
-                color={basicInfoUpdated ? '#1BA050' : '#858585'}
-                size={18}
-              />
-              <Text style={styles.uploadProfileImageText}>
-                {I18n.t('Refresh_Basic_Information')}
-              </Text>
-              <Text
-                style={[
-                  styles.uploadNowText,
-                  {color: themes[theme].actionColor},
-                ]}>
-                {I18n.t('Upload_Now')}
-              </Text>
-            </TouchableOpacity>
+              color={basicInfoUpdated ? '#1BA050' : '#858585'}
+              size={18}
+            />
+            <Text style={styles.uploadProfileImageText}>
+              {I18n.t('Refresh_Basic_Information')}
+            </Text>
+            <Text
+              style={[
+                styles.uploadNowText,
+                {color: themes[theme].actionColor},
+              ]}>
+              {I18n.t('Upload_Now')}
+            </Text>
+          </TouchableOpacity>
         </View>
 
         {/* Add experience container */}
         <View style={styles.addExperienceContainer}>
-          <Text style={styles.updateExperienceTxt}>{I18n.t('Refresh_Your_Experience')}</Text>
-          <TouchableOpacity style={styles.addExperienceBtn} onPress={()=>setExperienceModalOpen(!experienceModalOpen)}>
+          <Text style={styles.updateExperienceTxt}>
+            {I18n.t('Refresh_Your_Experience')}
+          </Text>
+          <TouchableOpacity
+            style={styles.addExperienceBtn}
+            onPress={() => setExperienceModalOpen(!experienceModalOpen)}>
             <Text
               style={[
                 styles.addExperienceTxt,
@@ -178,7 +236,9 @@ const UpdateProfileAndBasicInfo = () => {
 
         {/* Other container */}
         <View style={styles.othersContainer}>
-          <Text style={styles.updateExperienceTxt}>{I18n.t('Other_Options')}</Text>
+          <Text style={styles.updateExperienceTxt}>
+            {I18n.t('Other_Options')}
+          </Text>
           {/* <TouchableOpacity style={styles.basicSubscriptionBtn}>
             <Image source={images.reward_badge} style={styles.reward_badge} />
             <View style={styles.basicSubscriptionAndUpgradePlanContainer}>
@@ -214,8 +274,11 @@ const UpdateProfileAndBasicInfo = () => {
           />
           <Text style={styles.termsAndConditionsPrivacyPolicy}>
             {I18n.t('Accept_Terms_text_1')}
-            <Text style={styles.termsAndConditions}>{I18n.t('Terms_and_Conditions')}</Text>{' '}
-            {I18n.t('And')} {'\n'}<Text style={styles.privacyPolicy}>{I18n.t('Privacy_Policy')}</Text>
+            <Text style={styles.termsAndConditions}>
+              {I18n.t('Terms_and_Conditions')}
+            </Text>{' '}
+            {I18n.t('And')} {'\n'}
+            <Text style={styles.privacyPolicy}>{I18n.t('Privacy_Policy')}</Text>
           </Text>
         </View>
         <Button
@@ -223,12 +286,25 @@ const UpdateProfileAndBasicInfo = () => {
           theme={theme}
           size="W"
           style={styles.confirmBtn}
-          onPress={() => {}}
+          onPress={onSubmit}
           testID="confirn_create_account"
+          loading={isLoading}
         />
       </View>
     </SafeAreaView>
   );
 };
 
-export default withTheme(UpdateProfileAndBasicInfo);
+const mapStateToProps = state => ({
+  user: state.login.user,
+});
+
+const mapDispatchToProps = dispatch => ({
+  loginSuccess: params => dispatch(loginSuccessAction(params)),
+  appStart: params => dispatch(appStartAction(params)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(withTheme(UpdateProfileAndBasicInfo));
