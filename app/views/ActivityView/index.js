@@ -39,7 +39,7 @@ const ActivityView = props => {
   useEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <Text style={[styles.headerText, { color: themes[theme].titleColor }]}>Notifications</Text>
+        <Text style={[styles.headerText, { color: themes[theme].titleColor }]}>{I18n.t('Notifications')}</Text>
       ),
       title: null,
       headerRight: () => (<></>),
@@ -103,7 +103,7 @@ const ActivityView = props => {
         message = I18n.t('likes_your_post', { name: '' })
         break
       case NOTIFICATION_TYPE_FOLLOW:
-        message = ' Just Followed You.'
+        message = I18n.t('Just_Followed_You')
         break
     }
 

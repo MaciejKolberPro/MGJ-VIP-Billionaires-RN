@@ -17,10 +17,10 @@ export default StyleSheet.create({
     marginTop: 17,
   },
   chatTextBox: {
-    width: 50,
     borderBottomWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    textAlign: 'center',
   },
   chatListContainer: {
     marginTop: 8,

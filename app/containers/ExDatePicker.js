@@ -192,7 +192,7 @@ const ExDatePicker = props => {
           {currentDate
             ? // ? date_str_format(currentDate, DATE_STRING_DISPLAY_FORMAT)
               currentDate
-            : 'Select date'}
+            : placeholder}
         </Text>
         {show && (
           <View style={styles.selectContainer}>

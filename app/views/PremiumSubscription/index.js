@@ -53,11 +53,11 @@ const PremiumSubscription = props => {
   }, [theme])
 
   const options = useMemo(() => [
-    "Upgraded Profile",
-    "Multi-shot & video",
-    "Instant creative portfolio",
-    "Sell goods",
-    "A good content support"
+    I18n.t('upgrade_profile'),
+    I18n.t('multi_shot'),
+    I18n.t('instant_portfolio'),
+    I18n.t('sell_goods'),
+    I18n.t('good_content')
   ], []);
 
   
@@ -73,7 +73,7 @@ const PremiumSubscription = props => {
         <View style={[styles.container, {backgroundColor: themes[theme].commentCardBox}]}>
           <Image source={images.premium} />
 
-          <Text style={[styles.title, {color: themes[theme].activeTintColor}]}>{I18n.t('premium_title')}</Text>
+          <Text style={[styles.title, {color: themes[theme].activeTintColor}]}>{I18n.t('Premium_Membership')}</Text>
           <Text style={[styles.detail, {color: themes[theme].textColor}]}>{I18n.t('premium_detail')}</Text>
           <Text style={[styles.moneyText, {color: themes[theme].activeTintColor}]}>{'$5000'}</Text>
           <Text style={[styles.detail, {color: themes[theme].textColor, marginTop: 0}]}>{I18n.t('per_month')}</Text>

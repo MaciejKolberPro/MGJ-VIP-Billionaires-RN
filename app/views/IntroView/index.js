@@ -10,26 +10,27 @@ import { themes } from '../../constants/colors'
 import I18n from '../../i18n'
 import Button from '../../containers/Button'
 import { appReady } from '../../actions/app'
+import i18n from '../../i18n'
 
 const theme = 'light'
 
 const slides = [
   {
     key: 1,
-    title: 'Welcome to VIP Billionaires',
-    text: 'We know what it takes to get ahead in business and we want to help make that happen for you.',
+    title: i18n.t('Onboard_text_welcome'),
+    text: i18n.t('Onboard_text_1'),
     image: images.intro_1,
   },
   {
     key: 2,
-    title: 'Welcome to VIP Billionaires',
-    text: 'As a business professional, you know that your connections are everything.',
+    title: i18n.t('Onboard_text_welcome'),
+    text: i18n.t('Onboard_text_2'),
     image: images.intro_2,
   },
   {
     key: 3,
-    title: 'Don\'t be afraid to grow.',
-    text: 'You are the only one who can decide how you want your life to go, and if you\'re not growing, then you\'re shrinking.',
+    title: i18n.t('Onboard_text_welcome_2'),
+    text: i18n.t('Onboard_text_3'),
     image: images.intro_3,
   },
 ]
@@ -64,7 +65,7 @@ const IntroView = ({ appReady }) => {
           <View style={{ marginHorizontal: 48, marginTop: 48 }}>
             <Button
               style={styles.submitBtn}
-              title={activeIndex < slides.length - 1 ? I18n.t('Next').toUpperCase() : 'Continue to app'}
+              title={activeIndex < slides.length - 1 ? I18n.t('Next').toUpperCase() : I18n.t('Proceed_to_app')}
               size="W"
               onPress={() => _onDone(activeIndex)}
               theme={theme}

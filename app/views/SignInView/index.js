@@ -152,8 +152,8 @@ const SignInView = (props) => {
           </View>
           <View style={styles.formContainer}>
             <View style={styles.description}>
-              <Text style={styles.loginTitle}>{I18n.t('Login')}</Text>
-              <Text style={styles.loginText}>Log In with one of the following options</Text>
+              <Text style={styles.loginTitle}>{I18n.t('Sign_In')}</Text>
+              <Text style={styles.loginText}>{I18n.t('Sign_In_text')}</Text>
             </View>
             <FloatingTextInput
               inputRef={emailInput}
@@ -161,8 +161,8 @@ const SignInView = (props) => {
               returnKeyType="next"
               keyboardType="email-address"
               textContentType="oneTimeCode"
-              label={I18n.t('Email')}
-              placeholder={'Enter your email'}
+              label={I18n.t('Email_Address')}
+              placeholder={I18n.t('Email_Address_placeholder')}
               onChangeText={val => setEmail(val)}
               theme={theme}
               onSubmitEditing={() => {
@@ -174,7 +174,7 @@ const SignInView = (props) => {
               inputRef={passwordInput}
               iconLeft={images.password}
               label={I18n.t('Password')}
-              placeholder={'Enter your password'}
+              placeholder={I18n.t('Password_placeholder')}
               returnKeyType="send"
               textContentType="oneTimeCode"
               onChangeText={value => setPassword(value)}
@@ -186,12 +186,12 @@ const SignInView = (props) => {
               <Text
                 style={[styles.forgotText, { color: themes[theme].titleColor }]}
                 onPress={forgotPassword}>
-                {I18n.t('Forgot_Password')}
+                {I18n.t('Forgot_Your_Password')}
               </Text>
             </View>
             <Button
               style={styles.submitBtn}
-              title={I18n.t('Login')}
+              title={I18n.t('Sign_In')}
               size="W"
               onPress={onSubmit}
               testID="login-submit"
@@ -210,11 +210,11 @@ const SignInView = (props) => {
         </ScrollView>
       </KeyboardView>
       <View style={styles.bottomContainer}>
-        <Text style={styles.dontText}>{I18n.t('Do_not_have_an_account')} &nbsp;</Text>
+        <Text style={styles.dontText}>{I18n.t('Need_to_create_account')} &nbsp;</Text>
         <Text
           style={[{ ...sharedStyles.link, color: COLOR_YELLOW }, { fontFamily: 'Raleway', fontSize: 14 }]}
           onPress={onGoToSignUp}>
-          Sign Up
+          {I18n.t('Register_Now')}
         </Text>
       </View>
     </SafeAreaView>

@@ -13,6 +13,7 @@ import {
   COLOR_RED,
   themes,
 } from '../constants/colors';
+import I18n from 'i18n-js';
 
 const {width} = Dimensions.get('window');
 
@@ -114,7 +115,7 @@ const FloatingTextInput = props => {
               color: themes[theme].activeTintColor,
             },
           ]}>
-          {readonly ? 'Edit' : 'Save'}
+          {readonly ? I18n.t('Edit') : I18n.t('Save')}
         </Text>
       </Pressable>
     );

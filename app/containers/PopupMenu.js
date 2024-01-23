@@ -61,12 +61,12 @@ const PopupMenu = React.memo(({theme, options, renderTrigger}) => (
           color: themes[theme].titleColor,
           marginBottom: 10,
         }}>
-        {I18n.t('take_action')}
+        {I18n.t('Choose_Action')}
       </Text>
       {options.map((item, key) => (
         <MenuOption key={key} onSelect={() => item.onPress()}>
           <View style={{flexDirection: 'row'}}>
-            {item.title === I18n.t('edit_post') ? (
+            {item.title === I18n.t('Modify_Post') ? (
               <VectorIcon
                 type="MaterialIcons"
                 name="edit"

@@ -188,7 +188,7 @@ const BlockView = props => {
           <ActivityIndicator absolute theme={theme} size={'large'} />
         )}
         <Text style={[styles.headerText, {color: themes[theme].titleColor}]}>
-          {I18n.t('Blocked_Users')}
+          {I18n.t('Blocked_Profiles')}
         </Text>
         <Text style={[styles.descText, {color: themes[theme].textColor}]}>
           Lorem insum dolor sit amet, consectetur adipiscing elit. Bibendum vel egestas egestas cras.

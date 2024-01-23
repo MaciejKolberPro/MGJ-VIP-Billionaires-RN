@@ -804,11 +804,11 @@ const PostDetailView = props => {
                   multiline={true}
                   numberOfLines={2}
                   onChangeText={text => setState({...state, comment: text})}
-                  placeholder={I18n.t('write_something_here')}
+                  placeholder={I18n.t('Express_Yourself')}
                   placeholderColor={themes[theme].subTextColor}
                   style={{
                     marginLeft: 15,
-                    width: Dimensions.get('window').width - 160,
+                    width: Dimensions.get('window').width - 210,
                     padding: 0,
                     color: themes[theme].activeTintColor,
                   }}
@@ -827,7 +827,7 @@ const PostDetailView = props => {
                     styles.commentEditBtnText,
                     {color: themes[theme].activeTintColor},
                   ]}>
-                  {I18n.t('Send')}
+                  {I18n.t('Send_Message')}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -837,10 +837,10 @@ const PostDetailView = props => {
             <View style={styles.commentContentHeader}>
               <Text
                 style={{fontSize: 16, color: themes[theme].titleColor}}>
-                {I18n.t('all_comments')}
+                {I18n.t('All_Responses')}
               </Text>
               <Text style={{fontSize: 14, color: themes[theme].textColor}}>
-                {I18n.t('view_all') + ' ' + post.comment_accounts.length}
+                {I18n.t('See_All') + ' ' + post.comment_accounts.length}
               </Text>
             </View>
             <View style={styles.commentContents}>
@@ -973,7 +973,7 @@ const PostDetailView = props => {
                                     styles.replyButton,
                                     {color: themes[theme].deactiveTintColor, marginTop: 3},
                                   ]}>
-                                  {I18n.t('reply_now')}
+                                  {I18n.t('Respond_Now')}
                                 </Text>
                               </TouchableOpacity>
                             </View>

@@ -505,7 +505,7 @@ const OtherProfileView = props => {
                     styles.tabItemText,
                     {color: themes[theme].activeTintColor},
                   ]}>
-                  {I18n.t('media')}
+                  {I18n.t('Gallery')}
                 </Text>
               </TouchableOpacity>
             </View>

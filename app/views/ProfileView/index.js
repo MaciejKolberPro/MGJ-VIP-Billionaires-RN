@@ -294,7 +294,7 @@ const ProfileView = props => {
 
     const ownerOptions = [
       {
-        title: I18n.t('edit_post'),
+        title: I18n.t('Modify_Post'),
         onPress: onEdit,
       },
       {
@@ -307,19 +307,19 @@ const ProfileView = props => {
   };
 
   const toggleAction = () => {
-    Alert.alert('', I18n.t('Upload_profile_photo'), [
+    Alert.alert('', I18n.t('Upload_Profile_Picture'), [
       {
         text: I18n.t('Cancel'),
         onPress: () => {},
       },
       {
-        text: I18n.t('Take_a_photo'),
+        text: I18n.t('Snap_Photo'),
         onPress: () => {
           takePhoto();
         },
       },
       {
-        text: I18n.t('Choose_a_photo'),
+        text: I18n.t('Select_Photo'),
         onPress: () => {
           chooseFromLibrary();
         },
@@ -426,7 +426,7 @@ const ProfileView = props => {
                     styles.editProfileTxt,
                     {color: themes[theme].normalTextColor},
                   ]}>
-                  {I18n.t('Edit_profile')}
+                  {I18n.t('Edit_Profile')}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -457,7 +457,7 @@ const ProfileView = props => {
                   styles.optionTitle,
                   {color: themes[theme].deactiveTintColor},
                 ]}>
-                {I18n.t('Posts')}
+                {I18n.t('Your_Posts')}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -481,7 +481,7 @@ const ProfileView = props => {
                   styles.optionTitle,
                   {color: themes[theme].deactiveTintColor},
                 ]}>
-                {I18n.t('Followings')}
+                {I18n.t('Your_Network')}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -499,7 +499,7 @@ const ProfileView = props => {
                   styles.optionTitle,
                   {color: themes[theme].deactiveTintColor},
                 ]}>
-                {I18n.t('Followers')}
+                {I18n.t('Your_Followers')}
               </Text>
             </TouchableOpacity>
           </View>
@@ -528,7 +528,7 @@ const ProfileView = props => {
                         : themes[theme].subTextColor,
                     },
                   ]}>
-                  {I18n.t('Posts')}
+                  {I18n.t('Your_Posts')}
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -550,7 +550,7 @@ const ProfileView = props => {
                         : themes[theme].subTextColor,
                     },
                   ]}>
-                  {I18n.t('media')}
+                  {I18n.t('Gallery')}
                 </Text>
               </TouchableOpacity>
             </View>

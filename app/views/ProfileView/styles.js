@@ -200,6 +200,7 @@ export default StyleSheet.create({
     fontSize: 16,
     fontWeight: '500',
     fontFamily: 'Hind Vadodara',
+    textAlign: 'center'
   },
   followWrap: {
     flexDirection: 'row',

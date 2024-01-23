@@ -33,7 +33,7 @@ const AddExperienceModal = ({isVisible, onBackdropPress}) => {
     <Modal isVisible={isVisible} onBackdropPress={onBackdropPress}>
       <View style={styles.container}>
         <KeyboardView keyboardVerticalOffset={128}>
-          <Text style={styles.title}>{I18n.t('add_experience')}</Text>
+          <Text style={styles.title}>{I18n.t('Add_New_Experience')}</Text>
           <Text style={styles.descriptionText}>{I18n.t('premium_detail')}</Text>
           <View style={{height: 15}}/>
           {/* <CsAutocompleteSelect
@@ -43,8 +43,8 @@ const AddExperienceModal = ({isVisible, onBackdropPress}) => {
             onSelectItem={(value)=>console.log(value)}
           /> */}
           <CsSelect
-            placeholder={I18n.t('type_job')}
-            label={I18n.t('Job')}
+            placeholder={I18n.t('Enter_Your_Job_Title')}
+            label={I18n.t('Profession')}
             options={services}
             onSelect={(value)=>setJob(value)}
             theme={theme}
@@ -56,8 +56,8 @@ const AddExperienceModal = ({isVisible, onBackdropPress}) => {
             returnKeyType="next"
             keyboardType="default"
             textContentType="oneTimeCode"
-            label={I18n.t('Company')}
-            placeholder={I18n.t('enter_company')}
+            label={I18n.t('Employer')}
+            placeholder={I18n.t('Enter_Your_Employer_Name')}
             onChangeText={val => setCompany(val)}
             theme={theme}
             onSubmitEditing={() => {
@@ -70,8 +70,8 @@ const AddExperienceModal = ({isVisible, onBackdropPress}) => {
             returnKeyType="next"
             keyboardType="default"
             textContentType="oneTimeCode"
-            label={I18n.t('Role')}
-            placeholder={I18n.t('type_role')}
+            label={I18n.t('Position')}
+            placeholder={I18n.t('Enter_Your_Role')}
             onChangeText={val => setRole(val)}
             theme={theme}
             onSubmitEditing={() => {
@@ -79,16 +79,16 @@ const AddExperienceModal = ({isVisible, onBackdropPress}) => {
             }}
           />
           <CsSelect
-            placeholder={I18n.t('select')}
-            label={I18n.t('Years_of_service')}
+            placeholder={I18n.t('Choose_Duration')}
+            label={I18n.t('Length_of_Employment')}
             options={services}
             onSelect={(value)=>setYearsOfService(value)}
             theme={theme}
             value={yearsOfService}
           />
           <CsSelect
-            placeholder={I18n.t('select_sallery')}
-            label={I18n.t('sallery')}
+            placeholder={I18n.t('Choose_Salary_Range')}
+            label={I18n.t('Salary')}
             options={salleries}
             theme={theme}
             value={salary}
@@ -96,7 +96,7 @@ const AddExperienceModal = ({isVisible, onBackdropPress}) => {
           />
           <Button
             style={styles.submitBtn}
-            title={I18n.t('update')}
+            title={I18n.t('Update')}
             size="W"
             onPress={onSubmit}
             testID="login-submit"
