@@ -16,7 +16,12 @@ import {showErrorAlert, showToast} from '../../../lib/info';
 
 const theme = 'light';
 
-const BasicInfoModal = ({isVisible, onBackdropPress, onUpdate}) => {
+const BasicInfoModal = ({
+  isVisible,
+  onBackdropPress,
+  onUpdate,
+  setBasicInfoUpdated,
+}) => {
   const [name, setName] = useState('');
   const [gender, setGender] = useState('');
   const [birthday, setBirthday] = useState('');
@@ -56,6 +61,7 @@ const BasicInfoModal = ({isVisible, onBackdropPress, onUpdate}) => {
         birthday: birthday,
         gender: gender,
       });
+      setBasicInfoUpdated(true);
     }
   };
 
@@ -63,9 +69,7 @@ const BasicInfoModal = ({isVisible, onBackdropPress, onUpdate}) => {
     <Modal isVisible={isVisible} onBackdropPress={onBackdropPress}>
       <View style={styles.container}>
         <KeyboardView keyboardVerticalOffset={128}>
-          <Text style={styles.title}>
-            {I18n.t('Refresh_Basic_Information')}
-          </Text>
+          <Text style={styles.title}>{I18n.t('update_basic_information')}</Text>
           <Text style={styles.descriptionText}>
             {I18n.t('Thanks_Registering')}
           </Text>

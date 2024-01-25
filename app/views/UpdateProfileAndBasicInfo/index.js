@@ -51,9 +51,9 @@ const UpdateProfileAndBasicInfo = ({loginSuccess, user, dispatch}) => {
   const [experienceModalOpen, setExperienceModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const [image, setImage] = useState({
-    image_path: '',
-    image_name: 'Image name.png',
+  const [profileImage, setProfileImage] = useState({
+    imageUrl: '',
+    imageName: 'Image name.png',
   });
   const [userInfo, setUserInfo] = useState({
     displayName: '',
@@ -66,9 +66,10 @@ const UpdateProfileAndBasicInfo = ({loginSuccess, user, dispatch}) => {
     role: '',
     years_of_service: '',
     salary: '',
+    avatar: '',
   });
   const onUserInfoUpdated = update => {
-    console.log(update);
+    console.log('final updated user data', update);
     setUserInfo(userInfo => {
       return {...userInfo, ...update};
     });
@@ -76,17 +77,35 @@ const UpdateProfileAndBasicInfo = ({loginSuccess, user, dispatch}) => {
   // open camera
   const takePhoto = async () => {
     if (await checkCameraPermission()) {
-      ImagePicker.openCamera(imagePickerConfig).then(image => {
-        setImage_path(image.path);
-      });
+      ImagePicker.openCamera(imagePickerConfig)
+        .then(image => {
+          setImage_path(image);
+        })
+        .catch(console.warn);
     }
   };
 
+  const setImage_path = async image => {
+    const image_url = await firebaseSdk.uploadMedia(
+      firebaseSdk.STORAGE_TYPE_PHOTO,
+      image.path,
+    );
+    console.log('imageURL', image_url);
+    if (image_url) {
+      setProfileImage({
+        imageUrl: image_url,
+        imageName: image.filename,
+      });
+      userInfo.avatar = image_url;
+      console.log('user with avatar', userInfo);
+    }
+  };
   // choose from gallery
   const chooseFromLibrary = async () => {
     if (await checkPhotosPermission()) {
       ImagePicker.openPicker(imagePickerConfig).then(image => {
-        setImage_path(image.path);
+        console.log('image', image);
+        setImage_path(image);
       });
     }
   };
@@ -98,7 +117,7 @@ const UpdateProfileAndBasicInfo = ({loginSuccess, user, dispatch}) => {
         onPress: () => {},
       },
       {
-        text: I18n.t('Snap_Photo'),
+        text: I18n.t('Take_a_Photo'),
         onPress: () => {
           takePhoto();
         },
@@ -147,6 +166,7 @@ const UpdateProfileAndBasicInfo = ({loginSuccess, user, dispatch}) => {
         isVisible={basicInfoModalOpen}
         onBackdropPress={() => setBasicInfoModalOpen(!basicInfoModalOpen)}
         onUpdate={onUserInfoUpdated}
+        setBasicInfoUpdated={setBasicInfoUpdated}
       />
 
       {/* Experience modal */}
@@ -154,6 +174,7 @@ const UpdateProfileAndBasicInfo = ({loginSuccess, user, dispatch}) => {
         isVisible={experienceModalOpen}
         onBackdropPress={() => setExperienceModalOpen(!experienceModalOpen)}
         onUpdate={onUserInfoUpdated}
+        setProfileImageUpdated={setProfileImageUpdated}
       />
 
       <ScrollView
@@ -204,7 +225,7 @@ const UpdateProfileAndBasicInfo = ({loginSuccess, user, dispatch}) => {
               size={18}
             />
             <Text style={styles.uploadProfileImageText}>
-              {I18n.t('Refresh_Basic_Information')}
+              {I18n.t('update_basic_information')}
             </Text>
             <Text
               style={[

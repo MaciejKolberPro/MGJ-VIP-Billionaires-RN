@@ -11,10 +11,16 @@ import Button from '../../../containers/Button';
 import {CsSelect} from '../../../containers/CsSelect';
 import KeyboardView from '../../../containers/KeyboardView';
 import {showErrorAlert, showToast} from '../../../lib/info';
+import {themes} from '../../../constants/colors';
 
 const theme = 'light';
 
-const AddExperienceModal = ({isVisible, onBackdropPress, onUpdate}) => {
+const AddExperienceModal = ({
+  isVisible,
+  onBackdropPress,
+  onUpdate,
+  setProfileImageUpdated,
+}) => {
   const [job, setJob] = useState('');
   const [company, setCompany] = useState('');
   const [role, setRole] = useState('');
@@ -27,7 +33,7 @@ const AddExperienceModal = ({isVisible, onBackdropPress, onUpdate}) => {
     '7 - 10 years',
     '10 - 12 years',
   ];
-  const jobs = ['CEO', 'Co-founder', 'Software Engineer', 'SEO'];
+  const jobs = ['IT', 'Real Estate', 'Fintech', 'Healthcare'];
   const salaries = [
     '$0-$50,000',
     '$50,000-$60,000',
@@ -36,7 +42,45 @@ const AddExperienceModal = ({isVisible, onBackdropPress, onUpdate}) => {
     '$80,000-$90,000',
     '$90,000-$100,000',
   ];
+  const [jobError, setJobError] = useState('');
+  const [companyError, setCompanyError] = useState('');
+  const [roleError, setRoleError] = useState('');
+  const [yearsOfServiceError, setYearsOfServiceError] = useState('');
+  const [salaryError, setSalaryError] = useState('');
+  const isValid = () => {
+    setJobError('');
+    setCompanyError('');
+    setRoleError('');
+    setYearsOfServiceError('');
+    setSalaryError('');
 
+    if (!job.length) {
+      setJobError(I18n.t('please_enter_job_name'));
+      return false;
+    }
+
+    if (!company.length) {
+      setCompanyError(I18n.t('please_enter_company_name'));
+      return false;
+    }
+
+    if (!role.length) {
+      setRoleError(I18n.t('please_enter_role'));
+      return false;
+    }
+
+    if (!yearsOfService.length) {
+      setYearsOfServiceError(I18n.t('please_select_years_of_service'));
+      return false;
+    }
+
+    if (!salary.length) {
+      setSalaryError(I18n.t('please_select_salary'));
+      return false;
+    }
+
+    return true;
+  };
   const onSubmit = () => {
     if (isValid()) {
       onUpdate({
@@ -46,7 +90,7 @@ const AddExperienceModal = ({isVisible, onBackdropPress, onUpdate}) => {
         role: role,
         years_of_service: yearsOfService,
       });
-      close();
+      setProfileImageUpdated(true);
     }
   };
 
@@ -73,6 +117,9 @@ const AddExperienceModal = ({isVisible, onBackdropPress, onUpdate}) => {
             onSelect={value => setJob(value)}
             theme={theme}
             value={job}
+            containerStyle={{
+              borderColor: jobError ? COLOR_RED : themes[theme].borderColor,
+            }}
           />
           <FloatingTextInput
             inputRef={companyInput}
@@ -87,6 +134,7 @@ const AddExperienceModal = ({isVisible, onBackdropPress, onUpdate}) => {
             onSubmitEditing={() => {
               roleInput.current.focus();
             }}
+            error={companyError}
           />
           <FloatingTextInput
             inputRef={roleInput}
@@ -98,7 +146,7 @@ const AddExperienceModal = ({isVisible, onBackdropPress, onUpdate}) => {
             placeholder={I18n.t('Enter_Your_Role')}
             onChangeText={val => setRole(val)}
             theme={theme}
-            onSubmitEditing={() => {}}
+            error={roleError}
           />
           <CsSelect
             placeholder={I18n.t('Choose_Duration')}
@@ -107,6 +155,11 @@ const AddExperienceModal = ({isVisible, onBackdropPress, onUpdate}) => {
             onSelect={value => setYearsOfService(value)}
             theme={theme}
             value={yearsOfService}
+            containerStyle={{
+              borderColor: yearsOfServiceError
+                ? COLOR_RED
+                : themes[theme].borderColor,
+            }}
           />
           <CsSelect
             placeholder={I18n.t('Choose_Salary_Range')}
@@ -115,6 +168,9 @@ const AddExperienceModal = ({isVisible, onBackdropPress, onUpdate}) => {
             theme={theme}
             value={salary}
             onSelect={value => setSalary(value)}
+            containerStyle={{
+              borderColor: salaryError ? COLOR_RED : themes[theme].borderColor,
+            }}
           />
           <Button
             style={styles.submitBtn}

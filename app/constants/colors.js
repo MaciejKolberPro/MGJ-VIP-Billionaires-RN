@@ -131,7 +131,7 @@ export const themes = {
     borderColor: '#555555',
     popupBackground: '#2F3131',
     postBackground: '#1D1C1C',
-    titleColor: '#FFFFFF',
+    titleColor: '#000',
     textColor: '#C4C4C4',
     subTextColor: '#858585',
     tabActivatedColor: '#605E5E',
