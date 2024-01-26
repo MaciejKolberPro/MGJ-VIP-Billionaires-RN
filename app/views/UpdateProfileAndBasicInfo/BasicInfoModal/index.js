@@ -21,6 +21,7 @@ const BasicInfoModal = ({
   onBackdropPress,
   onUpdate,
   setBasicInfoUpdated,
+  setBasicInfoModalOpen,
 }) => {
   const [name, setName] = useState('');
   const [gender, setGender] = useState('');
@@ -53,7 +54,7 @@ const BasicInfoModal = ({
   };
 
   const onSubmit = () => {
-    if (isValid) {
+    if (isValid()) {
       onUpdate({
         displayName: name,
         phone: phone,
@@ -62,6 +63,7 @@ const BasicInfoModal = ({
         gender: gender,
       });
       setBasicInfoUpdated(true);
+      setBasicInfoModalOpen(false);
     }
   };
 

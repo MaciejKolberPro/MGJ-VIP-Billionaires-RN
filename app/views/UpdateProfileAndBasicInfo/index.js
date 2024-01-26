@@ -69,7 +69,7 @@ const UpdateProfileAndBasicInfo = ({loginSuccess, user, dispatch}) => {
     avatar: '',
   });
   const onUserInfoUpdated = update => {
-    console.log('final updated user data', update);
+    console.log('final updated user data - ', update);
     setUserInfo(userInfo => {
       return {...userInfo, ...update};
     });
@@ -167,6 +167,7 @@ const UpdateProfileAndBasicInfo = ({loginSuccess, user, dispatch}) => {
         onBackdropPress={() => setBasicInfoModalOpen(!basicInfoModalOpen)}
         onUpdate={onUserInfoUpdated}
         setBasicInfoUpdated={setBasicInfoUpdated}
+        setBasicInfoModalOpen={setBasicInfoModalOpen}
       />
 
       {/* Experience modal */}
@@ -260,7 +261,7 @@ const UpdateProfileAndBasicInfo = ({loginSuccess, user, dispatch}) => {
           <Text style={styles.updateExperienceTxt}>
             {I18n.t('Other_Options')}
           </Text>
-          {/* <TouchableOpacity style={styles.basicSubscriptionBtn}>
+          <TouchableOpacity style={styles.basicSubscriptionBtn}>
             <Image source={images.reward_badge} style={styles.reward_badge} />
             <View style={styles.basicSubscriptionAndUpgradePlanContainer}>
               <Text style={styles.basicSubscriptionText}>
@@ -280,7 +281,7 @@ const UpdateProfileAndBasicInfo = ({loginSuccess, user, dispatch}) => {
               </Text>
               <Text style={styles.inviteDescription}>Invite now</Text>
             </View>
-          </TouchableOpacity> */}
+          </TouchableOpacity>
         </View>
       </ScrollView>
 
