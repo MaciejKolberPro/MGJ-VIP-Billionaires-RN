@@ -22,6 +22,7 @@ const handleLoginSuccess = function* handleLoginSuccess({data}) {
 
   if (!data.emailVerified) {
     console.log('not verified', data);
+    // yield put(appStart({root: ROOT_INSIDE}));
     yield put(appStart({root: ROOT_VERIFY_EMAIL}));
   } else if (!data.displayName) {
     console.log('Update Info', data);

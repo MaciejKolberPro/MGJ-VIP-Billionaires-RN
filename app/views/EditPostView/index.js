@@ -277,8 +277,9 @@ const EditPostView = props => {
       if (!file_path) {
         return savePost(post);
       }
-
       switch (type) {
+        case POST_TYPE_TEXT:
+          return savePost(post);
         case POST_TYPE_PHOTO:
           // return firebaseSdk
             // .uploadMedia(firebaseSdk.STORAGE_TYPE_PHOTO, file_path)
@@ -395,7 +396,7 @@ const EditPostView = props => {
             />
             <TouchableOpacity style={[styles.publishBtn, {backgroundColor: COLOR_BTN_BACKGROUND}]}
               onPress={onSubmit}>
-              <Text style={[styles.publishBtnText, {color: themes[theme].activeTintColor}]}>
+              <Text style={[styles.publishBtnText, {color: themes[theme].normalTextColor}]}>
                 {I18n.t('Publish')}
               </Text>
             </TouchableOpacity>
@@ -410,7 +411,6 @@ const EditPostView = props => {
                 {' ' + curUserName}
               </Text>
             </View>
-            
             <CsTextInput
               inputRef={textInputRef}
               containerStyle={styles.roundInput}
@@ -425,7 +425,6 @@ const EditPostView = props => {
               multiline={true}
               theme={theme}
             />
-             
             <View style={{flexDirection:'row'}}>
             { file_path.length > 0 ?
               file_path.map((item, key) => {
@@ -503,7 +502,7 @@ const EditPostView = props => {
 
             <TouchableOpacity style={[styles.publishBtn, {backgroundColor: COLOR_BTN_BACKGROUND}]}
               onPress={onSubmit}>
-              <Text style={[styles.publishBtnText, {color: themes[theme].activeTintColor}]}>
+              <Text style={[styles.publishBtnText, {color: themes[theme].normalTextColor}]}>
                 {I18n.t('Publish')}
               </Text>
             </TouchableOpacity>

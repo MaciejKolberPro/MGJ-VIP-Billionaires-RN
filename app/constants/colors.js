@@ -31,7 +31,7 @@ export const themes = {
 
     websiteLink: '#F5BF4D',
     normalTextColor: '#C4C4C4',
-    buttonBackground: '#1D1C1C',
+    // buttonBackground: '#1D1C1C',
     disableButtonBackground: '#555555',
     deactiveTintColor: '#858585',
 
