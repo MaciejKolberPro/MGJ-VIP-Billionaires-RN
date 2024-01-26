@@ -175,7 +175,8 @@ const UpdateProfileAndBasicInfo = ({loginSuccess, user, dispatch}) => {
         isVisible={experienceModalOpen}
         onBackdropPress={() => setExperienceModalOpen(!experienceModalOpen)}
         onUpdate={onUserInfoUpdated}
-        setProfileImageUpdated={setProfileImageUpdated}
+        setExperienceAdded={setExperienceAdded}
+        setExperienceModalOpen={setExperienceModalOpen}
       />
 
       <ScrollView

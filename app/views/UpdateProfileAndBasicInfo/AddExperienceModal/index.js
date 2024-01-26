@@ -11,7 +11,7 @@ import Button from '../../../containers/Button';
 import {CsSelect} from '../../../containers/CsSelect';
 import KeyboardView from '../../../containers/KeyboardView';
 import {showErrorAlert, showToast} from '../../../lib/info';
-import {themes} from '../../../constants/colors';
+import {themes, COLOR_RED} from '../../../constants/colors';
 
 const theme = 'light';
 
@@ -19,7 +19,8 @@ const AddExperienceModal = ({
   isVisible,
   onBackdropPress,
   onUpdate,
-  setProfileImageUpdated,
+  setExperienceAdded,
+  setExperienceModalOpen,
 }) => {
   const [job, setJob] = useState('');
   const [company, setCompany] = useState('');
@@ -90,7 +91,8 @@ const AddExperienceModal = ({
         role: role,
         years_of_service: yearsOfService,
       });
-      setProfileImageUpdated(true);
+      setExperienceAdded(true);
+      setExperienceModalOpen(false);
     }
   };
 
