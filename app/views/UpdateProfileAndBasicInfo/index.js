@@ -80,6 +80,7 @@ const UpdateProfileAndBasicInfo = ({loginSuccess, user, dispatch}) => {
       ImagePicker.openCamera(imagePickerConfig)
         .then(image => {
           setImage_path(image);
+          setProfileImageUpdated(true);
         })
         .catch(console.warn);
     }
@@ -106,6 +107,7 @@ const UpdateProfileAndBasicInfo = ({loginSuccess, user, dispatch}) => {
       ImagePicker.openPicker(imagePickerConfig).then(image => {
         console.log('image', image);
         setImage_path(image);
+        setProfileImageUpdated(true);
       });
     }
   };
@@ -258,7 +260,7 @@ const UpdateProfileAndBasicInfo = ({loginSuccess, user, dispatch}) => {
         </View>
 
         {/* Other container */}
-        <View style={styles.othersContainer}>
+        {/* <View style={styles.othersContainer}>
           <Text style={styles.updateExperienceTxt}>
             {I18n.t('Other_Options')}
           </Text>
@@ -283,7 +285,7 @@ const UpdateProfileAndBasicInfo = ({loginSuccess, user, dispatch}) => {
               <Text style={styles.inviteDescription}>Invite now</Text>
             </View>
           </TouchableOpacity>
-        </View>
+        </View> */}
       </ScrollView>
 
       {/* Bottom sheet/terms and conditions */}
