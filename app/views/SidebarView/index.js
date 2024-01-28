@@ -49,7 +49,7 @@ const SidebarView = props => {
     //   id: 'connections',
     //   name: 'My connections',
     //   icon: 'account-multiple',
-    //   route: 'VipMembers',
+    //   route: 'MyConnections',
     //   routes: ['MyConnections'],
     // },
     {
