@@ -27,7 +27,7 @@ const handleLoginSuccess = function* handleLoginSuccess({data}) {
   } else if (!data.displayName) {
     console.log('Update Info', data);
     yield put(appStart({root: ROOT_ADD_INFO}));
-  } else if (!data.approved) {
+  } else if (data.approved) {
     yield put(appStart({root: ROOT_THANK_YOU}));
   } else {
     yield put(fetchUnread());

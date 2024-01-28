@@ -348,6 +348,8 @@ const ProfileView = props => {
             styles.mainContent,
             {backgroundColor: themes[theme].backgroundColor},
           ]}>
+
+          {/* avatar container */}
           <View
             style={[
               styles.avatarContainer,
@@ -370,6 +372,8 @@ const ProfileView = props => {
               />
             </TouchableOpacity>
           </View>
+
+          {/* main infos */}
           <View style={styles.mainInfo}>
             <View style={styles.profileInfo}>
               <Text
@@ -415,6 +419,7 @@ const ProfileView = props => {
                 </TouchableOpacity>
               ) : null}
 
+              {/* profile edit button */}
               <TouchableOpacity
                 onPress={() => navigation.navigate('ProfileEdit')}
                 style={[
