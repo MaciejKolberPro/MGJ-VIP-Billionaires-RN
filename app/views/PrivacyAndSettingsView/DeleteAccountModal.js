@@ -10,13 +10,14 @@ import I18n from '../../i18n';
 import CheckBox from '../../containers/CheckBox';
 import { VectorIcon } from '../../containers/VectorIcon';
 
-const DeleteAccountModal = ({isShow, onClose, theme}) => {
+const DeleteAccountModal = ({isShow, onClose, theme, deleteAccount}) => {
   const [password, setPassword] = useState('');
   const passwordInput = useRef(null);
   const [checked, setChecked] = useState(false);
 
   const onSubmit = () => {
-    console.log(password)
+    deleteAccount(password)
+    onClose();
   };
 
   return (

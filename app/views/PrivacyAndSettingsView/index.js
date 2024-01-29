@@ -32,6 +32,7 @@ const PrivacyAndSettingsView = props => {
   const [isShowAccountSettings, onShowAccountSettings] = useState(false);
   const [isShowPasswordSettings, onShowPasswordSettings] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   // test
   // const [name, setName] = useState('');
@@ -187,7 +188,9 @@ const PrivacyAndSettingsView = props => {
       <DeleteAccountModal
         isShow={showDeleteModal}
         theme={theme}
-        onClose={() => setShowDeleteModal(false)}/>
+        onClose={() => setShowDeleteModal(false)}
+        deleteAccount={deleteAccount}
+      />
 
     </SafeAreaView>
   );
