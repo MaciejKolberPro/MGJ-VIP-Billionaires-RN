@@ -1,46 +1,22 @@
 import { StyleSheet } from 'react-native'
 
 export default StyleSheet.create({
-  container: {},
-  header: {
-    paddingHorizontal: 16,
-    flex: 1,
+  container: { flex: 1 },
+  searchBox: {
+    // margin: 20,
+    paddingLeft: 10,
+    height: 40,
+    borderRadius: 20,
     flexDirection: 'row',
-  },
-  tabBar: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
     alignItems: 'center',
-    marginBottom: 16,
   },
-  tabContainer: {
-    width: '33%',
-  },
-  tabLabel: {
-    textAlign: 'center',
-    paddingVertical: 12,
-  },
-  tabItem: {
-    flex: 1,
-    alignItems: 'center',
-    padding: 16,
-    borderBottomWidth: 0.5,
-  },
-  activeTab: {
-    borderBottomWidth: 1,
-    flex: 1,
-    alignItems: 'center',
-    padding: 16,
-  },
-  tabText: {
-    fontFamily: 'Raleway',
-    fontWeight: '500',
-    fontSize: 14,
+  searchText: {
+    fontSize: 16,
   },
   itemContainer: {
     flexDirection: 'row',
     paddingVertical: 8,
-    paddingHorizontal: 20,
+    paddingHorizontal: 0,
     alignItems: 'center',
     justifyContent: 'space-between',
   },
@@ -50,7 +26,12 @@ export default StyleSheet.create({
   },
   itemContent: {
     flexDirection: 'column',
-    marginLeft: 16,
+    marginHorizontal: 16,
+  },
+  avatarContainer: {
+    borderRadius: 10,
+    borderWidth: 4,
+    overflow: 'hidden',
   },
   itemImage: {
     width: 48,
@@ -71,5 +52,28 @@ export default StyleSheet.create({
   followingText: {
     paddingVertical: 4,
     textAlign: 'center',
+  },
+  actionContainer: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 4,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 0.5,
+  },
+  actionText: {
+    fontWeight: '600',
+    fontFamily: 'Raleway',
+    fontSize: 14,
+    lineHeight: 20,
+  },
+  emptyContainer: {
+    flexGrow: 1,
+    alignItems: 'center',
+    marginTop: 40,
+  },
+  emptyText: {
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 })
