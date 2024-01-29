@@ -31,13 +31,13 @@ import InviteView from '../InviteView'
 const SidebarView = props => {
   const {user, theme, navigation} = props;
   const menus = [
-    // {
-    //   id: 'shop',
-    //   name: I18n.t('Shop'),
-    //   icon: 'shopping',
-    //   route: 'Shop',
-    //   routes: ['Shop'],
-    // },
+    {
+      id: 'shop',
+      name: I18n.t('Shop'),
+      icon: 'shopping',
+      route: 'Shop',
+      routes: ['Shop'],
+    },
     {
       id: 'vip_members',
       name: I18n.t('Vip_members'),
@@ -45,13 +45,13 @@ const SidebarView = props => {
       route: 'VipMembers',
       routes: ['VipMembers'],
     },
-    // {
-    //   id: 'connections',
-    //   name: 'My connections',
-    //   icon: 'account-multiple',
-    //   route: 'MyConnections',
-    //   routes: ['MyConnections'],
-    // },
+    {
+      id: 'connections',
+      name: 'My connections',
+      icon: 'account-multiple',
+      route: 'MyConnections',
+      routes: ['MyConnections'],
+    },
     {
       id: 'privacy_and_settings',
       name: I18n.t('Privacy_and_settings'),
@@ -98,7 +98,7 @@ const SidebarView = props => {
       case 'connections':
         console.log('My connect');
         // return onNavigate('MyConnections');
-        return onNavigate('MenuStack', {screen: 'VipMembers'});
+        return onNavigate('MenuStack', {screen: 'MyConnections'});
       case 'vip_members':
         return onNavigate('MenuStack', {screen: 'VipMembers'});
       default:
@@ -168,6 +168,8 @@ const SidebarView = props => {
             <Text style={[{ color: themes[theme].textColor }]}>{I18n.t('Clear')}</Text>
           </Pressable>
         </View>
+
+        {/* Menu */}
         <ScrollView
           style={{
             flexGrow: 1,
@@ -216,6 +218,8 @@ const SidebarView = props => {
             />
           ))}
         </ScrollView>
+
+        {/* Logout button */}
         <TouchableOpacity
           onPress={onLogOut}
           style={[styles.logoutBtn, { backgroundColor: themes[theme].messageOwnBackground }]}>
