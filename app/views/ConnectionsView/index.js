@@ -4,20 +4,21 @@ import {
   TouchableOpacity,
   View,
   SafeAreaView, useWindowDimensions,
-} from 'react-native'
-import { connect } from 'react-redux'
+} from 'react-native';
+import { connect } from 'react-redux';
 
-import { themes } from '../../constants/colors'
-import StatusBar from '../../containers/StatusBar'
-import { withTheme } from '../../theme'
-import styles from './styles'
-import { VectorIcon } from '../../containers/VectorIcon'
-import { useNavigation } from '@react-navigation/native'
-import { SceneMap, TabView } from 'react-native-tab-view'
-import firestore from '@react-native-firebase/firestore'
-import firebaseSdk from '../../lib/firebaseSdk'
-import UsersList from '../../containers/UsersList'
-import { FOLLOWER_USERS, FOLLOWING_USERS } from '../../constants/app'
+import { themes } from '../../constants/colors';
+import StatusBar from '../../containers/StatusBar';
+import { withTheme } from '../../theme';
+import styles from './styles';
+import I18n from '../../i18n';
+import { VectorIcon } from '../../containers/VectorIcon';
+import { useNavigation } from '@react-navigation/native';
+import { SceneMap, TabView } from 'react-native-tab-view';
+import firestore from '@react-native-firebase/firestore';
+import firebaseSdk from '../../lib/firebaseSdk';
+import UsersList from '../../containers/UsersList';
+import { FOLLOWER_USERS, FOLLOWING_USERS } from '../../constants/app';
 
 const ConnectionsView = ({ theme, user }) => {
   const layout = useWindowDimensions()
@@ -30,18 +31,28 @@ const ConnectionsView = ({ theme, user }) => {
 
   useEffect(() => {
     navigation.setOptions({
-      headerLeft: () => (
-        <TouchableOpacity style={styles.header} onPress={() => navigation.toggleDrawer()}>
-          <VectorIcon type="MaterialCommunityIcons" name="arrow-left" color={themes[theme].titleColor} size={24} />
-        </TouchableOpacity>
-      ),
-      title: null,
-      headerRight: () => (<></>),
-      headerStyle: {
-        backgroundColor: themes[theme].backgroundColor,
-        shadowOpacity: 0,
-      },
-    })
+        headerLeft: () => (
+          <View style={styles.headerView}>
+            <TouchableOpacity
+              style={styles.header}
+              onPress={() => navigation.toggleDrawer()}>
+              <VectorIcon
+                size={20}
+                name={'arrowleft'}
+                type={'AntDesign'}
+                color={themes[theme].activeTintColor}
+                style={{marginLeft: 18}}
+              />
+            </TouchableOpacity>
+            <Text style={[styles.headerText, {color: themes[theme].titleColor}]}>{I18n.t('Back_To_Menu')}</Text>
+          </View>
+        ),
+        title: null,
+        headerStyle: {
+          backgroundColor: themes[theme].backgroundColor,
+          shadowOpacity: 0,
+        },
+      });
   }, [theme])
 
   useEffect(() => {
