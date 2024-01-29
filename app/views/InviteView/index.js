@@ -1,12 +1,13 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {connect} from 'react-redux';
-import {Image, Text, TouchableOpacity, Dimensions, View, Linking, Share, ScrollView} from 'react-native';
+import {Image, Text, TouchableOpacity, Dimensions, View, Linking, Share, ScrollView } from 'react-native';
 import { COLOR_YELLOW, themes } from '../../constants/colors'
 import {withTheme} from '../../theme';
 import images from '../../assets/images';
 import styles from './styles';
 import I18n from '../../i18n';
 import Modal from "react-native-modal";
+import Clipboard from '@react-native-clipboard/clipboard';
 import { INVITE_URL } from '../../constants/app'
 
 const deviceWidth = Dimensions.get('window').width;
@@ -69,7 +70,7 @@ const InviteView = props => {
         shareTwitter()
         return;
       case 4:
-        console.log('--Copy--')
+        Clipboard.setString(INVITE_URL);
         return;
       default:
         return
