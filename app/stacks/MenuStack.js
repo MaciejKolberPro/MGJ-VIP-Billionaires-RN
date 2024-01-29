@@ -7,6 +7,7 @@ import HelpAndSupport from '../views/HelpAndSupport';
 import VipMembersClubView from '../views/VipMembersClubView';
 import PremiumSubscription from '../views/PremiumSubscription';
 import PrivacySettingsView from '../views/PrivacySettingsView';
+import ConnectionsView from '../views/ConnectionsView';
 
 // Outside
 const Menu = createStackNavigator();
@@ -33,6 +34,7 @@ const MenuStack = () => {
       />
       <Menu.Screen name="Block" component={BlockView} />
       <Menu.Screen name="PremiumSubscription" component={PremiumSubscription} />
+      <Menu.Screen name="MyConnections" component={ConnectionsView} />
     </Menu.Navigator>
   );
 };
