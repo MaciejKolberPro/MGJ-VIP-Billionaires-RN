@@ -41,6 +41,7 @@ const imagePickerConfig = {
 const theme = 'light';
 
 const UpdateProfileAndBasicInfo = ({loginSuccess, user, dispatch}) => {
+  console.log("User:", user)
   const [profileImageUpdated, setProfileImageUpdated] = useState(false);
   const [basicInfoUpdated, setBasicInfoUpdated] = useState(false);
   const [radioButtonChecked, setRadioButtonChecked] = useState(false);

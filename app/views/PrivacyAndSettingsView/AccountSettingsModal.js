@@ -8,12 +8,16 @@ import {themes, COLOR_BTN_BACKGROUND} from '../../constants/colors';
 import FloatingTextInput from '../../containers/FloatingTextInput';
 import I18n from 'i18n-js';
 
-const AccountSettingsModal = ({isShow, onClose, theme}) => {
+const AccountSettingsModal = ({isShow, onClose, theme, setAccount}) => {
   const [name, setName] = useState('');
   const [username, setUsername] = useState('');
   const nameInput = useRef(null);
   const usernameInput = useRef(null);
-  const onClick = item => {};
+
+  const handleSave = async () => {
+    await setAccount(name, username)
+    onClose();
+  }
 
   return (
     <KeyboardAvoidingView>
@@ -56,7 +60,7 @@ const AccountSettingsModal = ({isShow, onClose, theme}) => {
           />
 
           <TouchableOpacity
-            onPress={() => console.log(username, name)}
+            onPress={handleSave}
             style={[
               styles.editProfileTxtBtn,
               {backgroundColor: COLOR_BTN_BACKGROUND},

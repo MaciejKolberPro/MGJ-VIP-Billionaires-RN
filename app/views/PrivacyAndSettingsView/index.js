@@ -8,11 +8,7 @@ import {
 } from 'react-native';
 import {connect} from 'react-redux';
 
-import {
-  COLOR_LIGHT_DARK,
-  COLOR_RED,
-  themes,
-} from '../../constants/colors';
+import {COLOR_LIGHT_DARK, COLOR_RED, themes} from '../../constants/colors';
 import StatusBar from '../../containers/StatusBar';
 import {withTheme} from '../../theme';
 import styles from './styles';
@@ -22,10 +18,12 @@ import {VectorIcon} from '../../containers/VectorIcon';
 import SidebarItem from '../SidebarView/SidebarItem';
 import AccountSettingModal from './AccountSettingsModal';
 import DeleteAccountModal from './DeleteAccountModal';
-import ActivityIndicator from '../../containers/ActivityIndicator'
-import firebaseSdk from '../../lib/firebaseSdk'
-import { logout as logoutAction } from '../../actions/login'
-import { showErrorAlert } from '../../lib/info'
+import ActivityIndicator from '../../containers/ActivityIndicator';
+import firebaseSdk, {DB_ACTION_UPDATE} from '../../lib/firebaseSdk';
+import {logout as logoutAction} from '../../actions/login';
+import {showErrorAlert} from '../../lib/info';
+import {CURRENT_USER} from '../../constants/keys';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const PrivacyAndSettingsView = props => {
   const {user, theme, navigation} = props;
@@ -53,7 +51,9 @@ const PrivacyAndSettingsView = props => {
               style={{marginLeft: 18}}
             />
           </TouchableOpacity>
-          <Text style={[styles.headerText, {color: themes[theme].titleColor}]}>{I18n.t('Back_To_Menu')}</Text>
+          <Text style={[styles.headerText, {color: themes[theme].titleColor}]}>
+            {I18n.t('Back_To_Menu')}
+          </Text>
         </View>
       ),
       title: null,
@@ -89,24 +89,58 @@ const PrivacyAndSettingsView = props => {
       });
   };
 
+  const setAccount = async (name, username) => {
+    setLoading(true);
+
+    const user = await AsyncStorage.getItem(CURRENT_USER);
+    const auth = await firebaseSdk.authorizedUser();
+
+    if (user && auth) {
+      const currentUser = await firebaseSdk.getUser(auth.uid);
+      const updatedUser = {
+        ...currentUser,
+        name: name,
+        username: username,
+      };
+      
+      firebaseSdk.updateEmail(currentUser.email).then(() => {
+        firebaseSdk
+          .setData(firebaseSdk.TBL_USER, DB_ACTION_UPDATE, updatedUser)
+          .then(() => {
+            console.log('You successfully changed your profile')
+            showToast(I18n.t('Update_profile_complete'));
+          })
+          .catch(err => {
+            showToast(I18n.t(err.message));
+          });
+      });
+    }
+  };
+
   const onNavigate = (routeName, params) => {
-    const { navigation } = props
-    navigation.navigate(routeName, params)
-  }
+    const {navigation} = props;
+    navigation.navigate(routeName, params);
+  };
 
   const renderFooter = () => {
-    const { theme } = props
+    const {theme} = props;
     if (loading) {
-      return <ActivityIndicator style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        bottom: 0,
-        right: 0,
-      }} theme={theme} size={'large'} />
+      return (
+        <ActivityIndicator
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            bottom: 0,
+            right: 0,
+          }}
+          theme={theme}
+          size={'large'}
+        />
+      );
     }
-    return null
-  }
+    return null;
+  };
 
   return (
     <SafeAreaView
@@ -148,7 +182,9 @@ const PrivacyAndSettingsView = props => {
         />
         <SidebarItem
           text={I18n.t('Privacy_Settings')}
-          onPress={() => {onNavigate('MenuStack', {screen: 'PrivacySettings'})}}
+          onPress={() => {
+            onNavigate('MenuStack', {screen: 'PrivacySettings'});
+          }}
           theme={theme}
           hasRight
         />
@@ -180,6 +216,7 @@ const PrivacyAndSettingsView = props => {
         isShow={isShowAccountSettings}
         theme={theme}
         onClose={() => onShowAccountSettings(false)}
+        setAccount={setAccount}
         // name={name}
         // setName={setName}
         // username={username}
@@ -191,7 +228,6 @@ const PrivacyAndSettingsView = props => {
         onClose={() => setShowDeleteModal(false)}
         deleteAccount={deleteAccount}
       />
-
     </SafeAreaView>
   );
 };
