@@ -21,7 +21,7 @@ const ChangePasswordModal = ({isShow, onClose, theme, user, setUser}) => {
   const oldPasswordInput = useRef(null);
   const newPasswordInput = useRef(null);
   const confirmPasswordInput = useRef(null);
-
+  
   const isValid = () => {
     if (!oldPassword.length) {
       showToast(I18n.t('please_enter_old_password'));
@@ -32,6 +32,13 @@ const ChangePasswordModal = ({isShow, onClose, theme, user, setUser}) => {
       showToast(I18n.t('please_enter_password'));
       newPasswordInput.current.focus();
       return false;
+    } else if(newPassword === confirmPassword) {
+      const isLongerThan6 = newPassword.length >= 6;
+      const hasAtLeastOneCapitalLetter = (newPassword.match(/[A-Z]/g) || []).length >= 1;
+      const hasAtLeastOneSymbol = /[!@#$%^&*(),.?":{}|<>]/.test(newPassword);
+      const hasAtLeastOneNumber = /\d/.test(newPassword);
+
+      return isLongerThan6 && hasAtLeastOneCapitalLetter && hasAtLeastOneNumber && hasAtLeastOneSymbol
     }
     return true;
   };
@@ -59,6 +66,7 @@ const ChangePasswordModal = ({isShow, onClose, theme, user, setUser}) => {
           setIsLoading(false);
           showErrorAlert(I18n.t('error-invalid-email_or_password'));
         });
+      onClose()
     }
   };
 
